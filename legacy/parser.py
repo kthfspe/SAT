@@ -551,4 +551,4 @@ for item in p_gndsignals:
         gnd.write(item+net  , col, p_gndsignals[item][key])
         col += 1
 workbook.close()
-#print digitalsignals
+#print(digitalsignals)
