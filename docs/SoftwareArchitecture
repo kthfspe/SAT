@@ -1,1 +1,91 @@
-<mxfile host="www.draw.io" modified="2019-11-30T18:21:22.573Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" version="12.3.3" etag="YL7ldtekumNyO6apvj0_" type="github"><diagram id="0KdWkR5NlkZp33OAJ1AL">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="www.draw.io" modified="2019-11-30T23:36:49.483Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" etag="7dBryD_MO7o_mWXqeltT" version="12.3.3" type="github" pages="1">
+  <diagram id="0KdWkR5NlkZp33OAJ1AL" name="Page-1">
+    <mxGraphModel dx="1463" dy="1636" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-26" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="280" width="752" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-25" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="20" width="752" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-7" value="Data Manager" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="500" width="750" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-8" value="Application Manager" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="372" y="180" width="750" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-11" value="ParserCore" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="385" width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-13" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="KXHTAHTL3tIglRdSxIvK-20" target="KXHTAHTL3tIglRdSxIvK-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="810" y="632.5" as="sourcePoint"/>
+            <mxPoint x="740" y="570" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-14" value="Github Interface" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="491" y="45" width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-15" value="Redundancy Checker" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="315" width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-16" value="Wiring Data Generator" style="rounded=0;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="703" y="315" width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-17" value="Consistency Checker" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="703" y="385" width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-18" value="Product Tree Generator" style="rounded=0;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="836" y="315" width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-19" value="Function Tree Generator" style="rounded=0;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="836" y="385" width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-20" value="Data Model" style="shape=datastore;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="727.5" y="628.5" width="165" height="118" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-22" value="Teamcenter Interface" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="621" y="45" width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-23" value="Command Line Interface" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="751" y="45" width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-24" value="Web Interface" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="881" y="45" width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-27" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="50" y="-240" width="482" height="217" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-4" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="KXHTAHTL3tIglRdSxIvK-27">
+          <mxGeometry width="482" height="217" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-2" value=".xml" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" vertex="1" parent="KXHTAHTL3tIglRdSxIvK-27">
+          <mxGeometry x="220" y="48.5" width="80" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-3" value=".xml" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" vertex="1" parent="KXHTAHTL3tIglRdSxIvK-27">
+          <mxGeometry x="230" y="58.5" width="80" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-5" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn0.iconfinder.com/data/icons/octicons/1024/mark-github-128.png" vertex="1" parent="KXHTAHTL3tIglRdSxIvK-27">
+          <mxGeometry x="330" y="80.5" width="58" height="58" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-21" value="Position Lookup" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" vertex="1" parent="KXHTAHTL3tIglRdSxIvK-27">
+          <mxGeometry x="130" y="57.5" width="80" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-31" value="" style="pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#434445;aspect=fixed;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;shape=mxgraph.vvd.web_browser;" vertex="1" parent="1">
+          <mxGeometry x="902.5" y="-59" width="77" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-32" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn4.iconfinder.com/data/icons/icocentre-free-icons/170/f-command_256-128.png;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="778" y="-59" width="58" height="58" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-43" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn0.iconfinder.com/data/icons/octicons/1024/mark-github-128.png" vertex="1" parent="1">
+          <mxGeometry x="512" y="-52" width="58" height="58" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-57" value="" style="shape=image;imageAspect=0;aspect=fixed;verticalLabelPosition=bottom;verticalAlign=top;dashed=1;image=http://allpcworld.com/wp-content/uploads/2019/10/Download-Siemens-PLM-Teamcenter-12.1.jpg;" vertex="1" parent="1">
+          <mxGeometry x="648" y="-63" width="66" height="66" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
