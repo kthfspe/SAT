@@ -101,7 +101,7 @@ def authorized(access_token):
     # Not necessary to get these details here
     # but it helps humans to identify users easily.
     g.user = user
-    github_user = github.get('/user')
+    github_user = github.get('/user') 
     user.github_id = github_user['id']
     user.github_login = github_user['login']
 
@@ -132,7 +132,9 @@ def user():
 
 @app.route('/repo')
 def repo():
-    return jsonify(github.get('/repos/cenkalti/github-flask'))
+    a = jsonify(github.get('/repos/kthfspe/SAT/contents/docs/'))
+    print(type(a))
+    return a
 
 
 if __name__ == '__main__':
