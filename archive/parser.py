@@ -110,7 +110,7 @@ def f_readsignal(child):
     f_signals.update({f_signalcount+1:d})
     f_signalcount += 1
 
-root = ET.parse('physical.xml').getroot()
+root = ET.parse('testfiles/physical.xml').getroot()
 for child in root.findall('diagram/mxGraphModel/root/object'):
     a = dict(child.attrib)
     #print(child.attrib["BlockType"])
@@ -214,7 +214,7 @@ for child in root.findall('diagram/mxGraphModel/root/object'):
         readid(a)
 
 
-root = ET.parse('functional.xml').getroot()
+root = ET.parse('testfiles/functional.xml').getroot()
 Verbose = 0 # 1: To print processing details or not, 0: For minimal
 
 # Read data store by BlockType
@@ -306,7 +306,7 @@ for child in root.findall('diagram/mxGraphModel/root/object'):
         f_gndsignalcount += 1
         f_readsignal(child)
 
-root = ET.parse('physical.xml').getroot()
+root = ET.parse('testfiles/physical.xml').getroot()
 for child in root.findall('diagram/mxGraphModel/root/object'):
     a = dict(child.attrib)
     if child.attrib["BlockType"].lower() == 'can':
@@ -551,4 +551,4 @@ for item in p_gndsignals:
         gnd.write(item+net  , col, p_gndsignals[item][key])
         col += 1
 workbook.close()
-print(digitalsignals)
+#print(digitalsignals)
