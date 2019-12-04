@@ -1,1 +1,16 @@
-YicjIFNBVFxuU3lzdGVtIEFyY2hpdGVjdHVyZSBUb29sYm94XG5cbi0gRHJhdyBpbyB1cGRhdGUgbWlnaHQgYnJlYWsgdGhlIHRvb2wgYW5kIGl0IG1heSBsb29zZSBiYWNrd2FyZCBjb21wYXRpYmlsdGl5IGluIHRoYXQgY2FzZS5cbi0gQSBmb3JrZWQgcmVwbyBjYW4gYmUgZm91bmQgYXQgRklMTCBUSElTIElOLlxuIyMgSG93IHRvIHNldHVwIGEgZGV2IGVudmlyb25tZW50XG4tIHZlbnZcbi0gcmVxdWlyZW1lbnRzLnR4dD9cbiMjIFdoYXQgZG9lcyB0aGUgdG9vbCBkbz9cblxuIyMgSG93IGlzIGl0IHN0cnVjdHVyZWQ/XG5cbi0gUEVQIGd1aWRlc1xuLSBGb2xkZXIgc3RydWN0dXJlXG4tIEpTT04vSFRUUCBhcHByb2FjaFxuIyMgSG93IHRvIGluc3RhbFxuJw==
+# SAT
+System Architecture Toolbox
+
+- Draw io update might break the tool and it may loose backward compatibiltiy in that case.
+- A forked repo can be found at FILL THIS IN.
+## How to setup a dev environment
+- venv
+- requirements.txt?
+## What does the tool do?
+
+## How is it structured?
+
+- PEP guides
+- Folder structure
+- JSON/HTTP approach
+## How to instal
