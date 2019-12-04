@@ -1,16 +1,8 @@
-# SAT
-System Architecture Toolbox
-
-- Draw io update might break the tool and it may loose backward compatibiltiy in that case.
-- A forked repo can be found at FILL THIS IN.
-## How to setup a dev environment
-- venv
-- requirements.txt?
-## What does the tool do?
-
-## How is it structured?
-
-- PEP guides
-- Folder structure
-- JSON/HTTP approach
-## How to install
+IyBTQVQKU3lzdGVtIEFyY2hpdGVjdHVyZSBUb29sYm94CgotIERyYXcgaW8g
+dXBkYXRlIG1pZ2h0IGJyZWFrIHRoZSB0b29sIGFuZCBpdCBtYXkgbG9vc2Ug
+YmFja3dhcmQgY29tcGF0aWJpbHRpeSBpbiB0aGF0IGNhc2UuCi0gQSBmb3Jr
+ZWQgcmVwbyBjYW4gYmUgZm91bmQgYXQgRklMTCBUSElTIElOLgojIyBIb3cg
+dG8gc2V0dXAgYSBkZXYgZW52aXJvbm1lbnQKLSB2ZW52Ci0gcmVxdWlyZW1l
+bnRzLnR4dD8KIyMgV2hhdCBkb2VzIHRoZSB0b29sIGRvPwoKIyMgSG93IGlz
+IGl0IHN0cnVjdHVyZWQ/CgotIFBFUCBndWlkZXMKLSBGb2xkZXIgc3RydWN0
+dXJlCi0gSlNPTi9IVFRQIGFwcHJvYWNoCiMjIEhvdyB0byBpbnN0YWxs
