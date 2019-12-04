@@ -1,0 +1,63 @@
+<mxfile agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36" compressed="false" etag="i00Bzlw5w79m5trueX3_" host="www.draw.io" modified="2019-08-19T17:55:24.407Z" pages="1" type="github" version="11.1.5">
+  <diagram id="Z668AZN8f5nT1D2SPPFL" name="Page-1">
+    <mxGraphModel arrows="1" connect="1" dx="731" dy="438" fold="1" grid="1" gridSize="10" guides="1" math="0" page="1" pageHeight="827" pageScale="1" pageWidth="1169" shadow="0" tooltips="1">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <object BlockType="SEN" InputVoltage="24" MaxCurrent="0.2" MfgPartNumber="123456789" Name="BrakeSensor" OutputMax="5" OutputMin="1" OutputParameter="BrakePressure" OutputType="Digital" Parent="CHASSIS" Position="PedalAssembly" id="2YpdEY8oORx3fjk5kcs5-1" label="&lt;span style=&quot;white-space: normal&quot;&gt;&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;&lt;/span&gt;" placeholders="1">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1">
+            <mxGeometry as="geometry" height="70" width="130" x="90" y="250" />
+          </mxCell>
+        </object>
+        <object BlockType="ECU" InputVoltage="24" MaxCurrent="0.2" Name="BSPD" Parent="CHASSIS" Position="UnderSeat" id="2YpdEY8oORx3fjk5kcs5-2" label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" placeholders="1">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1">
+            <mxGeometry as="geometry" height="70" width="130" x="450" y="250" />
+          </mxCell>
+        </object>
+        <object BlockType="DIG2" Name="BrakePressure" Protocol="Binary" VoltageHigh="5" VoltageLow="1" id="2YpdEY8oORx3fjk5kcs5-3" label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" placeholders="1">
+          <mxCell edge="1" parent="1" source="2YpdEY8oORx3fjk5kcs5-1" style="endArrow=block;endSize=16;endFill=0;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="2YpdEY8oORx3fjk5kcs5-2">
+            <mxGeometry as="geometry" relative="1" width="160">
+              <mxPoint as="sourcePoint" x="355" y="220" />
+              <mxPoint as="targetPoint" x="420" y="350" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object BlockType="ECU" InputVoltage="24" MaxCurrent="0.2" Name="BSPD2" Parent="CHASSIS" Position="UnderSeat" id="qhaE7OJ2hAVIAAOIQZVo-1" label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" placeholders="1">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1">
+            <mxGeometry as="geometry" height="70" width="130" x="454" y="130" />
+          </mxCell>
+        </object>
+        <object BlockType="ECU" InputVoltage="24" MaxCurrent="0.2" Name="BSPD" Parent="CHASSIS" Position="UnderSeat" id="MRsK-TLKyB-mq6uifq8Z-1" label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" placeholders="1">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1">
+            <mxGeometry as="geometry" height="70" width="130" x="454" y="50" />
+          </mxCell>
+        </object>
+        <object BlockType="SEN" InputVoltage="24" MaxCurrent="0.2" MfgPartNumber="123456789" Name="BrakeSensor2" OutputMax="5" OutputMin="1" OutputParameter="BrakePressure" OutputType="Digital" Parent="CHASSIS" Position="PedalAssembly" id="MRsK-TLKyB-mq6uifq8Z-2" label="&lt;span style=&quot;white-space: normal&quot;&gt;&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;&lt;/span&gt;" placeholders="1">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1">
+            <mxGeometry as="geometry" height="70" width="130" x="90" y="150" />
+          </mxCell>
+        </object>
+        <object BlockType="SEN" InputVoltage="24" MaxCurrent="0.2" MfgPartNumber="123456789" Name="BrakeSensor" OutputMax="5" OutputMin="1" OutputParameter="BrakePressure" OutputType="Digital" Parent="CHASSIS" Position="PedalAssembly" id="MRsK-TLKyB-mq6uifq8Z-3" label="&lt;span style=&quot;white-space: normal&quot;&gt;&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;&lt;/span&gt;" placeholders="1">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1">
+            <mxGeometry as="geometry" height="70" width="130" x="90" y="50" />
+          </mxCell>
+        </object>
+        <object BlockType="SEN" InputVoltage="24" MaxCurrent="0.2" MfgPartNumber="123456789" Name="BrakeSensor2" OutputMax="5" OutputMin="1" OutputParameter="BrakePressure" OutputType="Digital" Parent="CHASSIS" Position="PedalAssembly" id="MRsK-TLKyB-mq6uifq8Z-4" label="&lt;span style=&quot;white-space: normal&quot;&gt;&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;&lt;/span&gt;" placeholders="1">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1">
+            <mxGeometry as="geometry" height="70" width="130" x="250" y="90" />
+          </mxCell>
+        </object>
+        <object BlockType="SEN" InputVoltage="24" MaxCurrent="0.2" MfgPartNumber="123456789" Name="BrakeSensor2" OutputMax="5" OutputMin="1" OutputParameter="BrakePressure" OutputType="Digital" Parent="CHASSIS" Position="PedalAssembly" id="MRsK-TLKyB-mq6uifq8Z-5" label="&lt;span style=&quot;white-space: normal&quot;&gt;&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;&lt;/span&gt;" placeholders="1">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1">
+            <mxGeometry as="geometry" height="70" width="130" x="220" y="330" />
+          </mxCell>
+        </object>
+        <object BlockType="SEN" InputVoltage="24" MaxCurrent="0.2" MfgPartNumber="123456789" Name="BrakeSensor" OutputMax="5" OutputMin="1" OutputParameter="BrakePressure" OutputType="Digital" Parent="CHASSIS" Position="PedalAssembly" id="MRsK-TLKyB-mq6uifq8Z-6" label="&lt;span style=&quot;white-space: normal&quot;&gt;&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;&lt;/span&gt;" placeholders="1">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1">
+            <mxGeometry as="geometry" height="70" width="130" x="250" y="180" />
+          </mxCell>
+        </object>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
