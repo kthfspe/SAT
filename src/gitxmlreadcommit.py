@@ -2,7 +2,7 @@ from github import Github
 import base64
 
 # or using an access token
-g = Github("eb40c4b98e84d2078fd8d188761ae386337bc2da")
+g = Github("blablabla")
 
 # for repo in g.get_user().get_repos():
     # print(repo.name)
