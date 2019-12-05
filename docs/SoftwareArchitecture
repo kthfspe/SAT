@@ -1,4 +1,4 @@
-<mxfile host="www.draw.io" modified="2019-12-05T19:55:52.672Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" etag="3ODTipRRnAppX6NcKqKu" version="12.3.7" type="github" pages="1">
+<mxfile host="www.draw.io" modified="2019-12-05T21:22:43.662Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" etag="Kgx2OSDWbF_MRDL2QPx3" version="12.3.7" type="github" pages="1">
   <diagram id="0KdWkR5NlkZp33OAJ1AL" name="Page-1">
     <mxGraphModel dx="1264" dy="1393" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -70,9 +70,6 @@
         <mxCell id="b-ePm5L2kqj1-pwVScKG-3" value="Validity Checker" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="422.5" y="315" width="120" height="60" as="geometry"/>
         </mxCell>
-        <mxCell id="b-ePm5L2kqj1-pwVScKG-4" value="Query Engine" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="422.5" y="385" width="120" height="60" as="geometry"/>
-        </mxCell>
         <mxCell id="b-ePm5L2kqj1-pwVScKG-5" value="" style="endArrow=classic;startArrow=classic;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" target="KXHTAHTL3tIglRdSxIvK-8" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="747" y="280" as="sourcePoint"/>
@@ -112,7 +109,7 @@
         <mxCell id="b-ePm5L2kqj1-pwVScKG-13" value="XML Editor" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="951.5" y="457" width="120" height="60" as="geometry"/>
         </mxCell>
-        <mxCell id="HwBKUdxA12chr4gN4QSz-1" value="InstanceData" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="HwBKUdxA12chr4gN4QSz-1" value="Instance Data Generator" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="687" y="457" width="120" height="60" as="geometry"/>
         </mxCell>
       </root>
