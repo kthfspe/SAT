@@ -1,6 +1,6 @@
-<mxfile host="www.draw.io" modified="2019-12-05T21:22:43.662Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" etag="Kgx2OSDWbF_MRDL2QPx3" version="12.3.7" type="github" pages="1">
+<mxfile host="www.draw.io" modified="2019-12-06T20:03:44.207Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" etag="wLAgC2KZY7yEHtFGR2Gi" version="12.3.8" type="github" pages="1">
   <diagram id="0KdWkR5NlkZp33OAJ1AL" name="Page-1">
-    <mxGraphModel dx="1264" dy="1393" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1221" dy="1509" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
@@ -10,7 +10,7 @@
         <mxCell id="KXHTAHTL3tIglRdSxIvK-25" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;" parent="1" vertex="1">
           <mxGeometry x="370" y="21" width="752" height="110" as="geometry"/>
         </mxCell>
-        <mxCell id="KXHTAHTL3tIglRdSxIvK-7" value="Data Manager" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-7" value="Data Query Engine" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="370" y="590" width="750" height="60" as="geometry"/>
         </mxCell>
         <mxCell id="KXHTAHTL3tIglRdSxIvK-8" value="Application Manager" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -28,7 +28,7 @@
         <mxCell id="KXHTAHTL3tIglRdSxIvK-14" value="Github Interface" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="528" y="46" width="120" height="60" as="geometry"/>
         </mxCell>
-        <mxCell id="KXHTAHTL3tIglRdSxIvK-15" value="Data Model Merger" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-15" value="Data Model Builder" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="552.5" y="315" width="120" height="60" as="geometry"/>
         </mxCell>
         <mxCell id="KXHTAHTL3tIglRdSxIvK-16" value="Wiring Data Generator" style="rounded=0;html=1;whiteSpace=wrap;" parent="1" vertex="1">
@@ -109,8 +109,11 @@
         <mxCell id="b-ePm5L2kqj1-pwVScKG-13" value="XML Editor" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="951.5" y="457" width="120" height="60" as="geometry"/>
         </mxCell>
-        <mxCell id="HwBKUdxA12chr4gN4QSz-1" value="Instance Data Generator" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="HwBKUdxA12chr4gN4QSz-1" value="Instance Data Generator" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="687" y="457" width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="3rvHtpG3ITZI5VsCkGs_-1" value="Power System Spec Generator" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="423" y="386" width="120" height="60" as="geometry"/>
         </mxCell>
       </root>
     </mxGraphModel>
