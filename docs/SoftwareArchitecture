@@ -1,6 +1,6 @@
-<mxfile host="www.draw.io" modified="2019-12-06T20:03:44.207Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" etag="wLAgC2KZY7yEHtFGR2Gi" version="12.3.8" type="github" pages="1">
+<mxfile host="www.draw.io" modified="2019-12-06T20:44:08.037Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" etag="QnzqYX3jmkvvTY1JjSGv" version="12.3.8" type="github" pages="1">
   <diagram id="0KdWkR5NlkZp33OAJ1AL" name="Page-1">
-    <mxGraphModel dx="1221" dy="1509" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1264" dy="1393" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
@@ -103,16 +103,16 @@
         <mxCell id="b-ePm5L2kqj1-pwVScKG-11" value="Spec Diff Manager" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="552.5" y="457" width="120" height="60" as="geometry"/>
         </mxCell>
-        <mxCell id="b-ePm5L2kqj1-pwVScKG-12" value="Tree Editor" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="b-ePm5L2kqj1-pwVScKG-12" value="Generate Test Template" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="821" y="457" width="120" height="60" as="geometry"/>
         </mxCell>
-        <mxCell id="b-ePm5L2kqj1-pwVScKG-13" value="XML Editor" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="b-ePm5L2kqj1-pwVScKG-13" value="XML Editor/Tree Editor" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="951.5" y="457" width="120" height="60" as="geometry"/>
         </mxCell>
         <mxCell id="HwBKUdxA12chr4gN4QSz-1" value="Instance Data Generator" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="687" y="457" width="120" height="60" as="geometry"/>
         </mxCell>
-        <mxCell id="3rvHtpG3ITZI5VsCkGs_-1" value="Power System Spec Generator" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="3rvHtpG3ITZI5VsCkGs_-1" value="Power System Spec Generator" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="423" y="386" width="120" height="60" as="geometry"/>
         </mxCell>
       </root>
