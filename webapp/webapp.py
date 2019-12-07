@@ -1,19 +1,37 @@
-from flask import Flask
+from flask import Flask, url_for, render_template
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import DataRequired
+from config import Config
+
 app = Flask(__name__)
+app.config.from_object(Config)
+
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    githubpat = PasswordField('Github PAT', validators=[DataRequired()])
+    remember_me = BooleanField('Remember Me')
+    submit = SubmitField('Sign In')
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'you-will-never-guess'
 
 @app.route('/')
-def hello_world():
+def index():
+    user = {'username': 'Miguel'}
+    return render_template('base.html', user = user)
 
-    return 'Hello World'
+@app.route('/login')
+def login():
+    form = LoginForm()
+    return render_template('login.html', title='Sign In', form=form)
 
-hello_world.__doc__ = "This is docstring testing"
+#@app.route('/user/<username>')
+#def profile(username):
+#    return '{}\'s profile'.format(escape(username))
 
 if __name__ == '__main__':
-    """ inits Spamfilter with training data
-        
-    :param training_dir: path of training directory with subdirectories
-     '/ham' and '/spam'
-    """
     # The server is run directly
     app.debug = True
     app.run()
