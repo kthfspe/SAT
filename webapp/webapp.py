@@ -5,8 +5,6 @@ import sys
 
 app = Flask(__name__)
 app.config.from_object(Config)
-
-app = Flask(__name__)
 app.config['SECRET_KEY'] = 'you-will-never-guess'
 
 # Route for handling the login page logic
@@ -25,6 +23,11 @@ def login():
         else:
             return render_template('base.html')
     elif request.method == 'GET':
+        #URL for first call
+
+        #If already logged in, route to menu
+
+        #else route to login page
         return render_template('login.html', error=error)
 
 @app.route('/menu', methods=['GET', 'POST'])
