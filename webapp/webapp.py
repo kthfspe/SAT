@@ -15,6 +15,11 @@ app.config['SECRET_KEY'] = 'you-will-never-guess'
 def login():
     error = None
     if request.method == 'POST':
+        # Call githubinterface here
+
+        #If positive route to menu
+
+        #If negative, Please try again
         if request.form['username'] != 'admin' or request.form['password'] != 'admin':
             return 'Invalid Credentials. Please try again.'
         else:
@@ -22,11 +27,10 @@ def login():
     elif request.method == 'GET':
         return render_template('login.html', error=error)
 
-    
-
-#@app.route('/user/<username>')
-#def profile(username):
-#    return '{}\'s profile'.format(escape(username))
+@app.route('/menu', methods=['GET', 'POST'])
+def menu():
+    # List of apps
+    pass
 
 if __name__ == '__main__':
     # The server is run directly
