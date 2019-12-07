@@ -2,7 +2,6 @@ from flask import Flask, url_for, render_template, request
 from config import Config
 import sys
 
-
 app = Flask(__name__)
 app.config.from_object(Config)
 app.config['SECRET_KEY'] = 'you-will-never-guess'
