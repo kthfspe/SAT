@@ -1,7 +1,7 @@
 from flask import Flask, url_for, render_template, request
 from config import Config
 import sys
-import apps
+from apps import githubinterface
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -14,7 +14,8 @@ def login():
     error = None
     if request.method == 'POST':
         # Call githubinterface here
-
+        if githubinterface.githublogin(request.form['username'],request.form['password']) == True:
+            return render_template('base.html')
         #If positive route to menu
 
         #If negative, Please try again
