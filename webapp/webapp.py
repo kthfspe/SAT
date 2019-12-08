@@ -8,6 +8,7 @@ app.config.from_object(Config)
 app.config['SECRET_KEY'] = 'you-will-never-guess'
 
 loginstatus = False
+username = ""
 
 @app.route('/menu', methods=['GET', 'POST'])
 def menu():
@@ -21,11 +22,12 @@ def menu():
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    global loginstatus
+    global loginstatus, username
     error = None
     if request.method == 'POST':
         # Route to Menu Page if login passed
         if githubinterface.githublogin(request.form['username'],request.form['password']) == True:
+            username = request.form['username']
             loginstatus = True
             return redirect(url_for('menu'))
         # Route back to login page with error message if login failed
