@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %} 
+{% if loginstatus == true %}
+
 <div class="row">
         <div class="col-md-12 col-md-offset-3">
                 <div class="form-group">
@@ -15,4 +17,5 @@
 
 </ol>
 
+{% endif %}
 {% endblock %}
