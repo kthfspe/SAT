@@ -1,5 +1,12 @@
+from github import Github
 
+global g
 def githublogin(username, githubpat):
-    print(username)
-    print(githubpat)
-    return True
+    g = Github(githubpat)
+    try:
+        repo = g.get_repo("kthfspe/SA")
+        return True
+    except:
+        return False
+        
+

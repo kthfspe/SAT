@@ -7,6 +7,9 @@ app = Flask(__name__)
 app.config.from_object(Config)
 app.config['SECRET_KEY'] = 'you-will-never-guess'
 
+global loginstatus
+loginstatus = False
+
 @app.route('/menu', methods=['GET', 'POST'])
 def menu():
     # List of apps
@@ -22,6 +25,7 @@ def login():
     if request.method == 'POST':
         # Route to Menu Page if login passed
         if githubinterface.githublogin(request.form['username'],request.form['password']) == True:
+            loginstatus = True
             return redirect(url_for('menu'))
         # Route back to login page with error message if login failed
         else:
