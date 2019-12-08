@@ -41,6 +41,10 @@ def login():
         #else route to login page
         return render_template('login.html', error=error, loginstatus = False)
 
+@app.route('/buildmodel', methods=['GET', 'POST'])
+def buildmodel():
+    pass
+
 if __name__ == '__main__':
     # The server is run directly
     app.debug = True
