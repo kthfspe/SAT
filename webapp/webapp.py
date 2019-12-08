@@ -14,7 +14,8 @@ def menu():
 
 
 # Route for handling the login page logic
-@app.route('/')
+
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
