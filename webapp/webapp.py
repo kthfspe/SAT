@@ -1,6 +1,7 @@
 from flask import Flask, url_for, render_template, request
 from config import Config
 import sys
+import apps
 
 app = Flask(__name__)
 app.config.from_object(Config)
