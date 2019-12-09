@@ -4,8 +4,8 @@ import sys
 from apps import githubinterface
 
 app = Flask(__name__)
-app.config.from_object(Config)
-app.config['SECRET_KEY'] = 'you-will-never-guess'
+#app.config.from_object(Config)
+#app.config['SECRET_KEY'] = 'you-will-never-guess'
 
 loginstatus = False
 username = ""
@@ -18,7 +18,6 @@ def menu():
 
 
 # Route for handling the login page logic
-
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -41,9 +40,11 @@ def login():
         #else route to login page
         return render_template('login.html', error=error, loginstatus = False)
 
+
 @app.route('/buildmodel', methods=['GET', 'POST'])
 def buildmodel():
     pass
+
 
 if __name__ == '__main__':
     # The server is run directly
