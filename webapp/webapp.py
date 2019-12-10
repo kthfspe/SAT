@@ -1,5 +1,5 @@
-from flask import Flask, url_for, render_template, request, redirect
 import sys
+from flask import Flask, url_for, render_template, request, redirect
 from apps import githubinterface
 
 app = Flask(__name__)
