@@ -32,7 +32,8 @@ def login():
 
 @app.route('/buildmodel', methods=['GET', 'POST'])
 def buildmodel():
-    pass
+    global loginstatus
+    return render_template('builddatamodel.html', loginstatus = loginstatus)
 
 
 if __name__ == '__main__':
