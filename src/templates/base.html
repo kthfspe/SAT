@@ -3,9 +3,17 @@
     <link href="static/bootstrap.min.css" rel="stylesheet">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <nav class="navbar navbar-light bg-light">
-                    <a class="navbar-brand" href="/login">
-                      <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">
-                    </a>
+              {% if loginstatus == true %}
+              <a class="navbar-brand" href="/menu">
+                <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">
+              </a>
+                  {% endif %}
+                  {% if loginstatus == false %}
+                  <a class="navbar-brand" href="/login">
+                    <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">
+                  </a>
+                      {% endif %}
+
             </nav>
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
