@@ -12,7 +12,14 @@ username = ""
 @app.route('/menu', methods=['GET', 'POST'])
 def menu():
     global loginstatus
-    return render_template('menu.html', loginstatus = loginstatus)
+    if request.method == 'POST':
+        option = request.form['options']
+        print(option)
+        return render_template('menu.html', loginstatus = loginstatus)
+    elif request.method == 'GET':
+        return render_template('menu.html', loginstatus = loginstatus)
+
+    
 
 
 @app.route('/', methods=['GET', 'POST'])
