@@ -1,6 +1,7 @@
 import sys
 from flask import Flask, url_for, render_template, request, redirect
 from scripts.gitmanager import GitManager
+from scripts import filepath
 
 app = Flask(__name__)
 
@@ -17,7 +18,7 @@ def menu():
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    global loginstatus, username, gitman
+    global loginstatus
     error = None
     if request.method == 'POST':
         if gitman.gitlogin(request.form['password']) == True:
@@ -27,6 +28,7 @@ def login():
         else:
             return render_template('login.html', error = 'Login Failed', loginstatus = loginstatus)
     elif request.method == 'GET':
+        loginstatus = False
         return render_template('login.html', error=error, loginstatus = False)
         
 
