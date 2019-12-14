@@ -1,9 +1,10 @@
 import sys
 from flask import Flask, url_for, render_template, request, redirect
-from scripts import githubinterface
+from scripts.gitmanager import GitManager
 
 app = Flask(__name__)
 
+gitman = GitManager()
 loginstatus = False
 username = ""
 
@@ -16,11 +17,11 @@ def menu():
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    global loginstatus, username
+    global loginstatus, username, gitman
     error = None
     if request.method == 'POST':
-        if githubinterface.githublogin(request.form['username'],request.form['password']) == True:
-            username = request.form['username']
+        if gitman.gitlogin(request.form['password']) == True:
+            #username = request.form['username']
             loginstatus = True
             return redirect(url_for('menu'))
         else:
