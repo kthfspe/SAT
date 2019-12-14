@@ -13,21 +13,25 @@
                 </div>
         </div>
 </div-->
+
 <div class="w-50 p-3">
 <form action="" method="post">
 <input type="radio" name="options" id="option1" value="option1"> GithubRepo </input><br>
 <input type="radio" name="options" id="option2" value="option2"> Local </input><br>
-<input class="btn btn-success" type="submit" value="Submit">
-</form>
+<input class="btn btn-success" type="submit" value="Build Data Model from latest commit">
+
 
         <div class="list-group">
                 <a href="#" class="list-group-item list-group-item-action active">
                 Menu
                 </a>
-                <a href="/buildmodel" class="list-group-item list-group-item-action">Build Data Model from latest commit</a>
+                <a href="/buildmodel" method="post" class="list-group-item list-group-item-action">Build Data Model from latest commit</a>
                 <!--a href = "URL to app">App Name</a-->
 
         </div>
+
+</form>
+
 </div>
 
 {% endif %}
