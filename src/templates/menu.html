@@ -3,11 +3,13 @@
 {% block content %} 
 {% if loginstatus == true %}
 
-<div class="row">
-        <div class="col-md-12 col-md-offset-3">
-                <div class="form-group">
-                        <input type="text" class="form-control" style="width:50%;" placeholder="Commit SHA (default: Latest Commit)" name="commitsha" value="{{
-                        request.form.commitsha }}">
+<div class="w-50 p-3">
+        <div class="row">
+                <div class="col-md-12 col-md-offset-3">
+                        <div class="form-group">
+                                <input type="text" class="form-control" style="width:50%;" placeholder="Commit SHA (default: Latest Commit)" name="commitsha" value="{{
+                                request.form.commitsha }}">
+                        </div>
                 </div>
         </div>
 </div>
