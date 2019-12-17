@@ -5,9 +5,18 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <nav class="navbar navbar-light bg-light">
               {% if loginstatus == true %}
-                <a class="navbar-brand" href="/menu">
+              {% if request.path == url_for('buildmodel') %}
+                <a class="navbar-brand" href="/buildmodel">
                   <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">
                 </a>
+              {% endif %}
+
+              {% if request.path == url_for('menu') %}
+              <a class="navbar-brand" href="/menu">
+                <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">
+              </a>
+            {% endif %}
+
               {% endif %}
               {% if loginstatus == false %}
                 <a class="navbar-brand" href="/login">
