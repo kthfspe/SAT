@@ -9,15 +9,17 @@ gitman = GitManager()
 loginstatus = False
 username = ""
 
-@app.route('/menu', methods=['GET', 'POST'])
-def menu():
+@app.route('/buildmodel', methods=['GET', 'POST'])
+def buildmodel():
     global loginstatus
     if request.method == 'POST':
         option = request.form['options']
-        print(option)
-        return render_template('menu.html', loginstatus = loginstatus)
+        if option == "github":
+            return redirect(url_for('menu'))
+        else:
+            return render_template('builddatamodel.html', loginstatus = loginstatus)
     elif request.method == 'GET':
-        return render_template('menu.html', loginstatus = loginstatus)
+        return render_template('builddatamodel.html', loginstatus = loginstatus)
 
     
 
@@ -31,20 +33,17 @@ def login():
         if gitman.gitlogin(request.form['password']) == True:
             #username = request.form['username']
             loginstatus = True
-            return redirect(url_for('menu'))
+            return redirect(url_for('buildmodel'))
         else:
             return render_template('login.html', error = 'Login Failed', loginstatus = loginstatus)
     elif request.method == 'GET':
         loginstatus = False
         return render_template('login.html', error=error, loginstatus = False)
         
-
-
-@app.route('/buildmodel', methods=['GET', 'POST'])
-def buildmodel():
+@app.route('/menu', methods=['GET', 'POST'])
+def menu():
     global loginstatus
-    return render_template('builddatamodel.html', loginstatus = loginstatus)
-
+    return render_template('menu.html', loginstatus = loginstatus)
 
 if __name__ == '__main__':
     # The server is run directly

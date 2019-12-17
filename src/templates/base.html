@@ -19,9 +19,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
                   {% if loginstatus == true %}
-                  <li class="nav-item active">
-                    <a href="/menu" class="nav-link" href="#">Menu <span class="sr-only">(current)</span></a>
-                  </li>
+                  {% block navbar %}{% endblock %}
                   <li class="nav-item active">
                     <a href="/login" class="nav-link" href="#">Logout <span class="sr-only">(current)</span></a>
                   </li>
