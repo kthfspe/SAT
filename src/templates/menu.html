@@ -13,36 +13,14 @@
 
 {% block content %} 
 {% if loginstatus == true %}
-
 <div class="w-50 p-3">
-<h3>Select source</h3>
-<div-- class="w-50 p-3">
-<form action="" method="post">
-<input type="radio" name="options" id="option1" value="option1"> GithubRepo </input><br><br>
-<h4>    -OR-    </h4><br>
-<input type="radio" name="options" id="option2" value="option2"> Local </input><br><br>
-
-        <div class="row">
-                <div class="col-md-12 col-md-offset-3">
-                        <div class="form-group">
-                                <input type="text" class="form-control" style="width:50%;" placeholder="Local Path to SA Repo" name="commitsha" value="{{
-                                request.form.commitsha }}">
-                        </div>
-                </div>
-        </div>
-
-<input class="btn btn-danger" type="submit" value="Build Data Model">
-</div>
-
-        <!--div class="list-group">
+        <div class="list-group">
                 <a href="#" class="list-group-item list-group-item-action active">
                 Menu
                 </a>
                 <a href="/buildmodel" method="post" class="list-group-item list-group-item-action">Build Data Model</a>
-                <a href = "URL to app">App Name</a>
-
-        </div-->
-
+        </div>
+</div>
 </form>
 
 </div>
