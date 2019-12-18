@@ -1,8 +1,8 @@
 from github import Github
 import base64
-
+import os
 # or using an access token
-g = Github("blablablabla")
+g = Github(os.environ['GITPAT'])
 
 # for repo in g.get_user().get_repos():
     # print(repo.name)
