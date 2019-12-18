@@ -2,8 +2,9 @@ from github import Github
 import base64
 import os
 # or using an access token
-g = Github(os.environ['GITPAT'])
+g = Github("blablabla")
 
+print()
 # for repo in g.get_user().get_repos():
     # print(repo.name)
     # repo.edit(has_wiki=False)
