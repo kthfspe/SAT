@@ -1,4 +1,4 @@
-<mxfile host="www.draw.io" modified="2019-12-11T21:32:23.245Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" etag="5XgWplWuIG7D-OVu46OY" version="12.3.9" type="github" pages="1">
+<mxfile host="www.draw.io" modified="2019-12-19T18:31:25.145Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36" etag="6or1av2pOXP3gw0JDmNg" version="12.4.3" type="github" pages="1">
   <diagram id="0KdWkR5NlkZp33OAJ1AL" name="Page-1">
     <mxGraphModel dx="1024" dy="566" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -30,9 +30,6 @@
         </mxCell>
         <mxCell id="KXHTAHTL3tIglRdSxIvK-16" value="Wiring Data Generator" style="rounded=0;html=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="685.5" y="315" width="120" height="60" as="geometry"/>
-        </mxCell>
-        <mxCell id="KXHTAHTL3tIglRdSxIvK-17" value="Consistency Checker" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="951.5" y="240" width="120" height="60" as="geometry"/>
         </mxCell>
         <mxCell id="KXHTAHTL3tIglRdSxIvK-18" value="Product Tree Generator" style="rounded=0;html=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="818.5" y="315" width="120" height="60" as="geometry"/>
@@ -97,10 +94,10 @@
         <mxCell id="T-ny32X0gaLzBO6nQ1At-4" value="Data Layer" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;" parent="1" vertex="1">
           <mxGeometry x="210" y="633" width="90" height="34" as="geometry"/>
         </mxCell>
-        <mxCell id="srL22pgudfGAT6wLjhjp-1" value="Regex search" style="rounded=0;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+        <mxCell id="srL22pgudfGAT6wLjhjp-1" value="Regex search" style="rounded=0;html=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="950.5" y="385" width="120" height="60" as="geometry"/>
         </mxCell>
-        <mxCell id="srL22pgudfGAT6wLjhjp-2" value="Power System Tree/Schematic" style="rounded=0;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+        <mxCell id="srL22pgudfGAT6wLjhjp-2" value="Power System Tree/Schematic" style="rounded=0;html=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="820" y="457" width="120" height="60" as="geometry"/>
         </mxCell>
       </root>
