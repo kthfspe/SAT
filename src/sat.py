@@ -3,8 +3,10 @@ from flask import Flask, url_for, render_template, request, redirect
 from scripts.gitmanager import GitManager
 from scripts import filepath
 
+# Create Flask App object
 app = Flask(__name__)
 
+# Create git object to interface to Github
 gitman = GitManager()
 loginstatus = False
 
@@ -30,8 +32,34 @@ def buildmodel():
     if request.method == 'POST':
         option = request.form['options']
         if option == "github":
+            #Setup file paths
+
+            # Read each file from github
+
+            # Store it to db
+
+            # Merge instances
+
+            # Do all checks
+
+            # Logfile generation
+
+
             return redirect(url_for('menu'))
         else:
+            # Read file path from user
+            path = request.form['localpath']
+            # Read each file from local path
+
+            # Store it to db
+
+            # Merge instances
+
+            # Do all checks
+
+            # Logfile generation
+
+            
             return render_template('builddatamodel.html', loginstatus = loginstatus)
     elif request.method == 'GET':
         return render_template('builddatamodel.html', loginstatus = loginstatus)
