@@ -35,7 +35,7 @@ def login():
             loginstatus = True
             return redirect(url_for('buildmodel'))
         else:
-            return render_template('login.html', error = 'Login Failed', loginstatus = loginstatus)
+            return render_template('login.html', error = "Access Denied. Check your Personal Access Token and your access to repo kthfspe/SA", loginstatus = loginstatus)
     elif request.method == 'GET':
         loginstatus = False
         return render_template('login.html', error=error, loginstatus = False)
