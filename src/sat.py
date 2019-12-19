@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 gitman = GitManager()
 loginstatus = False
-username = ""
+
 
 @app.route('/buildmodel', methods=['GET', 'POST'])
 def buildmodel():
@@ -31,8 +31,8 @@ def login():
     error = None
     if request.method == 'POST':
         if gitman.gitlogin(request.form['password']) == True:
-            #username = request.form['username']
             loginstatus = True
+            print(filepath.defaultLVphy)
             return redirect(url_for('buildmodel'))
         else:
             return render_template('login.html', error = "Access Denied. Check your Personal Access Token and your access to repo kthfspe/SA", loginstatus = loginstatus)

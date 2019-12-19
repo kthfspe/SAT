@@ -1,0 +1,8 @@
+defaultrepo = "kthfspe/SA"
+defaultLVphy = "LV_architecture/LV_physical_architecture"
+defaultLVfun = "LV_architecture/LV_functional_architecture"
+defaultHVphy = "HV_architecture/HV_physical_architecture"
+defaultHVfun = "HV_architecture/HV_functional_architecture"
+defaultDVphy = "DV_architecture/DV_physical_architecture"
+defaultDVfun = "DV_architecture/DV_functional_architecture"
+
