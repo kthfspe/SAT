@@ -39,8 +39,7 @@ def buildmodel():
             # Read each file from github
             a = gitman.readfile(filepath.defaultLVfun)
             b = gitman.readfile(filepath.defaultLVphy)
-            print(a)
-            print(b)
+
             # Store it to db
 
             # Merge instances
