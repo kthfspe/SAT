@@ -8,6 +8,21 @@ app = Flask(__name__)
 gitman = GitManager()
 loginstatus = False
 
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    global loginstatus
+    error = None
+    if request.method == 'POST':
+        if gitman.gitlogin(request.form['password']) == True:
+            loginstatus = True
+            return redirect(url_for('buildmodel'))
+        else:
+            error = "Access Denied. Check your Personal Access Token and your access to repo kthfspe/SA"
+            return render_template('login.html', error = error, loginstatus = loginstatus)
+    elif request.method == 'GET':
+        loginstatus = False
+        return render_template('login.html', error=error, loginstatus = False)
 
 @app.route('/buildmodel', methods=['GET', 'POST'])
 def buildmodel():
@@ -21,25 +36,7 @@ def buildmodel():
     elif request.method == 'GET':
         return render_template('builddatamodel.html', loginstatus = loginstatus)
 
-    
 
-
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    global loginstatus
-    error = None
-    if request.method == 'POST':
-        if gitman.gitlogin(request.form['password']) == True:
-            loginstatus = True
-            print(filepath.defaultLVphy)
-            return redirect(url_for('buildmodel'))
-        else:
-            return render_template('login.html', error = "Access Denied. Check your Personal Access Token and your access to repo kthfspe/SA", loginstatus = loginstatus)
-    elif request.method == 'GET':
-        loginstatus = False
-        return render_template('login.html', error=error, loginstatus = False)
-        
 @app.route('/menu', methods=['GET', 'POST'])
 def menu():
     global loginstatus
