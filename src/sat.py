@@ -28,14 +28,19 @@ def login():
 
 @app.route('/buildmodel', methods=['GET', 'POST'])
 def buildmodel():
-    global loginstatus
+    global loginstatus, gitman
     if request.method == 'POST':
         option = request.form['options']
+        print(option)
+        print("Hello")
         if option == "github":
             #Setup file paths
 
             # Read each file from github
-
+            a = gitman.readfile(filepath.defaultLVfun)
+            b = gitman.readfile(filepath.defaultLVphy)
+            print(a)
+            print(b)
             # Store it to db
 
             # Merge instances

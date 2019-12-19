@@ -3,13 +3,18 @@ import xml.etree.ElementTree as ET
 import base64  
 
 class GitManager:
+    gitobject = None
+    repo = None
+    gitpat = None
+    XMLContent = [None]
     def __init__(self):
         pass
     
     def gitlogin(self, pat):
+        self.gitpat = pat
         self.gitobject = Github(pat)
         try:
-            repo = self.gitobject.get_repo("kthfspe/SA")
+            self.repo = self.gitobject.get_repo("kthfspe/SA")
             return True
         except:
             print("Access Denied. Check your Personal Access Token and your access to repo kthfspe/SA")
@@ -20,8 +25,8 @@ class GitManager:
         self.contents = self.repo.get_contents(path)
         self.stringcontent = base64.b64decode(self.contents.content)
         self.root = ET.fromstring(self.stringcontent)
-        self.XMLContent = []
+        
         for child in self.root.findall('diagram/mxGraphModel/root/object'):
-            XMLContent.append(child.attrib)
+            self.XMLContent.append(child.attrib)
         return self.XMLContent
 

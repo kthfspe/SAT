@@ -1,4 +1,4 @@
-debug = False
+debug = True
 
 if debug == False:
     defaultrepo = "kthfspe/SA"
@@ -11,10 +11,10 @@ if debug == False:
 
 else:
     defaultrepo = "kthfspe/SA"
-    defaultLVphy = "example/LV_architecture/LV_physical_architecture"
-    defaultLVfun = "example/LV_architecture/LV_functional_architecture"
-    defaultHVphy = "example/HV_architecture/HV_physical_architecture"
-    defaultHVfun = "example/HV_architecture/HV_functional_architecture"
-    defaultDVphy = "example/DV_architecture/DV_physical_architecture"
-    defaultDVfun = "example/DV_architecture/DV_functional_architecture"
+    defaultLVphy = "examples/LV_architecture/LV_physical_architecture"
+    defaultLVfun = "examples/LV_architecture/LV_functional_architecture"
+    defaultHVphy = "examples/HV_architecture/HV_physical_architecture"
+    defaultHVfun = "examples/HV_architecture/HV_functional_architecture"
+    defaultDVphy = "examples/DV_architecture/DV_physical_architecture"
+    defaultDVfun = "examples/DV_architecture/DV_functional_architecture"
 
