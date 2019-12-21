@@ -1,6 +1,9 @@
 import sys
+import os
 from flask import Flask, url_for, render_template, request, redirect
 from scripts.gitmanager import GitManager
+# from scripts.datamanager import datamanager
+# from scripts.usermanager import UserManager
 from scripts import filepath
 
 # Create Flask App object
@@ -28,42 +31,32 @@ def login():
 
 @app.route('/buildmodel', methods=['GET', 'POST'])
 def buildmodel():
-    global loginstatus, gitman
+    global loginstatus
     if request.method == 'POST':
         option = request.form['options']
-        print(option)
-        print("Hello")
         if option == "github":
             #Setup file paths
 
             # Read each file from github
+            # status, rawfilename =loaddb(gitman, parentdir)
+
             a = gitman.readfile(filepath.defaultLVfun)
+            print(type(a[len(a)-1]['BlockType']))
+            print(os.getcwd())
+            os.chdir("..")
+            print(os.getcwd() + "/db")
             b = gitman.readfile(filepath.defaultLVphy)
-
-            # Store it to db
-
-            # Merge instances
-
-            # Do all checks
-
-            # Logfile generation
-
 
             return redirect(url_for('menu'))
         else:
             # Read file path from user
             path = request.form['localpath']
             # Read each file from local path
-
-            # Store it to db
-
-            # Merge instances
-
-            # Do all checks
-
-            # Logfile generation
-
-            
+        # errormesg, mergedfilename = mergedb(rawfilename)
+        # errormesg2, datamodelfilename = checkdb(mergedfilename)
+        # logfilepath = logfilegen(errormesg, errormesg2, parentdir)
+        # logfilegit(gitman, logfilepath)
+        # updatefilepath(newfilepath)    
             return render_template('builddatamodel.html', loginstatus = loginstatus)
     elif request.method == 'GET':
         return render_template('builddatamodel.html', loginstatus = loginstatus)
