@@ -2,7 +2,7 @@ import json
 import base64
 import os
 import xml.etree.ElementTree as ET
-
+from scripts import blocklist
 raw_physical = []
 raw_functional = []
 errormessage = []
@@ -28,7 +28,7 @@ with open('raw_pdb.json', 'r') as fp:
 
 for item in data:
     if item != None:
-        if item["BlockType"] not in ["DIG","ANA","SENS","ECU","CAN","NCU","BAT","FCON","MCON","ACT","HMI"]:
+        if item["BlockType"] not in blocklist.physical_blocktypes:
             errormessage.append("Invalid Block in physical architecture with BlockType " + item["BlockType"] + " and ID " + item["id"]  )
 
 with open('raw_fdb.json', 'r') as fp:
@@ -36,7 +36,7 @@ with open('raw_fdb.json', 'r') as fp:
 
 for item in data2:
     if item != None:
-        if item["BlockType"] not in ["ENVIN","ENVOUT","FE"]:
+        if item["BlockType"] not in blocklist.functional_blocktypes:
             errormessage.append("Invalid Block in functional architecture with BlockType " + item["BlockType"] + " and ID " + item["id"]  )
 
 
