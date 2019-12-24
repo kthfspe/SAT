@@ -45,7 +45,8 @@ for item in raw_fdb:
             errormessage.append("Invalid Block in functional architecture with BlockType " + item["BlockType"] + " and ID " + item["id"]  )
 
 
-# Set rules for checking each field of ecah block
+# Set rules for checking each field of each block
+
 
 
 # Create global id lookup functional + physical
@@ -92,8 +93,6 @@ def mergedb(raw_db):
 
 merged_pdb = mergedb(raw_pdb)
 merged_fdb = mergedb(raw_fdb)
-
-
 
 print(len(raw_pdb))
 print(len(merged_pdb))
