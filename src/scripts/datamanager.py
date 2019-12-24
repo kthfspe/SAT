@@ -4,7 +4,7 @@ import os
 import xml.etree.ElementTree as ET
 from tinydb import TinyDB   
 from scripts import filepath
-
+import json
 
 class DataManager:
     raw_physical = []
@@ -13,12 +13,7 @@ class DataManager:
     merged_functional = []
     data_physical = []
     data_functional = []
-    raw_pdb = TinyDB(filepath.db_path+"/raw_pdb.json")
-    merged_pdb = TinyDB(filepath.db_path+"/merged_pdb.json")
-    pdb = TinyDB(filepath.db_path+"/pdb.json")
-    raw_fdb = TinyDB(filepath.db_path+"/raw_fdb.json")
-    merged_fdb = TinyDB(filepath.db_path+"/merged_fdb.json")
-    fdb = TinyDB(filepath.db_path+"/fdb.json")
+
 
     def __init__(self):
         pass
@@ -26,5 +21,14 @@ class DataManager:
     def loadrawdb(self, rp, rf):
         self.raw_physical = rp
         self.raw_functional = rf
-        
+        with open("/db/raw_pdb.json", 'w') as fout:
+            json.dump(self.raw_physical, fout)
+
+        with open('/db/raw_pdb.json', 'r') as fp:
+            data = json.load(fp)
+        print(type(data))
+        for item in data:
+            print(item)
+        #self.raw_pdb.insert_multiple(rp)
         #Load to json file locally and return path and status
+

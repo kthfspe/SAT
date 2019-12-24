@@ -40,11 +40,11 @@ def buildmodel():
             # status, rawfilename =loaddb(functionallist, physicallist)
 
             raw_functional = gitman.readfile(filepath.defaultLVfun)
-            raw_functional.append(gitman.readfile(filepath.defaultHVfun))
-            raw_functional.append(gitman.readfile(filepath.defaultDVfun))
+            # raw_functional.append(gitman.readfile(filepath.defaultHVfun))
+            # raw_functional.append(gitman.readfile(filepath.defaultDVfun))
             raw_physical = gitman.readfile(filepath.defaultLVphy)
-            raw_physical.append(gitman.readfile(filepath.defaultHVphy))
-            raw_physical.append(gitman.readfile(filepath.defaultDVphy))
+            # raw_physical.append(gitman.readfile(filepath.defaultHVphy))
+            # raw_physical.append(gitman.readfile(filepath.defaultDVphy))
             os.chdir("..")
             parentdir = os.getcwd()+"db"
             os.chdir("src")
