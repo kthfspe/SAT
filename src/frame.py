@@ -47,7 +47,31 @@ for item in raw_fdb:
 
 
 
-# Physical Architecture - Removing exactly same instances
+# Physical Architecture - Creating Merged Database
+merged_pdb = []
+
+#print(type(raw_pdb[len(raw_pdb)-1]))
+#for blocks in raw_pdb:
+#    for items in blocks:
+#        print(items)
+#        if blocks[items] != "":
+#            print(blocks[items])
+        
+for rawitem in raw_pdb:
+    count = 0
+    for mergeditem in merged_pdb:
+        if rawitem["Name"].lower() == mergeditem["Name"].lower():
+            if rawitem["BlockType"].lower() == mergeditem["BlockType"].lower():
+                count = count + 1
+                print("merge")
+            else:
+                print("same name for different block type warning")
+    if count>0:
+        print(str(count) + " Merges occured")
+    if count == 0:
+        merged_pdb.append(rawitem)
+        print("new item added to merged")
+
 
 # For each item in raw, see if a block with same name and blocktype exist in merged
 
@@ -57,21 +81,8 @@ for item in raw_fdb:
 
 
 print(len(raw_pdb))
-merged_pdb = []
-for i in range(0,len(raw_pdb)):
-    if raw_pdb[i] != None:
-        print(i)
-        temp = raw_pdb[i+1:len(raw_pdb)]
-        if (raw_pdb[i] not in temp) and (raw_pdb[i] not in merged_pdb):
-            merged_pdb.append(raw_pdb[i])
-        else:
-            pass
-            # Add warning message about removed block
-
-
-print(len(raw_pdb))
 print(len(merged_pdb))
-print(raw_pdb[1])
+
 
 
 print(errormessage)
