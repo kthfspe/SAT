@@ -21,6 +21,7 @@ class GitManager:
             return False
 
     def readfile(self, path):
+        self.XMLContent = [] #Empties the XMLContent container for reading a new file
         self.repo = self.gitobject.get_repo("kthfspe/SA")
         self.contents = self.repo.get_contents(path)
         self.stringcontent = base64.b64decode(self.contents.content)

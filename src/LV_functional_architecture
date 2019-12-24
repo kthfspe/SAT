@@ -1,0 +1,168 @@
+<mxfile host="www.draw.io" modified="2019-12-17T20:09:34.672Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36" etag="QSqOhyG8hbhX3Jv65nBO" version="12.4.2" type="github" pages="4">
+  <diagram id="CxL4vbgALiEyS_8ftjiA" name="BikeSpeed">
+    <mxGraphModel dx="1024" dy="566" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" placeholders="1" Name="BikeSpeed" BlockType="ENVIN" Function="ElectricAssist" Allocation="WheelSpeedSensor" Description="Sensor to determine the speed of the front wheel" Comments="" Implementation="Sensor" id="OBl4HP1Sqyp-nDc-58IU-1">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#CCCCCC;strokeColor=#666666;gradientColor=none;" parent="1" vertex="1">
+            <mxGeometry x="60" y="170" width="130" height="70" as="geometry"/>
+          </mxCell>
+        </object>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" Name="SensorPlausiblityCheck" BlockType="FE" placeholders="1" Function="ElectricAssist" Allocation="MotorController" Implementation="SW" Description="" Comments="" id="OBl4HP1Sqyp-nDc-58IU-2">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+            <mxGeometry x="584" y="170" width="130" height="70" as="geometry"/>
+          </mxCell>
+        </object>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" Name="PulseToSpeedConverter" BlockType="FE" placeholders="1" Function="ElectricAssist" Allocation="MotorController" Implementation="SW" Description="" Comments="" id="OBl4HP1Sqyp-nDc-58IU-4">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+            <mxGeometry x="310" y="170" width="130" height="70" as="geometry"/>
+          </mxCell>
+        </object>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" Name="MotorSpeedController" BlockType="FE" placeholders="1" Function="ElectricAssist" Allocation="MotorController" Implementation="SW" Description="" Comments="" id="OBl4HP1Sqyp-nDc-58IU-5">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+            <mxGeometry x="584" y="330" width="130" height="70" as="geometry"/>
+          </mxCell>
+        </object>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" BlockType="FS" Name="BikeSpeedPulse" placeholders="1" Description="" Comments="" Function="ElectricAssist" Type="information" id="Bl6xnmuNeiNVoP8VT8uE-1">
+          <mxCell style="endArrow=block;endSize=16;endFill=0;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="OBl4HP1Sqyp-nDc-58IU-1" target="OBl4HP1Sqyp-nDc-58IU-4">
+            <mxGeometry width="160" relative="1" as="geometry">
+              <mxPoint x="60" y="420" as="sourcePoint"/>
+              <mxPoint x="290" y="420" as="targetPoint"/>
+              <Array as="points"/>
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" BlockType="FS" Name="BikeSpeedRaw" placeholders="1" Description="" Comments="" Function="ElectricAssist" Type="Information" id="Bl6xnmuNeiNVoP8VT8uE-2">
+          <mxCell style="endArrow=block;endSize=16;endFill=0;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="OBl4HP1Sqyp-nDc-58IU-4" target="OBl4HP1Sqyp-nDc-58IU-2">
+            <mxGeometry width="160" relative="1" as="geometry">
+              <mxPoint x="60" y="420" as="sourcePoint"/>
+              <mxPoint x="290" y="420" as="targetPoint"/>
+              <Array as="points"/>
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" BlockType="FS" Name="BikeSpeedCorrected" placeholders="1" Description="" Comments="" Function="ElectricAssist" Type="Information" id="Bl6xnmuNeiNVoP8VT8uE-3">
+          <mxCell style="endArrow=block;endSize=16;endFill=0;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="OBl4HP1Sqyp-nDc-58IU-2" target="OBl4HP1Sqyp-nDc-58IU-5">
+            <mxGeometry width="160" relative="1" as="geometry">
+              <mxPoint x="60" y="420" as="sourcePoint"/>
+              <mxPoint x="290" y="420" as="targetPoint"/>
+              <Array as="points"/>
+            </mxGeometry>
+          </mxCell>
+        </object>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="8sgjmSKyMTZagiL7FRI8" name="Propulsion">
+    <mxGraphModel dx="1024" dy="566" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0HZr3_LB3If9Z1hSKLXg-0"/>
+        <mxCell id="0HZr3_LB3If9Z1hSKLXg-1" parent="0HZr3_LB3If9Z1hSKLXg-0"/>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" Name="MotorSpeedController" BlockType="FE" placeholders="1" Function="ElectricAssist" Allocation="MotorController" Implementation="SW" Description="" Comments="" id="dh2uA4eiaawt6UCHKnqp-0">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="0HZr3_LB3If9Z1hSKLXg-1" vertex="1">
+            <mxGeometry x="370" y="220" width="130" height="70" as="geometry"/>
+          </mxCell>
+        </object>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" Name="ReferenceSpeedEstimator" BlockType="FE" placeholders="1" Function="ElectricAssist" Allocation="MotorController" Implementation="SW" Description="" Comments="" id="dh2uA4eiaawt6UCHKnqp-2">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="0HZr3_LB3If9Z1hSKLXg-1" vertex="1">
+            <mxGeometry x="90" y="220" width="130" height="70" as="geometry"/>
+          </mxCell>
+        </object>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" placeholders="1" Name="ElectricMotor" BlockType="ENVOUT" Function="ElectricAssist" Allocation="BikeMotor" Description="" Comments="" Implementation="Actuator" id="dh2uA4eiaawt6UCHKnqp-3">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="0HZr3_LB3If9Z1hSKLXg-1" vertex="1">
+            <mxGeometry x="720" y="220" width="130" height="70" as="geometry"/>
+          </mxCell>
+        </object>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" BlockType="FS" Name="ReferenceSpeed" placeholders="1" Description="" Comments="" Function="ElectricAssist" Type="Information" id="80SNZC44-fTR_zHfF6Bs-0">
+          <mxCell style="endArrow=block;endSize=16;endFill=0;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="0HZr3_LB3If9Z1hSKLXg-1" source="dh2uA4eiaawt6UCHKnqp-2" target="dh2uA4eiaawt6UCHKnqp-0">
+            <mxGeometry width="160" relative="1" as="geometry">
+              <mxPoint x="80" y="310" as="sourcePoint"/>
+              <mxPoint x="310" y="310" as="targetPoint"/>
+              <Array as="points"/>
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" BlockType="FS" Name="MotorPowerUVW" placeholders="1" Description="" Comments="" Function="ElectricAssist" Type="Energy" id="80SNZC44-fTR_zHfF6Bs-1">
+          <mxCell style="endArrow=block;endSize=16;endFill=0;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="0HZr3_LB3If9Z1hSKLXg-1" source="dh2uA4eiaawt6UCHKnqp-0" target="dh2uA4eiaawt6UCHKnqp-3">
+            <mxGeometry width="160" relative="1" as="geometry">
+              <mxPoint x="80" y="310" as="sourcePoint"/>
+              <mxPoint x="310" y="310" as="targetPoint"/>
+              <Array as="points"/>
+            </mxGeometry>
+          </mxCell>
+        </object>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="VMgoXYU5R9Q9yI_71LkB" name="ThrottleRequest">
+    <mxGraphModel dx="1024" dy="566" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="nx52atOp_2DLuxGxYkma-0"/>
+        <mxCell id="nx52atOp_2DLuxGxYkma-1" parent="nx52atOp_2DLuxGxYkma-0"/>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" placeholders="1" Name="ThrottleSensor" BlockType="ENVIN" Function="ElectricAssist" Allocation="ThrottleSensor" Description="" Comments="" Implementation="Sensor" id="nx52atOp_2DLuxGxYkma-3">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#CCCCCC;strokeColor=#666666;gradientColor=none;" parent="nx52atOp_2DLuxGxYkma-1" vertex="1">
+            <mxGeometry x="30" y="110" width="130" height="70" as="geometry"/>
+          </mxCell>
+        </object>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" Name="MotorSpeedController" BlockType="FE" placeholders="1" Function="ElectricAssist" Allocation="MotorController" Implementation="SW" Description="" Comments="" id="M9Lgb-TiSH23GFM2kgp6-0">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="nx52atOp_2DLuxGxYkma-1" vertex="1">
+            <mxGeometry x="330" y="110" width="130" height="70" as="geometry"/>
+          </mxCell>
+        </object>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" BlockType="FS" Name="ThrottleRequest" placeholders="1" Description="" Comments="" Function="ElectricAssist, BrakeLight" Type="Information" id="FpaUlLngAdCkIRKB68SG-0">
+          <mxCell style="endArrow=block;endSize=16;endFill=0;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="nx52atOp_2DLuxGxYkma-1" source="nx52atOp_2DLuxGxYkma-3" target="M9Lgb-TiSH23GFM2kgp6-0">
+            <mxGeometry width="160" relative="1" as="geometry">
+              <mxPoint x="95" y="240" as="sourcePoint"/>
+              <mxPoint x="260" y="200" as="targetPoint"/>
+              <Array as="points"/>
+            </mxGeometry>
+          </mxCell>
+        </object>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="PlrIQ0s53UvJSi6cAbT4" name="Brakelight">
+    <mxGraphModel dx="1024" dy="566" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="xcu5YyY-LN6LIfcOeFyU-0"/>
+        <mxCell id="xcu5YyY-LN6LIfcOeFyU-1" parent="xcu5YyY-LN6LIfcOeFyU-0"/>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" Name="SensorPlausiblityCheck" BlockType="FE" placeholders="1" Function="BrakeLight" Allocation="MotorController" Implementation="SW" Description="" Comments="" id="lXGBZ7STXAd_atv_A4eX-0">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="xcu5YyY-LN6LIfcOeFyU-1" vertex="1">
+            <mxGeometry x="584" y="170" width="130" height="70" as="geometry"/>
+          </mxCell>
+        </object>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" Name="SpeedDeltaCalculator" BlockType="FE" placeholders="1" Function="Brakelight" Allocation="MotorController" Implementation="SW" Description="" Comments="" id="lXGBZ7STXAd_atv_A4eX-2">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="xcu5YyY-LN6LIfcOeFyU-1" vertex="1">
+            <mxGeometry x="584" y="295" width="130" height="70" as="geometry"/>
+          </mxCell>
+        </object>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" placeholders="1" Name="BrakeLightIndicator" BlockType="ENVOUT" Function="Brakelight" Allocation="BrakeLight" Description="" Comments="" Implementation="LED" id="bLo15xl2VFj0ck93BPsm-0">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="xcu5YyY-LN6LIfcOeFyU-1" vertex="1">
+            <mxGeometry x="584" y="450" width="130" height="70" as="geometry"/>
+          </mxCell>
+        </object>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" BlockType="FS" Name="BikeSpeedCorrected" placeholders="1" Description="" Comments="" Function="BrakeLight" Type="Information" id="rX7hp6kbmGO_W8NvW-J6-1">
+          <mxCell style="endArrow=block;endSize=16;endFill=0;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="xcu5YyY-LN6LIfcOeFyU-1" source="lXGBZ7STXAd_atv_A4eX-0">
+            <mxGeometry width="160" relative="1" as="geometry">
+              <mxPoint x="659" y="250" as="sourcePoint"/>
+              <mxPoint x="650" y="300" as="targetPoint"/>
+              <Array as="points"/>
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="&lt;b&gt;%Name% : %BlockType%&lt;/b&gt;" BlockType="FS" Name="BrakeLightSignal" placeholders="1" Description="" Comments="" Function="BrakeLight" Type="energy" id="rX7hp6kbmGO_W8NvW-J6-2">
+          <mxCell style="endArrow=block;endSize=16;endFill=0;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="xcu5YyY-LN6LIfcOeFyU-1" source="lXGBZ7STXAd_atv_A4eX-2" target="bLo15xl2VFj0ck93BPsm-0">
+            <mxGeometry width="160" relative="1" as="geometry">
+              <mxPoint x="580" y="540" as="sourcePoint"/>
+              <mxPoint x="810" y="540" as="targetPoint"/>
+              <Array as="points">
+                <mxPoint x="649" y="410"/>
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </object>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
