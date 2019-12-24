@@ -18,3 +18,6 @@ else:
     defaultDVphy = "examples/DV_architecture/DV_physical_architecture"
     defaultDVfun = "examples/DV_architecture/DV_functional_architecture"
 
+#print(os.getcwd())
+#os.chdir("..")
+#print(os.getcwd() + "/db")

@@ -2,7 +2,7 @@ import sys
 import os
 from flask import Flask, url_for, render_template, request, redirect
 from scripts.gitmanager import GitManager
-# from scripts.datamanager import datamanager
+# from scripts.datamanager import DataManager
 # from scripts.usermanager import UserManager
 from scripts import filepath
 
@@ -42,11 +42,6 @@ def buildmodel():
 
             a = gitman.readfile(filepath.defaultLVfun)
             print(type(a[len(a)-1]['BlockType']))
-            print(os.getcwd())
-            os.chdir("..")
-            print(os.getcwd() + "/db")
-            b = gitman.readfile(filepath.defaultLVphy)
-
             return redirect(url_for('menu'))
         else:
             # Read file path from user
