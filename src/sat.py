@@ -37,7 +37,7 @@ def buildmodel():
         option = request.form['options']
         if option == "github":
             # Read each file from github
-            # status, rawfilename =loaddb(functionallist, physicallist, parentdir)
+            # status, rawfilename =loaddb(functionallist, physicallist)
 
             raw_functional = gitman.readfile(filepath.defaultLVfun)
             raw_functional.append(gitman.readfile(filepath.defaultHVfun))
@@ -48,7 +48,7 @@ def buildmodel():
             os.chdir("..")
             parentdir = os.getcwd()+"db"
             os.chdir("src")
-            dataman.loaddb(raw_functional, raw_physical, filepath.db_path)
+            dataman.loaddb(raw_functional, raw_physical)
             return redirect(url_for('menu'))
         else:
             # Read file path from user

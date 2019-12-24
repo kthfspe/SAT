@@ -14,13 +14,13 @@ class DataManager:
     data_physical = []
     data_functional = []
     raw_db = TinyDB(filepath.db_path+"/raw_db.json")
-    merged_db = []
-    db = []
+    merged_db = TinyDB(filepath.db_path+"/merged_db.json")
+    db = TinyDB(filepath.db_path+"/db.json")
+
     def __init__(self):
         pass
 
     def loaddb(self, rp, rf):
         self.raw_physical = rp
         self.raw_functional = rf
-        print(parentdir)
         #Load to json file locally and return path and status

@@ -21,7 +21,7 @@ else:
     defaultDVfun = "examples/DV_architecture/DV_functional_architecture"
 
 
-os.chdir("..")
-db_path = os.getcwd() + "/src/db"
+
+db_path = os.getcwd() + "/db"
 source_path = os.getcwd()
-os.chdir("src")
+
