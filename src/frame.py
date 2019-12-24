@@ -24,22 +24,39 @@ with open("raw_fdb.json", 'w') as fout2:
 
 
 with open('raw_pdb.json', 'r') as fp:
-    data = json.load(fp)
+    raw_pdb = json.load(fp)
+
 
 # Physical Architecture - Block Validity Checking
-for item in data:
+for item in raw_pdb:
     if item != None:
         if item["BlockType"] not in blocklist.physical_blocktypes:
             errormessage.append("Invalid Block in physical architecture with BlockType " + item["BlockType"] + " and ID " + item["id"]  )
 
 
 with open('raw_fdb.json', 'r') as fp:
-    data2 = json.load(fp)
+    raw_fdb = json.load(fp)
 
 # Functional Architecture - Block Validity Checking
-for item in data2:
+for item in raw_fdb:
     if item != None:
         if item["BlockType"] not in blocklist.functional_blocktypes:
             errormessage.append("Invalid Block in functional architecture with BlockType " + item["BlockType"] + " and ID " + item["id"]  )
+
+
+# Physical Architecture - Removing exactly same instances
+print(len(raw_pdb))
+merged_pdb = []
+for item in raw_pdb:
+    if item != None:
+        temp = raw_pdb
+        temp.remove(item)
+        if item not in merged_pdb and item not in temp:
+            print("unique")
+            merged_pdb.append(item)
+
+print(len(raw_pdb))
+print(len(merged_pdb))
+
 
 print(errormessage)
