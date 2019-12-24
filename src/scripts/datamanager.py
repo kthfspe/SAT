@@ -20,7 +20,7 @@ class DataManager:
     def __init__(self):
         pass
 
-    def loaddb(self, rp, rf):
+    def loadrawdb(self, rp, rf):
         self.raw_physical = rp
         self.raw_functional = rf
         #Load to json file locally and return path and status

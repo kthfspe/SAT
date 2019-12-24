@@ -48,7 +48,7 @@ def buildmodel():
             os.chdir("..")
             parentdir = os.getcwd()+"db"
             os.chdir("src")
-            dataman.loaddb(raw_functional, raw_physical)
+            dataman.loadrawdb(raw_functional, raw_physical)
             return redirect(url_for('menu'))
         else:
             # Read file path from user
