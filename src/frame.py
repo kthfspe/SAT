@@ -53,40 +53,46 @@ for item in raw_fdb:
 
 
 # Physical Architecture - Creating Merged Database
-merged_pdb = []
 
-for rawitem in raw_pdb:
-    rawitem.pop("id")
-for rawitem in raw_pdb:
-    count = 0
-    for mergeditem in merged_pdb:
-        if rawitem["Name"].lower() == mergeditem["Name"].lower():
-            if rawitem["BlockType"].lower() == mergeditem["BlockType"].lower():
-                count = count + 1
-                if rawitem != mergeditem:
-                    print("Not Same block")
-                    # If not, compare each field by field
-                        # If one is empty, the other one is overwritten
-                        # If both are filled, then an error message is added
-                # Add warning message saying what were merged together, the fields
-                print("merge")
-            else:
-                pass
-                # Add warning message for same name used for different block types
-    if count>0:
-        # Add warning message to see total number of merges per block
-        print(str(count) + " Merges occured")
-    if count == 0:
-        # New item added to merged db
-        merged_pdb.append(rawitem)
-        print("new item added to merged")
+def mergedb(raw_db):
+    merged_db = []
+    for rawitem in raw_db:
+        rawitem.pop("id")
+    for rawitem in raw_db:
+        count = 0
+        for mergeditem in merged_db:
+            if rawitem["Name"].lower() == mergeditem["Name"].lower():
+                if rawitem["BlockType"].lower() == mergeditem["BlockType"].lower():
+                    count = count + 1
+                    if rawitem != mergeditem:
+                        print("Not Same block")
+                        # If not, compare each field by field
+                            # If one is empty, the other one is overwritten
+                            # If both are filled, then an error message is added
+                    # Add warning message saying what were merged together, the fields
+                    print("merge")
+                else:
+                    pass
+                    # Add warning message for same name used for different block types
+        if count>0:
+            # Add warning message to see total number of merges per block
+            print(str(count) + " Merges occured")
+        if count == 0:
+            # New item added to merged db
+            merged_db.append(rawitem)
+            print("new item added to merged")
+    return merged_db
+    #return errormesg, warningmesg, mergedb
 
 
-
+merged_pdb = mergedb(raw_pdb)
+merged_fdb = mergedb(raw_fdb)
 
 
 
 print(len(raw_pdb))
 print(len(merged_pdb))
+print(len(raw_fdb))
+print(len(merged_fdb))
 print(errormessage)
 
