@@ -49,13 +49,6 @@ for item in raw_fdb:
 
 # Physical Architecture - Creating Merged Database
 merged_pdb = []
-
-#print(type(raw_pdb[len(raw_pdb)-1]))
-#for blocks in raw_pdb:
-#    for items in blocks:
-#        print(items)
-#        if blocks[items] != "":
-#            print(blocks[items])
         
 for rawitem in raw_pdb:
     count = 0
@@ -71,14 +64,6 @@ for rawitem in raw_pdb:
     if count == 0:
         merged_pdb.append(rawitem)
         print("new item added to merged")
-
-
-# For each item in raw, see if a block with same name and blocktype exist in merged
-
-    #If yes, then merge those two and add warning message
-
-    #If no, then append to merged_db
-
 
 print(len(raw_pdb))
 print(len(merged_pdb))
