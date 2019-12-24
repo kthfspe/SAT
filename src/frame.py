@@ -22,22 +22,23 @@ with open("raw_pdb.json", 'w') as fout:
 with open("raw_fdb.json", 'w') as fout2:
     json.dump(raw_functional, fout2)
 
-#Physical Architecture Basic Validity Checking
+
 with open('raw_pdb.json', 'r') as fp:
     data = json.load(fp)
 
+# Physical Architecture - Block Validity Checking
 for item in data:
     if item != None:
         if item["BlockType"] not in blocklist.physical_blocktypes:
             errormessage.append("Invalid Block in physical architecture with BlockType " + item["BlockType"] + " and ID " + item["id"]  )
 
+
 with open('raw_fdb.json', 'r') as fp:
     data2 = json.load(fp)
 
+# Functional Architecture - Block Validity Checking
 for item in data2:
     if item != None:
         if item["BlockType"] not in blocklist.functional_blocktypes:
             errormessage.append("Invalid Block in functional architecture with BlockType " + item["BlockType"] + " and ID " + item["id"]  )
 
-
-print(errormessage)
