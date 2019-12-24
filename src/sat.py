@@ -35,13 +35,16 @@ def buildmodel():
     if request.method == 'POST':
         option = request.form['options']
         if option == "github":
-            #Setup file paths
-
             # Read each file from github
-            # status, rawfilename =loaddb(gitman, parentdir)
+            # status, rawfilename =loaddb(functionallist, physicallist, parentdir)
 
-            a = gitman.readfile(filepath.defaultLVfun)
-            print(type(a[len(a)-1]['BlockType']))
+            raw_functional = gitman.readfile(filepath.defaultLVfun)
+            raw_functional.append(gitman.readfile(filepath.defaultHVfun))
+            raw_functional.append(gitman.readfile(filepath.defaultDVfun))
+            raw_physical = gitman.readfile(filepath.defaultLVphy)
+            raw_physical.append(gitman.readfile(filepath.defaultHVphy))
+            raw_physical.append(gitman.readfile(filepath.defaultDVphy))
+
             return redirect(url_for('menu'))
         else:
             # Read file path from user
