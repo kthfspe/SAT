@@ -66,6 +66,11 @@ def mergedb(raw_db):
                     count = count + 1
                     if rawitem != mergeditem:
                         print("Not Same block")
+                        for field in rawitem:
+                            if rawitem[field] != "" and mergeditem[field] == "":
+                                mergeditem[field] = rawitem[field]
+                            if rawitem[field] != "" and mergeditem[field] != "":
+                                print("Conflicting field during merge")                  
                         # If not, compare each field by field
                             # If one is empty, the other one is overwritten
                             # If both are filled, then an error message is added
