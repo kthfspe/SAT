@@ -56,12 +56,17 @@ for rawitem in raw_pdb:
         if rawitem["Name"].lower() == mergeditem["Name"].lower():
             if rawitem["BlockType"].lower() == mergeditem["BlockType"].lower():
                 count = count + 1
+                # Add merge logic here
+
+                # Add warning message saying what were merged together
                 print("merge")
             else:
-                print("same name for different block type warning")
+                # Add warning message for same name used for different block types
     if count>0:
+        # Add warning message to see total number of merges per block
         print(str(count) + " Merges occured")
     if count == 0:
+        # New item added to merged db
         merged_pdb.append(rawitem)
         print("new item added to merged")
 
