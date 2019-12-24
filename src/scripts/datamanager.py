@@ -13,11 +13,13 @@ class DataManager:
     merged_functional = []
     data_physical = []
     data_functional = []
-    db = TinyDB('db.json')
+    raw_db = TinyDB(filepath.db_path+"/raw_db.json")
+    merged_db = []
+    db = []
     def __init__(self):
         pass
 
-    def loaddb(self, rp, rf, parentdir):
+    def loaddb(self, rp, rf):
         self.raw_physical = rp
         self.raw_functional = rf
         print(parentdir)

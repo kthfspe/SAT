@@ -22,6 +22,6 @@ else:
 
 
 os.chdir("..")
-db_path = os.getcwd() + "/db"
+db_path = os.getcwd() + "/src/db"
 source_path = os.getcwd()
 os.chdir("src")
