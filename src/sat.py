@@ -2,7 +2,7 @@ import sys
 import os
 from flask import Flask, url_for, render_template, request, redirect
 from scripts.gitmanager import GitManager
-# from scripts.datamanager import DataManager
+from scripts.datamanager import DataManager
 # from scripts.usermanager import UserManager
 from scripts import filepath
 
@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 # Create git object to interface to Github
 gitman = GitManager()
+dataman = DataManager()
 loginstatus = False
 
 @app.route('/', methods=['GET', 'POST'])
@@ -44,7 +45,10 @@ def buildmodel():
             raw_physical = gitman.readfile(filepath.defaultLVphy)
             raw_physical.append(gitman.readfile(filepath.defaultHVphy))
             raw_physical.append(gitman.readfile(filepath.defaultDVphy))
-
+            os.chdir("..")
+            parentdir = os.getcwd()+"db"
+            os.chdir("src")
+            dataman.loaddb(raw_functional, raw_physical, os.getcwd()+"/db")
             return redirect(url_for('menu'))
         else:
             # Read file path from user
