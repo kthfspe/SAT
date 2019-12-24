@@ -6,6 +6,7 @@ from scripts import blocklist
 raw_physical = []
 raw_functional = []
 errormessage = []
+warningmessage = []
 root = ET.parse('LV_functional_architecture').getroot()
 for child in root.findall('diagram/mxGraphModel/root/object'):
     a = dict(child.attrib)
@@ -44,17 +45,33 @@ for item in raw_fdb:
             errormessage.append("Invalid Block in functional architecture with BlockType " + item["BlockType"] + " and ID " + item["id"]  )
 
 
+
+
 # Physical Architecture - Removing exactly same instances
+
+# For each item in raw, see if a block with same name and blocktype exist in merged
+
+    #If yes, then merge those two and add warning message
+
+    #If no, then append to merged_db
+
+
 print(len(raw_pdb))
 merged_pdb = []
 for i in range(0,len(raw_pdb)):
-    temp = raw_pdb[i+1:len(raw_pdb)]
-    if (raw_pdb[i] not in temp) and (raw_pdb[i] not in merged_pdb):
-        merged_pdb.append(raw_pdb[i])
+    if raw_pdb[i] != None:
+        print(i)
+        temp = raw_pdb[i+1:len(raw_pdb)]
+        if (raw_pdb[i] not in temp) and (raw_pdb[i] not in merged_pdb):
+            merged_pdb.append(raw_pdb[i])
+        else:
+            pass
+            # Add warning message about removed block
 
 
 print(len(raw_pdb))
 print(len(merged_pdb))
+print(raw_pdb[1])
 
 
 print(errormessage)
