@@ -44,6 +44,8 @@ for item in raw_fdb:
         if item["BlockType"] not in blocklist.functional_blocktypes:
             errormessage.append("Invalid Block in functional architecture with BlockType " + item["BlockType"] + " and ID " + item["id"]  )
 
+# Set rules for checking each field of ecah block
+
 
 
 
@@ -57,10 +59,16 @@ for rawitem in raw_pdb:
             if rawitem["BlockType"].lower() == mergeditem["BlockType"].lower():
                 count = count + 1
                 # Add merge logic here
+                    # If everything except the id's are the same then skip
 
-                # Add warning message saying what were merged together
+                    # If not, compare each field by field
+                        # If one is empty, the other one is overwritten
+                        # If both are filled, then an error message is added
+
+                # Add warning message saying what were merged together, the fields
                 print("merge")
             else:
+                pass
                 # Add warning message for same name used for different block types
     if count>0:
         # Add warning message to see total number of merges per block
