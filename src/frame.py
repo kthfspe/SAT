@@ -18,7 +18,7 @@ for child in root.findall('diagram/mxGraphModel/root/object'):
     raw_physical.append(a)
 
 with open("raw_pdb.json", 'w') as fout:
-    json.dump(raw_physical, fout)
+    json.dump(raw_physical, fout)  
 
 with open("raw_fdb.json", 'w') as fout2:
     json.dump(raw_functional, fout2)
@@ -48,7 +48,7 @@ for item in raw_fdb:
 # Set rules for checking each field of ecah block
 
 
-# Create glovbal id lookup functional + physical
+# Create global id lookup functional + physical
 
 
 
@@ -63,15 +63,11 @@ for rawitem in raw_pdb:
         if rawitem["Name"].lower() == mergeditem["Name"].lower():
             if rawitem["BlockType"].lower() == mergeditem["BlockType"].lower():
                 count = count + 1
-                if rawitem == mergeditem:
-                    print("Same block")
-                # Add merge logic here
-                    # If everything except the id's are the same then skip
-               
+                if rawitem != mergeditem:
+                    print("Not Same block")
                     # If not, compare each field by field
                         # If one is empty, the other one is overwritten
                         # If both are filled, then an error message is added
-
                 # Add warning message saying what were merged together, the fields
                 print("merge")
             else:
