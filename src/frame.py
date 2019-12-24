@@ -42,3 +42,4 @@ for item in data2:
         if item["BlockType"] not in blocklist.functional_blocktypes:
             errormessage.append("Invalid Block in functional architecture with BlockType " + item["BlockType"] + " and ID " + item["id"]  )
 
+print(errormessage)
