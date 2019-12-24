@@ -47,13 +47,11 @@ for item in raw_fdb:
 # Physical Architecture - Removing exactly same instances
 print(len(raw_pdb))
 merged_pdb = []
-for item in raw_pdb:
-    if item != None:
-        temp = raw_pdb
-        temp.remove(item)
-        if item not in merged_pdb and item not in temp:
-            print("unique")
-            merged_pdb.append(item)
+for i in range(0,len(raw_pdb)):
+    temp = raw_pdb[i+1:len(raw_pdb)]
+    if (raw_pdb[i] not in temp) and (raw_pdb[i] not in merged_pdb):
+        merged_pdb.append(raw_pdb[i])
+
 
 print(len(raw_pdb))
 print(len(merged_pdb))
