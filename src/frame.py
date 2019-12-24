@@ -44,23 +44,30 @@ for item in raw_fdb:
         if item["BlockType"] not in blocklist.functional_blocktypes:
             errormessage.append("Invalid Block in functional architecture with BlockType " + item["BlockType"] + " and ID " + item["id"]  )
 
+
 # Set rules for checking each field of ecah block
 
+
+# Create glovbal id lookup functional + physical
 
 
 
 # Physical Architecture - Creating Merged Database
 merged_pdb = []
-        
+
+for rawitem in raw_pdb:
+    rawitem.pop("id")
 for rawitem in raw_pdb:
     count = 0
     for mergeditem in merged_pdb:
         if rawitem["Name"].lower() == mergeditem["Name"].lower():
             if rawitem["BlockType"].lower() == mergeditem["BlockType"].lower():
                 count = count + 1
+                if rawitem == mergeditem:
+                    print("Same block")
                 # Add merge logic here
                     # If everything except the id's are the same then skip
-
+               
                     # If not, compare each field by field
                         # If one is empty, the other one is overwritten
                         # If both are filled, then an error message is added
@@ -78,9 +85,12 @@ for rawitem in raw_pdb:
         merged_pdb.append(rawitem)
         print("new item added to merged")
 
+
+
+
+
+
 print(len(raw_pdb))
 print(len(merged_pdb))
-
-
-
 print(errormessage)
+
