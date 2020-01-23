@@ -21,6 +21,9 @@ class DataManager:
     def loadrawdb(self, rp, rf):
         self.raw_physical = rp
         self.raw_functional = rf
+        print(type(self.raw_physical))
+        for item in self.raw_physical:
+            print(type(item))
         with open("raw_pdb.json", 'w') as fout:
             json.dump(self.raw_physical, fout)
 

@@ -1,10 +1,11 @@
 import sys
 import os
+sys.path.insert(0,os.getcwd()+"/scripts")
 from flask import Flask, url_for, render_template, request, redirect
-from scripts.gitmanager import GitManager
-from scripts.datamanager import DataManager
+from gitmanager import GitManager
+from datamanager import DataManager
 # from scripts.usermanager import UserManager
-from scripts import filepath
+import filepath
 
 # Create Flask App object
 app = Flask(__name__)
@@ -37,29 +38,27 @@ def buildmodel():
         option = request.form['options']
         if option == "github":
             # Read each file from github
-            # status, rawfilename =loaddb(functionallist, physicallist)
-
             raw_functional = gitman.readfile(filepath.defaultLVfun)
-            # raw_functional.append(gitman.readfile(filepath.defaultHVfun))
-            # raw_functional.append(gitman.readfile(filepath.defaultDVfun))
+            raw_functional.append(gitman.readfile(filepath.defaultHVfun))
+            raw_functional.append(gitman.readfile(filepath.defaultDVfun))
             raw_physical = gitman.readfile(filepath.defaultLVphy)
-            # raw_physical.append(gitman.readfile(filepath.defaultHVphy))
-            # raw_physical.append(gitman.readfile(filepath.defaultDVphy))
-            os.chdir("..")
-            parentdir = os.getcwd()+"db"
-            os.chdir("src")
-            dataman.loadrawdb(raw_functional, raw_physical)
-            return redirect(url_for('menu'))
+            raw_physical.append(gitman.readfile(filepath.defaultHVphy))
+            raw_physical.append(gitman.readfile(filepath.defaultDVphy))       
         else:
             # Read file path from user
             path = request.form['localpath']
-            # Read each file from local path
+            raw_functional = localreadfile(filepath.localLVfun)
+            raw_functional.append(localreadfile(filepath.localHVfun))
+            raw_functional.append(localreadfile(filepath.localDVfun))
+            raw_physical = localreadfile(filepath.localLVphy)
+            raw_physical.append(localreadfile(filepath.localHVphy))
+            raw_physical.append(localreadfile(filepath.localDVphy))            
+        return redirect(url_for('menu')) 
         # errormesg, mergedfilename = mergedb(rawfilename)
         # errormesg2, datamodelfilename = checkdb(mergedfilename)
         # logfilepath = logfilegen(errormesg, errormesg2, parentdir)
         # logfilegit(gitman, logfilepath)
         # updatefilepath(newfilepath)    
-            return render_template('builddatamodel.html', loginstatus = loginstatus)
     elif request.method == 'GET':
         return render_template('builddatamodel.html', loginstatus = loginstatus)
 

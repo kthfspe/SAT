@@ -76,7 +76,6 @@ def mergedb(raw_db):
                             # If one is empty, the other one is overwritten
                             # If both are filled, then an error message is added
                     # Add warning message saying what were merged together, the fields
-                    print("merge")
                 else:
                     pass
                     # Add warning message for same name used for different block types
@@ -98,5 +97,5 @@ print(len(raw_pdb))
 print(len(merged_pdb))
 print(len(raw_fdb))
 print(len(merged_fdb))
-print(errormessage)
+#print(errormessage)
 
