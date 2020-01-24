@@ -4,6 +4,7 @@ sys.path.insert(0,os.getcwd()+"/scripts")
 from flask import Flask, url_for, render_template, request, redirect
 from gitmanager import GitManager
 from datamanager import DataManager
+from localfile import readfile, writefile
 # from scripts.usermanager import UserManager
 import filepath
 
@@ -34,31 +35,35 @@ def login():
 @app.route('/buildmodel', methods=['GET', 'POST'])
 def buildmodel():
     global loginstatus
+    raw_functional = []
+    raw_physical = []
     if request.method == 'POST':
         option = request.form['options']
         if option == "github":
             # Read each file from github
-            raw_functional = gitman.readfile(filepath.defaultLVfun)
-            raw_functional.append(gitman.readfile(filepath.defaultHVfun))
-            raw_functional.append(gitman.readfile(filepath.defaultDVfun))
-            raw_physical = gitman.readfile(filepath.defaultLVphy)
-            raw_physical.append(gitman.readfile(filepath.defaultHVphy))
-            raw_physical.append(gitman.readfile(filepath.defaultDVphy))       
+            raw_functional1 = gitman.readfile(filepath.defaultLVfun)
+            raw_functional2 = gitman.readfile(filepath.defaultHVfun)
+            raw_functional3 = gitman.readfile(filepath.defaultDVfun)
+            raw_functional = raw_functional1 + raw_functional2 + raw_functional3
+            raw_physical1 = gitman.readfile(filepath.defaultLVphy)
+            raw_physical2 = gitman.readfile(filepath.defaultHVphy)
+            raw_physical3 = gitman.readfile(filepath.defaultDVphy)
+            raw_physical = raw_physical1 + raw_physical2 + raw_physical3       
         else:
             # Read file path from user
             path = request.form['localpath']
-            raw_functional = localreadfile(filepath.localLVfun)
-            raw_functional.append(localreadfile(filepath.localHVfun))
-            raw_functional.append(localreadfile(filepath.localDVfun))
-            raw_physical = localreadfile(filepath.localLVphy)
-            raw_physical.append(localreadfile(filepath.localHVphy))
-            raw_physical.append(localreadfile(filepath.localDVphy))            
-        return redirect(url_for('menu')) 
-        # errormesg, mergedfilename = mergedb(rawfilename)
-        # errormesg2, datamodelfilename = checkdb(mergedfilename)
-        # logfilepath = logfilegen(errormesg, errormesg2, parentdir)
-        # logfilegit(gitman, logfilepath)
-        # updatefilepath(newfilepath)    
+            raw_functional1 = readdrawiofile(filepath.defaultLVfun)
+            raw_functional2 = readdrawiofile(filepath.defaultHVfun)
+            raw_functional3 = readdrawiofile(filepath.defaultDVfun)
+            raw_functional = raw_functional1 + raw_functional2 + raw_functional3
+            raw_physical1 = readdrawiofile(filepath.defaultLVphy)
+            raw_physical2 = readdrawiofile(filepath.defaultHVphy)
+            raw_physical3 = readdrawiofile(filepath.defaultDVphy)
+            raw_physical = raw_physical1 + raw_physical2 + raw_physical3      
+
+        dataman.init(raw_physical, raw_functional)
+
+        return redirect(url_for('menu'))  
     elif request.method == 'GET':
         return render_template('builddatamodel.html', loginstatus = loginstatus)
 
