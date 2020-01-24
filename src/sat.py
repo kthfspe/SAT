@@ -64,13 +64,15 @@ def buildmodel():
             raw_physical = raw_physical1 + raw_physical2 + raw_physical3      
 
         # Build data model using the raw data
-        status, errors, warnings = dataman.buildmodel(raw_physical, raw_functional)
+        # status, errors, warnings = dataman.buildmodel(raw_physical, raw_functional)
 
         # Display errors, warnings
 
+        return render_template('output.html', loginstatus = loginstatus)
+
         # Save errors, warnings to log file
 
-        # Redirect to build model page
+        # Redirect to build model page : return render_template('builddatamodel.html', loginstatus = loginstatus)
 
         # OR
 
@@ -78,13 +80,26 @@ def buildmodel():
 
         # Display success message
 
-        # Redirect to apps page
-
-
-        return redirect(url_for('menu'))  
+        # Redirect to apps page : return redirect(url_for('menu'))  
+        
     elif request.method == 'GET':
         return render_template('builddatamodel.html', loginstatus = loginstatus)
 
+
+@app.route('/output', methods=['POST','GET'])
+def output():
+    global loginstatus
+    return render_template('output.html', loginstatus = loginstatus)
+
+@app.route('/error', methods=['POST','GET'])
+def error():
+    global loginstatus
+    return render_template('error.html', loginstatus = loginstatus)
+
+@app.route('/warning', methods=['POST','GET'])
+def warning():
+    global loginstatus
+    return render_template('warning.html', loginstatus = loginstatus)
 
 @app.route('/menu', methods=['GET', 'POST'])
 def menu():
