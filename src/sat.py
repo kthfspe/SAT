@@ -86,17 +86,17 @@ def buildmodel():
         return render_template('builddatamodel.html', loginstatus = loginstatus)
 
 
-@app.route('/output', methods=['POST','GET'])
+@app.route('/output', methods=['GET', 'POST'])
 def output():
     global loginstatus
     return render_template('output.html', loginstatus = loginstatus)
 
-@app.route('/error', methods=['POST','GET'])
+@app.route('/error', methods=['GET', 'POST'])
 def error():
     global loginstatus
     return render_template('error.html', loginstatus = loginstatus)
 
-@app.route('/warning', methods=['POST','GET'])
+@app.route('/warning', methods=['GET', 'POST'])
 def warning():
     global loginstatus
     return render_template('warning.html', loginstatus = loginstatus)
