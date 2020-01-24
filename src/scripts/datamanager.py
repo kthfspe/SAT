@@ -18,6 +18,9 @@ class DataManager:
     def __init__(self):
         pass
 
+    def buildmodel(self, rp, rf):
+        pass
+
     def loadrawdb(self, rp, rf):
         self.raw_physical = rp
         self.raw_functional = rf
