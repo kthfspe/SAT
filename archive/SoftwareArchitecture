@@ -1,20 +1,20 @@
-<mxfile host="www.draw.io" modified="2019-12-19T18:31:25.145Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36" etag="6or1av2pOXP3gw0JDmNg" version="12.4.3" type="github" pages="1">
+<mxfile host="www.draw.io" modified="2020-01-25T16:07:03.330Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36" etag="t8SNQULywO_WquZtJOh-" version="12.5.8" type="github">
   <diagram id="0KdWkR5NlkZp33OAJ1AL" name="Page-1">
-    <mxGraphModel dx="1024" dy="566" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1205" dy="666" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
         <mxCell id="KXHTAHTL3tIglRdSxIvK-26" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;" parent="1" vertex="1">
-          <mxGeometry x="371" y="220" width="752" height="320" as="geometry"/>
+          <mxGeometry x="800" y="220" width="323" height="270" as="geometry"/>
         </mxCell>
         <mxCell id="KXHTAHTL3tIglRdSxIvK-25" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;" parent="1" vertex="1">
           <mxGeometry x="371" y="21" width="752" height="110" as="geometry"/>
         </mxCell>
         <mxCell id="KXHTAHTL3tIglRdSxIvK-7" value="Data Query Engine" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="370" y="590" width="750" height="60" as="geometry"/>
+          <mxGeometry x="370" y="607" width="750" height="60" as="geometry"/>
         </mxCell>
         <mxCell id="KXHTAHTL3tIglRdSxIvK-11" value="ParserCore" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="685.5" y="240" width="120" height="60" as="geometry"/>
+          <mxGeometry x="951.5" y="315" width="120" height="60" as="geometry"/>
         </mxCell>
         <mxCell id="KXHTAHTL3tIglRdSxIvK-13" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="KXHTAHTL3tIglRdSxIvK-20" target="KXHTAHTL3tIglRdSxIvK-7" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -23,37 +23,31 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="KXHTAHTL3tIglRdSxIvK-14" value="Github Interface" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="552.5" y="240" width="120" height="60" as="geometry"/>
+          <mxGeometry x="818.5" y="315" width="120" height="60" as="geometry"/>
         </mxCell>
         <mxCell id="KXHTAHTL3tIglRdSxIvK-15" value="Data Model Builder" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="818.5" y="240" width="120" height="60" as="geometry"/>
         </mxCell>
         <mxCell id="KXHTAHTL3tIglRdSxIvK-16" value="Wiring Data Generator" style="rounded=0;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="685.5" y="315" width="120" height="60" as="geometry"/>
+          <mxGeometry x="422.5" y="315" width="120" height="60" as="geometry"/>
         </mxCell>
         <mxCell id="KXHTAHTL3tIglRdSxIvK-18" value="Product Tree Generator" style="rounded=0;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="818.5" y="315" width="120" height="60" as="geometry"/>
-        </mxCell>
-        <mxCell id="KXHTAHTL3tIglRdSxIvK-19" value="Function Tree Generator" style="rounded=0;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="818.5" y="385" width="120" height="60" as="geometry"/>
+          <mxGeometry x="422.5" y="386" width="120" height="60" as="geometry"/>
         </mxCell>
         <mxCell id="KXHTAHTL3tIglRdSxIvK-20" value="Data Model" style="shape=datastore;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="662.5" y="690" width="165" height="118" as="geometry"/>
-        </mxCell>
-        <mxCell id="KXHTAHTL3tIglRdSxIvK-22" value="Teamcenter Interface" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="422.5" y="240" width="120" height="60" as="geometry"/>
         </mxCell>
         <mxCell id="KXHTAHTL3tIglRdSxIvK-31" value="" style="pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#434445;aspect=fixed;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;shape=mxgraph.vvd.web_browser;" parent="1" vertex="1">
           <mxGeometry x="708.5" y="48.5" width="77" height="55" as="geometry"/>
         </mxCell>
         <mxCell id="b-ePm5L2kqj1-pwVScKG-1" value="BOM Generator&lt;span style=&quot;color: rgba(0 , 0 , 0 , 0) ; font-family: monospace ; font-size: 0px ; white-space: nowrap&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22Redundancy%20Checker%22%20style%3D%22rounded%3D0%3BwhiteSpace%3Dwrap%3Bhtml%3D1%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22570%22%20y%3D%22315%22%20width%3D%22120%22%20height%3D%2260%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="554" y="315" width="120" height="60" as="geometry"/>
+          <mxGeometry x="554" y="240" width="120" height="60" as="geometry"/>
         </mxCell>
         <mxCell id="b-ePm5L2kqj1-pwVScKG-2" value="System Spec Generator" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="951.5" y="315" width="120" height="60" as="geometry"/>
+          <mxGeometry x="422.5" y="240" width="120" height="60" as="geometry"/>
         </mxCell>
         <mxCell id="b-ePm5L2kqj1-pwVScKG-3" value="Validity Checker" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="422.5" y="315" width="120" height="60" as="geometry"/>
+          <mxGeometry x="950.5" y="240" width="120" height="60" as="geometry"/>
         </mxCell>
         <mxCell id="b-ePm5L2kqj1-pwVScKG-6" value="" style="endArrow=classic;startArrow=classic;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="KXHTAHTL3tIglRdSxIvK-7" target="KXHTAHTL3tIglRdSxIvK-26" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -67,23 +61,8 @@
             <mxPoint x="746.5" y="140" as="targetPoint"/>
           </mxGeometry>
         </mxCell>
-        <mxCell id="b-ePm5L2kqj1-pwVScKG-10" value="CAN dbc Checker" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="423" y="457" width="120" height="60" as="geometry"/>
-        </mxCell>
-        <mxCell id="b-ePm5L2kqj1-pwVScKG-11" value="Spec Diff Manager" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="554" y="386" width="120" height="60" as="geometry"/>
-        </mxCell>
-        <mxCell id="b-ePm5L2kqj1-pwVScKG-12" value="Generate Test Template" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="554" y="457" width="120" height="60" as="geometry"/>
-        </mxCell>
-        <mxCell id="b-ePm5L2kqj1-pwVScKG-13" value="XML Editor/Tree Editor" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="687" y="457" width="120" height="60" as="geometry"/>
-        </mxCell>
-        <mxCell id="HwBKUdxA12chr4gN4QSz-1" value="Instance Data Generator" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="686.5" y="386" width="120" height="60" as="geometry"/>
-        </mxCell>
         <mxCell id="3rvHtpG3ITZI5VsCkGs_-1" value="Power System Spec Generator" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="423" y="386" width="120" height="60" as="geometry"/>
+          <mxGeometry x="554" y="315" width="120" height="60" as="geometry"/>
         </mxCell>
         <mxCell id="T-ny32X0gaLzBO6nQ1At-2" value="Web Interface" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;" parent="1" vertex="1">
           <mxGeometry x="210" y="66" width="90" height="34" as="geometry"/>
@@ -94,11 +73,11 @@
         <mxCell id="T-ny32X0gaLzBO6nQ1At-4" value="Data Layer" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;" parent="1" vertex="1">
           <mxGeometry x="210" y="633" width="90" height="34" as="geometry"/>
         </mxCell>
-        <mxCell id="srL22pgudfGAT6wLjhjp-1" value="Regex search" style="rounded=0;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="950.5" y="385" width="120" height="60" as="geometry"/>
+        <mxCell id="srL22pgudfGAT6wLjhjp-1" value="Global search" style="rounded=0;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="422.5" y="460" width="120" height="60" as="geometry"/>
         </mxCell>
-        <mxCell id="srL22pgudfGAT6wLjhjp-2" value="Power System Tree/Schematic" style="rounded=0;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="820" y="457" width="120" height="60" as="geometry"/>
+        <mxCell id="nazMr6kxenB9CN23N4sg-2" value="Merge Instances" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="818.5" y="386" width="120" height="60" as="geometry"/>
         </mxCell>
       </root>
     </mxGraphModel>
