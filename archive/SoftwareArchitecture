@@ -1,11 +1,14 @@
-<mxfile host="www.draw.io" modified="2020-01-25T16:07:03.330Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36" etag="t8SNQULywO_WquZtJOh-" version="12.5.8" type="github">
+<mxfile host="www.draw.io" modified="2020-01-25T16:08:00.668Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36" etag="VmCUqtdJW_XzARpYGuuQ" version="12.5.8" type="github">
   <diagram id="0KdWkR5NlkZp33OAJ1AL" name="Page-1">
     <mxGraphModel dx="1205" dy="666" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
-        <mxCell id="KXHTAHTL3tIglRdSxIvK-26" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;" parent="1" vertex="1">
-          <mxGeometry x="800" y="220" width="323" height="270" as="geometry"/>
+        <mxCell id="nazMr6kxenB9CN23N4sg-3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="385.5" y="200" width="323" height="340" as="geometry"/>
+        </mxCell>
+        <mxCell id="KXHTAHTL3tIglRdSxIvK-26" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;" parent="1" vertex="1">
+          <mxGeometry x="780" y="200" width="323" height="340" as="geometry"/>
         </mxCell>
         <mxCell id="KXHTAHTL3tIglRdSxIvK-25" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;" parent="1" vertex="1">
           <mxGeometry x="371" y="21" width="752" height="110" as="geometry"/>
@@ -48,18 +51,6 @@
         </mxCell>
         <mxCell id="b-ePm5L2kqj1-pwVScKG-3" value="Validity Checker" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="950.5" y="240" width="120" height="60" as="geometry"/>
-        </mxCell>
-        <mxCell id="b-ePm5L2kqj1-pwVScKG-6" value="" style="endArrow=classic;startArrow=classic;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="KXHTAHTL3tIglRdSxIvK-7" target="KXHTAHTL3tIglRdSxIvK-26" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="744" y="520" as="sourcePoint"/>
-            <mxPoint x="744" y="480" as="targetPoint"/>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="b-ePm5L2kqj1-pwVScKG-7" value="" style="endArrow=classic;startArrow=classic;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="KXHTAHTL3tIglRdSxIvK-26" target="KXHTAHTL3tIglRdSxIvK-25" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="746.5" y="180" as="sourcePoint"/>
-            <mxPoint x="746.5" y="140" as="targetPoint"/>
-          </mxGeometry>
         </mxCell>
         <mxCell id="3rvHtpG3ITZI5VsCkGs_-1" value="Power System Spec Generator" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="554" y="315" width="120" height="60" as="geometry"/>
