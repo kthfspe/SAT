@@ -1,6 +1,6 @@
 import os
 
-debug = False
+debug = True
 
 if debug == False:
     defaultrepo = "kthfspe/SA"
