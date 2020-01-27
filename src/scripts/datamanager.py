@@ -5,6 +5,8 @@ from scripts import filepath, blocklist
 class DataManager:
     raw_physical = []
     raw_functional = []
+    corrected_raw_functional = []
+    corrected_raw_physical = []
     merged_physical = []
     merged_functional = []
     data_physical = []
@@ -38,22 +40,25 @@ class DataManager:
         warning = []
         # Physical Architecture - Block Validity Checking
         for item in self.raw_physical:
-            if item != None:
-                if (item["BlockType"] not in blocklist.physical_blocktypes) and (item["BlockType"].lower() != "frame") and  (item["BlockType"].lower() != "ignore") :
+            if item != None and item["BlockType"] not in blocklist.ignore_blocktype:
+                if item["BlockType"] not in blocklist.physical_blocktypes:
                     warning.append("Invalid Block in Physical Architecture with BlockType " + item["BlockType"] + ", Name " + item['Name'] + " and ID " + item["id"]  )
-       
+                else:
+                    self.corrected_raw_physical.append(item)
         # Functional Architecture - Block Validity Checking
         for item in self.raw_functional:
-            if item != None:
-                if item["BlockType"] not in blocklist.functional_blocktypes and (item["BlockType"].lower() != "frame")  and  (item["BlockType"].lower() != "ignore"):
+            if item != None and item["BlockType"] not in blocklist.ignore_blocktype:
+                if item["BlockType"] not in blocklist.functional_blocktypes:
                     warning.append("Invalid Block in Functional Architecture with BlockType " + item["BlockType"] + ", Name " + item['Name'] + " and ID " + item["id"]  )
+                else:
+                    self.corrected_raw_functional.append(item)
         return warning
 
     def checkfieldvalidity(self):
         warning = []
         error = []
 
-        raw_complete = self.raw_physical + self.raw_functional
+        raw_complete = self.corrected_raw_physical + self.corrected_raw_functional
 
         namelist = ['CHASSIS']
         for item in raw_complete:
