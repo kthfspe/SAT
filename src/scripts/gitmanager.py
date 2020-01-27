@@ -25,8 +25,15 @@ class GitManager:
         self.repo = self.gitobject.get_repo("kthfspe/SA")
         self.contents = self.repo.get_contents(path)
         self.stringcontent = base64.b64decode(self.contents.content)
-        self.root = ET.fromstring(self.stringcontent)        
+        self.root = ET.fromstring(self.stringcontent)       
+        for child in self.root.findall('diagram'):
+            if 'name' in child.attrib:
+                print(child.attrib['name'])
+
         for child in self.root.findall('diagram/mxGraphModel/root/object'):
+            # if 'name' in child[0].attrib:
+                # print(child[0].attrib['name'])
+            # print(child[0].attrib)
             self.XMLContent.append(child.attrib)
         return self.XMLContent
 

@@ -25,6 +25,9 @@ class DataManager:
         self.error, w = self.checkfieldvalidity()
         self.warning = self.warning + w
 
+        # add source and destination to all signals
+
+
         # create global lookup
 
         # mergedb
@@ -36,13 +39,13 @@ class DataManager:
         # Physical Architecture - Block Validity Checking
         for item in self.raw_physical:
             if item != None:
-                if item["BlockType"] not in blocklist.physical_blocktypes:
+                if (item["BlockType"] not in blocklist.physical_blocktypes) and (item["BlockType"].lower() != "frame") and  (item["BlockType"].lower() != "ignore") :
                     warning.append("Invalid Block in Physical Architecture with BlockType " + item["BlockType"] + ", Name " + item['Name'] + " and ID " + item["id"]  )
        
         # Functional Architecture - Block Validity Checking
         for item in self.raw_functional:
             if item != None:
-                if item["BlockType"] not in blocklist.functional_blocktypes:
+                if item["BlockType"] not in blocklist.functional_blocktypes and (item["BlockType"].lower() != "frame")  and  (item["BlockType"].lower() != "ignore"):
                     warning.append("Invalid Block in Functional Architecture with BlockType " + item["BlockType"] + ", Name " + item['Name'] + " and ID " + item["id"]  )
         return warning
 
@@ -54,21 +57,18 @@ class DataManager:
 
         namelist = ['CHASSIS']
         for item in raw_complete:
+            print(item)
             namelist.append(item['Name'])
 
         # print(namelist)
         
         for item in raw_complete:
-            # Rules applying to all blocks
+            # Global Rules(GR) - Rules applying to all blocks
 
-            # Check parent validity
-            
-
+            # GR1: Check parent validity
             if 'Parent' in item:
                 if item['Parent'] not in namelist:
                     print(item['Parent'])
-
-            # Add source and destination for signals
 
 
             # Rules for each block type
