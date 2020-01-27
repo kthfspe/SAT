@@ -72,8 +72,8 @@ class DataManager:
             # GR1: Check parent validity
             if 'Parent' in item:
                 if item['Parent'] not in namelist:
-                    print(item['Parent'])
-
+                    # print(item['Parent'])
+                    pass
 
             # Rules for each block type
 

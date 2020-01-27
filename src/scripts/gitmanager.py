@@ -28,11 +28,11 @@ class GitManager:
         self.root = ET.fromstring(self.stringcontent)       
         for child in self.root.findall('diagram'):
             if 'name' in child.attrib:
-                print(child.attrib['name'])
+                print(child.attrib['name'], child.attrib['id'])
 
         for child in self.root.findall('diagram/mxGraphModel/root/object'):
-            # if 'name' in child[0].attrib:
-                # print(child[0].attrib['name'])
+            if 'parent' in child[0].attrib:
+                print(child[0].attrib['parent'])
             # print(child[0].attrib)
             self.XMLContent.append(child.attrib)
         return self.XMLContent
