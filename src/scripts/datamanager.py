@@ -62,7 +62,6 @@ class DataManager:
 
         namelist = ['CHASSIS']
         for item in raw_complete:
-            print(item)
             namelist.append(item['Name'])
 
         # print(namelist)
