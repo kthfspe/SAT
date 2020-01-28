@@ -27,12 +27,18 @@ class GitManager:
         self.stringcontent = base64.b64decode(self.contents.content)
         self.root = ET.fromstring(self.stringcontent)       
         for child in self.root.findall('diagram'):
-            if 'name' in child.attrib:
-                print(child.attrib['name'], child.attrib['id'])
+            print("New diagram")
+            print(child.attrib)
+            for item in child.iterfind('mxGraphModel/root/object'):
+                print(item.attrib)
+                print(item[0].attrib)
+        #for child in self.root.findall('diagram'):
+        #    if 'name' in child.attrib:
+        #        print(child.attrib['name'], child.attrib['id'])
 
         for child in self.root.findall('diagram/mxGraphModel/root/object'):
-            if 'parent' in child[0].attrib:
-                print(child[0].attrib['parent'])
+        #    if 'parent' in child[0].attrib:
+        #        print(child[0].attrib['parent'])
             # print(child[0].attrib)
             self.XMLContent.append(child.attrib)
         return self.XMLContent
