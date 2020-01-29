@@ -23,7 +23,7 @@ class DataManager:
         self.raw_functional = rf
 
         # Remove ignored blocks from the global block list
-        status = self.removeignoredblocks()
+        self.removeignoredblocks()
 
         # Checks for blocktypes outside of global blocklist
         self.checkblockvalidity()
