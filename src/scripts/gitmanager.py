@@ -22,7 +22,7 @@ class GitManager:
 
     def readfile(self, path):
 
-        filename = path.split('/')[len(path.split())]
+        filename = path.split('/')[len(path.split())] #Splits that last part after the last / as the filename
         self.XMLContent = [] #Empties the XMLContent container for reading a new file
         self.repo = self.gitobject.get_repo("kthfspe/SA")
         self.contents = self.repo.get_contents(path)
@@ -38,7 +38,8 @@ class GitManager:
                     blockdata = item.attrib
                     blockmetadata = item[0].attrib
                     blockmetadata['metaparent'] = blockmetadata.pop('parent')
-                    del blockmetadata['style']
+                    del blockmetadata['style'] # Removes the style attribute as it is very cluttered when printing out and\
+                                               # information is not very readable either             
                     blockdata.update(pagedata)
                     blockdata.update(blockmetadata)
                     self.XMLContent.append(blockdata)
