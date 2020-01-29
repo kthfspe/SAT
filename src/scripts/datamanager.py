@@ -23,7 +23,7 @@ class DataManager:
         self.raw_functional = rf
 
         # Remove ignored blocks from the global block list
-        self.removeignoredblocks()
+        status = self.removeignoredblocks()
 
         # Checks for blocktypes outside of global blocklist
         self.checkblockvalidity()
@@ -57,6 +57,7 @@ class DataManager:
             if item['BlockType'] not in blocklist.ignore_blocktype:
                 tempp.append(item)
         self.raw_physical = tempp
+        self.level+=1
 
     def checkblockvalidity(self):
         # Physical Architecture - Block Validity Checking
@@ -73,6 +74,7 @@ class DataManager:
                         ", Name " + item['Name'] + " and ID " + item["id"]  )
             else:
                 self.corrected_raw_functional.append(item)
+        self.level+=1
 
     
     def checknamevalidity(self):
@@ -83,9 +85,9 @@ class DataManager:
                 self.error.append("No name for block with ID: " + item['id'] + " in page " + item['PageName'])
         
         if self.error != []:
-            return 1
+            self.level+=0
         else:
-            return 0
+            self.level+=1
 
     def checkfieldvalidity(self):
 
