@@ -31,13 +31,13 @@ class GitManager:
         for child in self.root.findall('diagram'):
             pagedata = child.attrib
             if 'name' in pagedata:
-                pagedata['pagename'] = pagedata.pop('name')
-                pagedata['pageid'] = pagedata.pop('id')
-                pagedata['filename'] = filename
+                pagedata['PageName'] = pagedata.pop('name')
+                pagedata['PageId'] = pagedata.pop('id')
+                pagedata['Filename'] = filename
                 for item in child.iterfind('mxGraphModel/root/object'):
                     blockdata = item.attrib
                     blockmetadata = item[0].attrib
-                    blockmetadata['metaparent'] = blockmetadata.pop('parent')
+                    blockmetadata['MetaParent'] = blockmetadata.pop('parent')
                     del blockmetadata['style'] # Removes the style attribute as it is very cluttered when printing out and\
                                                # information is not very readable either             
                     blockdata.update(pagedata)
