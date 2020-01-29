@@ -11,7 +11,8 @@ class DataManager:
     merged_functional = []
     data_physical = []
     data_functional = []
-
+    warning = []
+    error = []
 
     def __init__(self):
         pass
@@ -21,14 +22,11 @@ class DataManager:
         self.raw_functional = rf
 
         # check blockvalidity
-        self.warning = self.checkblockvalidity()
+        self.checkblockvalidity()
 
         # check all fields
         self.error, w = self.checkfieldvalidity()
         self.warning = self.warning + w
-
-        # add source and destination to all signals
-
 
         # create global lookup
 
@@ -36,22 +34,29 @@ class DataManager:
 
         # check consistency
 
+        # self.status == 0 if all ok, else == 1
+        # return self.error, self.warning
+
     def checkblockvalidity(self):
-        warning = []
+
         # Physical Architecture - Block Validity Checking
         for item in self.raw_physical:
-            if item != None and item["BlockType"] not in blocklist.ignore_blocktype:
-                if item["BlockType"] not in blocklist.physical_blocktypes:
-                    warning.append("Invalid Block in Physical Architecture with BlockType " + item["BlockType"] + ", Name " + item['Name'] + " and ID " + item["id"]  )
-                else:
-                    self.corrected_raw_physical.append(item)
+            if item != None and \
+                item["BlockType"] not in blocklist.ignore_blocktype and \
+                item["BlockType"] not in blocklist.physical_blocktypes:
+               self.warning.append("Invalid Block in Physical Architecture with BlockType " + item["BlockType"] + \
+                   ", Name " + item['Name'] + " and ID " + item["id"]  )
+            else:
+                self.corrected_raw_physical.append(item)
         # Functional Architecture - Block Validity Checking
         for item in self.raw_functional:
-            if item != None and item["BlockType"] not in blocklist.ignore_blocktype:
-                if item["BlockType"] not in blocklist.functional_blocktypes:
-                    warning.append("Invalid Block in Functional Architecture with BlockType " + item["BlockType"] + ", Name " + item['Name'] + " and ID " + item["id"]  )
-                else:
-                    self.corrected_raw_functional.append(item)
+            if item != None and \
+                item["BlockType"] not in blocklist.ignore_blocktype and \
+                item["BlockType"] not in blocklist.functional_blocktypes:
+                    self.warning.append("Invalid Block in Functional Architecture with BlockType " + item["BlockType"] + \
+                        ", Name " + item['Name'] + " and ID " + item["id"]  )
+            else:
+                self.corrected_raw_functional.append(item)
         return warning
 
     def checkfieldvalidity(self):
@@ -64,7 +69,7 @@ class DataManager:
         for item in raw_complete:
             namelist.append(item['Name'])
 
-        # print(namelist)
+        print(len(namelist))
         
         for item in raw_complete:
             # Global Rules(GR) - Rules applying to all blocks
@@ -74,6 +79,8 @@ class DataManager:
                 if item['Parent'] not in namelist:
                     # print(item['Parent'])
                     pass
+            
+            # GR2: Name should not be empty
 
             # Rules for each block type
 
