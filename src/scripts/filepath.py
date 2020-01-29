@@ -1,8 +1,7 @@
 import os
+from scripts import appconfig
 
-debug = False
-
-if debug == False:
+if appconfig.debug == False:
     defaultrepo = "kthfspe/SA"
     defaultLVphy = "LV_architecture/LV_physical_architecture.drawio"
     defaultLVfun = "LV_architecture/LV_functional_architecture.drawio"
