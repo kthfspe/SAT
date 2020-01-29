@@ -21,13 +21,13 @@ class DataManager:
         self.raw_physical = rp
         self.raw_functional = rf
 
-        # Remove ignored blocks
+        # Remove ignored blocks from the global block list
         self.removeignoredblocks()
 
-        # check blockvalidity
+        # Checks for blocktypes outside of global blocklist
         self.checkblockvalidity()
 
-        # check all fields
+        # Checks for all rules applying to attribute fields
         self.checkfieldvalidity()
         
         # create global lookup
@@ -39,7 +39,7 @@ class DataManager:
         # self.status == 0 if all ok, else == 1
         # return self.error, self.warning
 
-def removeignoredblocks(self):  
+    def removeignoredblocks(self):  
         # Remove blocks to be ignored
         tempf = []
         tempp = []
@@ -52,7 +52,7 @@ def removeignoredblocks(self):
                 tempp.append(item)
         self.raw_physical = tempp
 
-def checkblockvalidity(self):
+    def checkblockvalidity(self):
         # Physical Architecture - Block Validity Checking
         for item in self.raw_physical:
             if item["BlockType"] not in blocklist.physical_blocktypes:
@@ -74,7 +74,7 @@ def checkblockvalidity(self):
     def checkfieldvalidity(self):
 
         raw_complete = self.corrected_raw_physical + self.corrected_raw_functional
-
+        print(raw_complete)
         #namelist = ['CHASSIS']
         #for item in raw_complete:
         #    namelist.append(item['Name'])
@@ -85,7 +85,7 @@ def checkblockvalidity(self):
 
             # GR1: Name exists and is non-empty
             if 'Name' not in item or item['Name']=='':
-                print(item['BlockType'])
+                self.error.append("No name for block with ID: " + item['id'] + " in page " + item['pagename'])
 
             # GR2: Check parent validity
             #if 'Parent' in item:

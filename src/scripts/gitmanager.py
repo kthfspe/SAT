@@ -21,6 +21,8 @@ class GitManager:
             return False
 
     def readfile(self, path):
+
+        filename = path.split('/')[len(path.split())]
         self.XMLContent = [] #Empties the XMLContent container for reading a new file
         self.repo = self.gitobject.get_repo("kthfspe/SA")
         self.contents = self.repo.get_contents(path)
@@ -31,10 +33,12 @@ class GitManager:
             if 'name' in pagedata:
                 pagedata['pagename'] = pagedata.pop('name')
                 pagedata['pageid'] = pagedata.pop('id')
+                pagedata['filename'] = filename
                 for item in child.iterfind('mxGraphModel/root/object'):
                     blockdata = item.attrib
                     blockmetadata = item[0].attrib
                     blockmetadata['metaparent'] = blockmetadata.pop('parent')
+                    del blockmetadata['style']
                     blockdata.update(pagedata)
                     blockdata.update(blockmetadata)
                     self.XMLContent.append(blockdata)
