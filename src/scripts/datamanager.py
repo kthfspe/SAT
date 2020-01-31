@@ -104,10 +104,8 @@ class DataManager:
         namelist = ['CHASSIS']
         for item in raw_complete:
             namelist.append(item['Name'])
-            if item['Name'] == '':
-                print(item)
         nameset = set(namelist)
-        print(nameset)
+
         # print(self.warning)
         # for item in raw_complete:
             # Global Rules(GR) - Rules applying to all blocks
