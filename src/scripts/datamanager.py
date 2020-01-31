@@ -105,20 +105,17 @@ class DataManager:
         for item in raw_complete:
             namelist.append(item['Name'])
         nameset = set(namelist)
-
-        # print(self.warning)
-        # for item in raw_complete:
+        enclosurelist = []
+        for item in raw_complete:
             # Global Rules(GR) - Rules applying to all blocks
 
-            # GR1: Name exists and is non-empty
-
-
-            # GR2: Check parent validity
-            #if 'Parent' in item:
-            #    if item['Parent'] not in namelist:
-            #        print(item['Parent'])
-
-            
+            # GR1: Check parent validity
+            if 'Parent' in item:
+                if item['Parent'] not in namelist:
+                    print(item['Parent'])
+                    enclosurelist.append(item['Parent'])
+        enclosureset = set(enclosurelist)
+        print(enclosureset)
             
 
             # Rules for each block type
