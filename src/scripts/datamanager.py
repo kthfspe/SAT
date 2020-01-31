@@ -57,37 +57,36 @@ class DataManager:
             if item['BlockType'] not in blocklist.ignore_blocktype:
                 tempp.append(item)
         self.raw_physical = tempp
-        self.level+=1
 
     def checkblockvalidity(self):
         # Physical Architecture - Block Validity Checking
         for item in self.raw_physical:
             if item["BlockType"] not in blocklist.physical_blocktypes:
-                self.warning.append("Invalid Block in file " + item["Filename"] + " with BlockType " + item["BlockType"] + \
+                self.warning.append("REMOVED: Invalid Block in file " + item["Filename"] + " with BlockType " + item["BlockType"] + \
                    ", Name " + item['Name'] + " and ID " + item["id"]  )
             else:
                 self.corrected_raw_physical.append(item)
         # Functional Architecture - Block Validity Checking
         for item in self.raw_functional:
             if item["BlockType"] not in blocklist.functional_blocktypes:
-                self.warning.append("Invalid Block in file " + item["Filename"] + " with BlockType " + item["BlockType"] + \
+                self.warning.append("REMOVED: Invalid Block in file " + item["Filename"] + " with BlockType " + item["BlockType"] + \
                         ", Name " + item['Name'] + " and ID " + item["id"]  )
             else:
                 self.corrected_raw_functional.append(item)
-        self.level+=1
 
     
     def checknamevalidity(self):
-        raw_complete = self.corrected_raw_functional + self.corrected_raw_physical
-
-        for item in raw_complete:
+        for item in self.corrected_raw_functional:
             if 'Name' not in item or item['Name']=='':
-                self.error.append("No name for block with ID: " + item['id'] + " in page " + item['PageName'])
-        
-        if self.error != []:
-            self.level+=0
-        else:
-            self.level+=1
+                self.error.append("REMOVED: No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
+                    + item['Filename'] )
+                del self.corrected_raw_functional[self.corrected_raw_functional.index(item)]
+        for item in self.corrected_raw_physical:
+            if 'Name' not in item or item['Name']=='':
+                self.error.append("REMOVED: No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
+                    + item['Filename'] )
+                del self.corrected_raw_physical[self.corrected_raw_physical.index(item)]
+
 
     def checkfieldvalidity(self):
 
