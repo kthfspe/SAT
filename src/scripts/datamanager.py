@@ -47,6 +47,7 @@ class DataManager:
 
     def removeignoredblocks(self):  
         # Remove blocks to be ignored
+        # This function can be refactored to use del operator to remove elements
         tempf = []
         tempp = []
         for item in self.raw_functional:
@@ -59,6 +60,7 @@ class DataManager:
         self.raw_physical = tempp
 
     def checkblockvalidity(self):
+        # This function can be refactored to use del operator to remove elements and use the same data structure
         # Physical Architecture - Block Validity Checking
         for item in self.raw_physical:
             if item["BlockType"] not in blocklist.physical_blocktypes:
@@ -76,26 +78,36 @@ class DataManager:
 
     
     def checknamevalidity(self):
+        faultf = []
+        faultp = []
         for item in self.corrected_raw_functional:
             if 'Name' not in item or item['Name']=='':
                 self.error.append("REMOVED: No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
-                del self.corrected_raw_functional[self.corrected_raw_functional.index(item)]
+                faultf.append(self.corrected_raw_functional[self.corrected_raw_functional.index(item)])
+        tempf = [item for item in self.corrected_raw_functional if item not in faultf]
+        self.corrected_raw_functional = tempf
+
         for item in self.corrected_raw_physical:
             if 'Name' not in item or item['Name']=='':
                 self.error.append("REMOVED: No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
-                del self.corrected_raw_physical[self.corrected_raw_physical.index(item)]
+                faultp.append(corrected_raw_physical[self.corrected_raw_physical.index(item)])
+        tempp = [item for item in self.corrected_raw_physical if item not in faultp]
+        self.corrected_raw_physical = tempp
 
 
     def checkfieldvalidity(self):
 
         raw_complete = self.corrected_raw_physical + self.corrected_raw_functional
 
-        #namelist = ['CHASSIS']
-        #for item in raw_complete:
-        #    namelist.append(item['Name'])
-
+        namelist = ['CHASSIS']
+        for item in raw_complete:
+            namelist.append(item['Name'])
+            if item['Name'] == '':
+                print(item)
+        nameset = set(namelist)
+        print(nameset)
         # print(self.warning)
         # for item in raw_complete:
             # Global Rules(GR) - Rules applying to all blocks
