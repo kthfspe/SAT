@@ -1,3 +1,7 @@
 physical_blocktypes = ["DIG","ANA","SENS","OTSC","ECU","CAN","NCU","BAT","FCON","MCON","ACT","HMI","PCU"]
 functional_blocktypes = ["ENVIN","ENVOUT","FE","FS"]
 ignore_blocktype = [ "FRAME", "IGNORE"]
+physical_signals = ["DIG", "ANA", "CAN"]
+functional_signals = ["FS"]
+physical_blocks = ["SENS","OTSC","ECU","NCU","BAT","FCON","MCON","ACT","HMI","PCU"]
+functional_blocks = ["ENVIN","ENVOUT","FE"]

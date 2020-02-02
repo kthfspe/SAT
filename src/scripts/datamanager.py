@@ -34,7 +34,7 @@ class DataManager:
 
         # Checks for all rules applying to attribute fields 
         # Can be split in pre global check, block attribute check, post global check
-        self.checkfieldvalidity()
+        self.checkparentvalidity()
         
         # create global lookup
 
@@ -95,6 +95,17 @@ class DataManager:
                 faultp.append(corrected_raw_physical[self.corrected_raw_physical.index(item)])
         tempp = [item for item in self.corrected_raw_physical if item not in faultp]
         self.corrected_raw_physical = tempp
+
+    def checkparentvalidity(self):
+        namelist = ['CHASSIS']
+        for item in self.corrected_raw_physical:
+            if item['BlockType'] in blocklist.physical_blocks:
+                namelist.append(item['Name'])
+        nameset = set(namelist)
+        for item in self.corrected_raw_physical:
+            if item['BlockType'] in blocklist.physical_blocks:
+                if item['Parent'] == '':
+                    item['Parent'] == 'CHASSIS'
 
 
     def checkfieldvalidity(self):
