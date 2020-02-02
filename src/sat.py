@@ -106,7 +106,6 @@ def error():
 @app.route('/warning', methods=['GET', 'POST'])
 def warning():
     global loginstatus,error, warning
-    print(warning)
     return render_template('warning.html', loginstatus = loginstatus, error = error, warning = warning)
 
 
