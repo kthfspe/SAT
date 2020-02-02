@@ -12,7 +12,7 @@
           <a class="nav-link" href="/output">Output</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="/output">Error</a>
+          <a class="nav-link active" href="/error">Error</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/warning">Warnings</a>
@@ -20,8 +20,14 @@
       </ul>
     </div>
     <div class="card-body">
-      <h5 class="card-title">Special title treatment</h5>
-      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      <h5 class="card-title">Error</h5>
+      <p class="card-text">
+        <ul>
+      {% for item in error %}
+  <li>{{item}}</li>
+  {% endfor %}
+</ul>
+      </p>
       <a href="#" class="btn btn-primary">Go somewhere error</a>
     </div>
   </div>

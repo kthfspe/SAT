@@ -42,6 +42,7 @@ class DataManager:
         # Checks if parent type is valid
         self.checkparentvalidity()
 
+        return self.error, self.warning
         # Create function list
 
         # Check function validity
