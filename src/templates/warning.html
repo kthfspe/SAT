@@ -9,7 +9,7 @@
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item">
-          <a class="nav-link" href="/output">Output</a>
+          <a class="nav-link disabled" >Output</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/error">Error</a>
@@ -21,8 +21,15 @@
     </div>
     <div class="card-body">
       <h5 class="card-title">Warning</h5>
-      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      <a href="#" class="btn btn-primary">Go somewhere warning</a>
+      <pclass="card-text">
+
+        <ul>
+      {% for item in warning %}
+  <li>{{item}}</li>
+  {% endfor %}
+</ul>
+      
+      </p>
     </div>
   </div>
 

@@ -9,7 +9,7 @@
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item">
-          <a class="nav-link" href="/output">Output</a>
+          <a class="nav-link disabled">Output</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/error">Error</a>
@@ -22,13 +22,12 @@
     <div class="card-body">
       <h5 class="card-title">Error</h5>
       <p class="card-text">
-        <ul>
+        <ol>
       {% for item in error %}
   <li>{{item}}</li>
   {% endfor %}
-</ul>
+</ol>
       </p>
-      <a href="#" class="btn btn-primary">Go somewhere error</a>
     </div>
   </div>
 

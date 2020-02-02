@@ -6,6 +6,7 @@ from gitmanager import GitManager
 from datamanager import DataManager
 from dbmanager import DBManager
 from localfile import readdrawiofile
+
 # from scripts.usermanager import UserManager
 import filepath
 
@@ -16,6 +17,8 @@ app = Flask(__name__)
 gitman = GitManager()
 dataman = DataManager()
 loginstatus = False
+error = []
+warning = []
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
@@ -35,7 +38,7 @@ def login():
 
 @app.route('/buildmodel', methods=['GET', 'POST'])
 def buildmodel():
-    global loginstatus
+    global loginstatus, error, warning
     raw_functional = []
     raw_physical = []
     if request.method == 'POST':
@@ -65,11 +68,7 @@ def buildmodel():
 
         # Build data model using the raw data
         error, warning = dataman.buildmodel(raw_functional, raw_physical)
-        # status, errors, warnings = dataman.buildmodel(raw_physical, raw_functional)
-        # if status is 0 
 
-        # Display errors, warningss
-        # return render_template('output.html', loginstatus = loginstatus, errors = errors, warning = warning, output = output)
         if error != []:
             return render_template('error.html', loginstatus = loginstatus, error = error, warning = warning)
         else:
@@ -93,23 +92,35 @@ def buildmodel():
 
 @app.route('/output', methods=['GET', 'POST'])
 def output():
-    global loginstatus
+    global loginstatus,error, warning
+
     return render_template('output.html', loginstatus = loginstatus)
 
 @app.route('/error', methods=['GET', 'POST'])
 def error():
-    global loginstatus
-    return render_template('error.html', loginstatus = loginstatus)
+    global loginstatus,error, warning
+
+    return render_template('error.html', loginstatus = loginstatus, error = error, warning = warning)
+
 
 @app.route('/warning', methods=['GET', 'POST'])
 def warning():
-    global loginstatus
-    return render_template('warning.html', loginstatus = loginstatus)
+    global loginstatus,error, warning
+    print(warning)
+    return render_template('warning.html', loginstatus = loginstatus, error = error, warning = warning)
+
 
 @app.route('/menu', methods=['GET', 'POST'])
 def menu():
     global loginstatus
     return render_template('menu.html', loginstatus = loginstatus)
+
+
+@app.route('/outputwarning', methods=['GET', 'POST'])
+def outputwarning():
+    global loginstatus
+    return render_template('outputwarning.html', loginstatus = loginstatus)
+
 
 if __name__ == '__main__':
     # The server is run directly
