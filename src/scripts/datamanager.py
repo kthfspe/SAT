@@ -104,7 +104,7 @@ class DataManager:
             if ('Name' not in item) or (item['Name']==''):
                 self.error.append("REMOVED: No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
-                faultp.append(corrected_physical[self.corrected_physical.index(item)])
+                faultp.append(self.corrected_physical[self.corrected_physical.index(item)])
         tempp = [item for item in self.corrected_physical if item not in faultp]
         self.corrected_physical = tempp
 
@@ -128,14 +128,14 @@ class DataManager:
                     for parentitem in self.corrected_physical:
                         if parentitem['Name'] == item['Parent']:
                             if parentitem['BlockType'] not in blocklist.physical_blocks:
-                                self.error.append("ERROR: Invalid parent type in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
+                                self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+','+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['Filename'] )
                             elif (item['BlockType'] == "OTSC" or "SENS" or "ACT" or "HMI") and ((parentitem['BlockType'] != 'CHASSIS') or \
                                 (parentitem['BlockType'] not in self.enclosure_list)):
-                                self.error.append("ERROR: Invalid parent type in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
+                                self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+','+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['Filename'] )
                             elif (item['BlockType'] == 'NCU' or 'PCU') and ((item['Parent'] == 'CHASSIS') or (parenitem['Name'] not in self.enclosure_list)):
-                                self.error.append("ERROR: Invalid parent type in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
+                                self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+','+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['Filename'] )
                                 
 

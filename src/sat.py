@@ -68,7 +68,6 @@ def buildmodel():
 
         # Build data model using the raw data
         error, warning = dataman.buildmodel(raw_functional, raw_physical)
-
         if error != []:
             return render_template('error.html', loginstatus = loginstatus, error = error, warning = warning)
         else:
