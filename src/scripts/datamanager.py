@@ -45,7 +45,7 @@ class DataManager:
         # Checks if parent name is valid
         # Checks if parent type is valid
         self.checkparentvalidity()
-
+        print(self.error)
 
         # create global lookup
 
@@ -120,7 +120,7 @@ class DataManager:
             if item['BlockType'] in blocklist.physical_blocks:
                 if item['Parent'] == '':
                     item['Parent'] == 'CHASSIS'
-                if item['Parent'] not in self.physical_nameset:
+                if (item['Parent'] not in self.physical_nameset) and (item['Parent'] not in self.enclosure_list):
                     self.error.append("ERROR: Invalid parent in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
                 for parentitem in self.corrected_raw_physical:
@@ -136,33 +136,6 @@ class DataManager:
                 if item['Parent'] not in self.physical_nameset:
                     enclosurelist.append(item['Parent'])
         self.enclosure_list = set(enclosurelist)
-
-    def checkfieldvalidity(self):
-
-        raw_complete = self.corrected_raw_physical + self.corrected_raw_functional
-
-        namelist = ['CHASSIS']
-        for item in raw_complete:
-            namelist.append(item['Name'])
-        nameset = set(namelist)
-        enclosurelist = []
-        for item in raw_complete:
-            # Global Rules(GR) - Rules applying to all blocks
-
-            # GR1: Check parent validity
-            if 'Parent' in item:
-                if item['Parent'] not in namelist:
-                    print(item['Parent'])
-                    enclosurelist.append(item['Parent'])
-        enclosureset = set(enclosurelist)
-        print(enclosureset)
-            
-
-            # Rules for each block type
-
-
-
-
 
 
 
