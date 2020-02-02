@@ -116,6 +116,11 @@ class DataManager:
                 if item['Parent'] not in self.nameset:
                     self.error.append("ERROR: Invalid parent in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
+                for parentitem in self.corrected_raw_physical:
+                    if parentitem['Name'] == item['Parent']:
+                        if parentitem['BlockType'] not in blocklist.physical_blocks:
+                            self.error.append("ERROR: Invalid parent type in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
+                    + item['Filename'] )
 
     def checkfieldvalidity(self):
 
