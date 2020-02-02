@@ -106,7 +106,9 @@ class DataManager:
             if item['BlockType'] in blocklist.physical_blocks:
                 if item['Parent'] == '':
                     item['Parent'] == 'CHASSIS'
-
+                if item['Parent'] not in nameset:
+                    self.error.append("ERROR: Invalid parent in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
+                    + item['Filename'] )
 
     def checkfieldvalidity(self):
 
