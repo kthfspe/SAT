@@ -7,6 +7,7 @@ class DataManager:
     raw_functional = []
     corrected_raw_functional = []
     corrected_raw_physical = []
+    nameset = set()
     merged_physical = []
     merged_functional = []
     data_physical = []
@@ -32,8 +33,11 @@ class DataManager:
         # if 'Name' is missing
         self.checknamevalidity()
 
-        # Checks for all rules applying to attribute fields 
-        # Can be split in pre global check, block attribute check, post global check
+        # Create nameset
+        self.createnameset()
+
+        # Assigns empty parents to CHASSIS
+        # Checks if parent name is valid
         self.checkparentvalidity()
         
         # create global lookup
@@ -96,17 +100,20 @@ class DataManager:
         tempp = [item for item in self.corrected_raw_physical if item not in faultp]
         self.corrected_raw_physical = tempp
 
-    def checkparentvalidity(self):
+    def createnameset(self):
         namelist = ['CHASSIS']
         for item in self.corrected_raw_physical:
             if item['BlockType'] in blocklist.physical_blocks:
                 namelist.append(item['Name'])
-        nameset = set(namelist)
+        self.nameset = set(namelist)
+
+    
+    def checkparentvalidity(self):
         for item in self.corrected_raw_physical:
             if item['BlockType'] in blocklist.physical_blocks:
                 if item['Parent'] == '':
                     item['Parent'] == 'CHASSIS'
-                if item['Parent'] not in nameset:
+                if item['Parent'] not in self.nameset:
                     self.error.append("ERROR: Invalid parent in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
 
