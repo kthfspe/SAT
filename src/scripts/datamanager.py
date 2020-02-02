@@ -5,14 +5,10 @@ from scripts import filepath, blocklist
 class DataManager:
     raw_physical = []
     raw_functional = []
-    corrected_raw_functional = []
-    corrected_raw_physical = []
+    corrected_functional = []
+    corrected_physical = []
     physical_nameset = set()
     enclosure_list = set()
-    merged_physical = []
-    merged_functional = []
-    data_physical = []
-    data_functional = []
     warning = []
     error = []
 
@@ -55,7 +51,7 @@ class DataManager:
         # Generate power supply list
 
         # Merge database
-        
+
         # Block wise checks
 
 
@@ -82,45 +78,45 @@ class DataManager:
                 self.warning.append("REMOVED: Invalid Block in file " + item["Filename"] + " with BlockType " + item["BlockType"] + \
                    ", Name " + item['Name'] + " and ID " + item["id"]  )
             else:
-                self.corrected_raw_physical.append(item)
+                self.corrected_physical.append(item)
         # Functional Architecture - Block Validity Checking
         for item in self.raw_functional:
             if item["BlockType"] not in blocklist.functional_blocktypes:
                 self.warning.append("REMOVED: Invalid Block in file " + item["Filename"] + " with BlockType " + item["BlockType"] + \
                         ", Name " + item['Name'] + " and ID " + item["id"]  )
             else:
-                self.corrected_raw_functional.append(item)
+                self.corrected_functional.append(item)
 
     
     def checknamevalidity(self):
         faultf = []
         faultp = []
-        for item in self.corrected_raw_functional:
+        for item in self.corrected_functional:
             if 'Name' not in item or item['Name']=='':
                 self.error.append("REMOVED: No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
-                faultf.append(self.corrected_raw_functional[self.corrected_raw_functional.index(item)])
-        tempf = [item for item in self.corrected_raw_functional if item not in faultf]
-        self.corrected_raw_functional = tempf
+                faultf.append(self.corrected_functional[self.corrected_functional.index(item)])
+        tempf = [item for item in self.corrected_functional if item not in faultf]
+        self.corrected_functional = tempf
 
-        for item in self.corrected_raw_physical:
-            if 'Name' not in item or item['Name']=='':
+        for item in self.corrected_physical:
+            if ('Name' not in item) or (item['Name']==''):
                 self.error.append("REMOVED: No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
-                faultp.append(corrected_raw_physical[self.corrected_raw_physical.index(item)])
-        tempp = [item for item in self.corrected_raw_physical if item not in faultp]
-        self.corrected_raw_physical = tempp
+                faultp.append(corrected_physical[self.corrected_physical.index(item)])
+        tempp = [item for item in self.corrected_physical if item not in faultp]
+        self.corrected_physical = tempp
 
     def createphysicalnameset(self):
         namelist = ['CHASSIS']
-        for item in self.corrected_raw_physical:
+        for item in self.corrected_physical:
             if item['BlockType'] in blocklist.physical_blocks:
                 namelist.append(item['Name'])
         self.physical_nameset = set(namelist)
 
     
     def checkparentvalidity(self):
-        for item in self.corrected_raw_physical:
+        for item in self.corrected_physical:
             if item['BlockType'] in blocklist.physical_blocks:
                 if item['Parent'] == '':
                     item['Parent'] == 'CHASSIS'
@@ -128,7 +124,7 @@ class DataManager:
                     self.error.append("ERROR: Invalid parent in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
                 else:
-                    for parentitem in self.corrected_raw_physical:
+                    for parentitem in self.corrected_physical:
                         if parentitem['Name'] == item['Parent']:
                             if parentitem['BlockType'] not in blocklist.physical_blocks:
                                 self.error.append("ERROR: Invalid parent type in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
@@ -141,11 +137,10 @@ class DataManager:
                                 self.error.append("ERROR: Invalid parent type in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['Filename'] )
                                 
-                                
 
     def createnclosurelist(self):
         enclosurelist = []
-        for item in self.corrected_raw_physical:
+        for item in self.corrected_physical:
             if item['BlockType'] in blocklist.physical_blocks:
                 if item['Parent'] not in self.physical_nameset:
                     enclosurelist.append(item['Parent'])
