@@ -45,7 +45,6 @@ class DataManager:
         # Checks if parent name is valid
         # Checks if parent type is valid
         self.checkparentvalidity()
-        print(self.error)
 
         # create global lookup
 
@@ -123,11 +122,21 @@ class DataManager:
                 if (item['Parent'] not in self.physical_nameset) and (item['Parent'] not in self.enclosure_list):
                     self.error.append("ERROR: Invalid parent in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
-                for parentitem in self.corrected_raw_physical:
-                    if parentitem['Name'] == item['Parent']:
-                        if parentitem['BlockType'] not in blocklist.physical_blocks:
-                            self.error.append("ERROR: Invalid parent type in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
-                    + item['Filename'] )
+                else:
+                    for parentitem in self.corrected_raw_physical:
+                        if parentitem['Name'] == item['Parent']:
+                            if parentitem['BlockType'] not in blocklist.physical_blocks:
+                                self.error.append("ERROR: Invalid parent type in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
+                        + item['Filename'] )
+                            elif (item['BlockType'] == "OTSC" or "SENS" or "ACT" or "HMI") and ((parentitem['BlockType'] != 'CHASSIS') or \
+                                (parentitem['BlockType'] not in self.enclosure_list)):
+                                self.error.append("ERROR: Invalid parent type in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
+                        + item['Filename'] )
+                            elif (item['BlockType'] == 'NCU' or 'PCU') and ((item['Parent'] == 'CHASSIS') or (parenitem['Name'] not in self.enclosure_list)):
+                                self.error.append("ERROR: Invalid parent type in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
+                        + item['Filename'] )
+                                
+                                
 
     def createnclosurelist(self):
         enclosurelist = []
