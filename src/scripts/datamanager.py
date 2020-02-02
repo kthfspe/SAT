@@ -46,14 +46,19 @@ class DataManager:
         # Checks if parent type is valid
         self.checkparentvalidity()
 
-        # create global lookup
+        # Create function list
 
-        # mergedb
+        # Check function validity
 
-        # check consistency
+        # Check allocations in functional architecture are vaild and in physical
 
-        # self.status == 0 if all ok, else == 1
-        # return self.error, self.warning
+        # Generate power supply list
+
+        # Merge database
+        
+        # Block wise checks
+
+
 
     def removeignoredblocks(self):  
         # Remove blocks to be ignored
