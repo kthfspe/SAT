@@ -11,6 +11,7 @@ class DataManager:
     enclosure_list = set()
     function_list = set()
     error = []
+    log = []
 
     def __init__(self):
         pass
@@ -103,7 +104,7 @@ class DataManager:
 
         for item in self.corrected_physical:
             if ('Name' not in item) or (item['Name']==''):
-                self.error.append("ERROR: No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
+                self.error.append("ERROR    : No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
                 faultp.append(self.corrected_physical[self.corrected_physical.index(item)])
         tempp = [item for item in self.corrected_physical if item not in faultp]
