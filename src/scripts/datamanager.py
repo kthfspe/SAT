@@ -9,6 +9,7 @@ class DataManager:
     corrected_physical = []
     physical_nameset = set()
     enclosure_list = set()
+    function_list = set()
     warning = []
     error = []
 
@@ -42,9 +43,10 @@ class DataManager:
         # Checks if parent type is valid
         self.checkparentvalidity()
 
-        return self.error, self.warning
         # Create function list
-
+        self.createfunctionlist()
+        print(self.function_list)
+        return self.error, self.warning
         # Check function validity
 
         # Check allocations in functional architecture are vaild and in physical
@@ -138,7 +140,12 @@ class DataManager:
                                 self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+','+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['Filename'] )
                                 
+    def checkfunctionvalidity(self):
+        for item in self.corrected_functional:
+            if item['Function'] == '':
+                self.error.append("ERROR:")
 
+                
     def createnclosurelist(self):
         enclosurelist = []
         for item in self.corrected_physical:
@@ -147,5 +154,11 @@ class DataManager:
                     enclosurelist.append(item['Parent'])
         self.enclosure_list = set(enclosurelist)
 
+    def createfunctionlist(self):
+        functionlist = []
+        for item in self.corrected_functional:
+            if item['BlockType'] in blocklist.functional_blocks:
+                functionlist.append(item['Function'])
+        self.function_list = set(functionlist)
 
 
