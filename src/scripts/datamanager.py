@@ -23,6 +23,8 @@ class DataManager:
         # Remove ignored blocks from the global block list
         self.removeignoredblocks()
 
+        # Status checker function
+
         # Checks for blocktypes outside of global blocklist
         self.checkblockvalidity()
 
