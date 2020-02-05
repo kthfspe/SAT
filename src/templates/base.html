@@ -23,11 +23,6 @@
             </a>
           {% endif %}
 
-          {% if request.path == url_for('warning') %}
-          <a class="navbar-brand" href="/buildmodel">
-            <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">
-          </a>
-        {% endif %}
 
         {% if request.path == url_for('error') %}
         <a class="navbar-brand" href="/buildmodel">

@@ -10,7 +10,6 @@ class DataManager:
     physical_nameset = set()
     enclosure_list = set()
     function_list = set()
-    warning = []
     error = []
 
     def __init__(self):
@@ -46,7 +45,7 @@ class DataManager:
         # Create function list
         self.createfunctionlist()
         print(self.function_list)
-        return self.error, self.warning
+        return self.error
         # Check function validity
 
         # Check allocations in functional architecture are vaild and in physical
@@ -78,14 +77,14 @@ class DataManager:
         # Physical Architecture - Block Validity Checking
         for item in self.raw_physical:
             if item["BlockType"] not in blocklist.physical_blocktypes:
-                self.warning.append("REMOVED: Invalid Block in file " + item["Filename"] + " with BlockType " + item["BlockType"] + \
+                self.error.append("ERROR: Invalid Block in file " + item["Filename"] + " with BlockType " + item["BlockType"] + \
                    ", Name " + item['Name'] + " and ID " + item["id"]  )
             else:
                 self.corrected_physical.append(item)
         # Functional Architecture - Block Validity Checking
         for item in self.raw_functional:
             if item["BlockType"] not in blocklist.functional_blocktypes:
-                self.warning.append("REMOVED: Invalid Block in file " + item["Filename"] + " with BlockType " + item["BlockType"] + \
+                self.error.append("ERROR: Invalid Block in file " + item["Filename"] + " with BlockType " + item["BlockType"] + \
                         ", Name " + item['Name'] + " and ID " + item["id"]  )
             else:
                 self.corrected_functional.append(item)
@@ -96,7 +95,7 @@ class DataManager:
         faultp = []
         for item in self.corrected_functional:
             if 'Name' not in item or item['Name']=='':
-                self.error.append("REMOVED: No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
+                self.error.append("ERROR: No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
                 faultf.append(self.corrected_functional[self.corrected_functional.index(item)])
         tempf = [item for item in self.corrected_functional if item not in faultf]
@@ -104,7 +103,7 @@ class DataManager:
 
         for item in self.corrected_physical:
             if ('Name' not in item) or (item['Name']==''):
-                self.error.append("REMOVED: No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
+                self.error.append("ERROR: No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
                 faultp.append(self.corrected_physical[self.corrected_physical.index(item)])
         tempp = [item for item in self.corrected_physical if item not in faultp]
@@ -145,7 +144,7 @@ class DataManager:
             if item['Function'] == '':
                 self.error.append("ERROR:")
 
-                
+
     def createnclosurelist(self):
         enclosurelist = []
         for item in self.corrected_physical:
