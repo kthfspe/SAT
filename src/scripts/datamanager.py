@@ -45,6 +45,7 @@ class DataManager:
         # Checks if parent type is valid
         self.checkparentvalidity()
 
+        self.checkfunctionvalidity()
         # Create function list
         self.createfunctionlist()
         print(self.function_list)
@@ -145,7 +146,8 @@ class DataManager:
     def checkfunctionvalidity(self):
         for item in self.corrected_functional:
             if item['Function'] == '':
-                self.error.append("ERROR:")
+                self.error.append("ERROR: Function name missing in block " + item['Name'] + " in page " + item['PageName'] + \
+                    " in file " + item["Filename"] )
 
 
     def createnclosurelist(self):
