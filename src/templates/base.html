@@ -1,16 +1,18 @@
 <html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="static/bootstrap3.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Exo+2:700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Exo:500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Yantramanav:500&display=swap" rel="stylesheet">
     <style>
-      body {font-family: 'Exo 2', sans-serif;}
-      nav {font-family: 'Exo 2', sans-serif;}
-      head {font-family: 'Exo 2', sans-serif;}
+      body {font-family: 'Exo', sans-serif;}
+      nav {font-family: 'Exo', sans-serif;}
+      head {font-family: 'Exo', sans-serif;}
     </style>
     <link rel="icon" type="image/png" href="/static/logo.png?v=1.0" >
     <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.4/lib/darkmode-js.min.js"></script>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <nav class="navbar navbar-dark bg-dark">
+            
+              
               {% if loginstatus == true %}
               {% if request.path == url_for('buildmodel') %}
                 <a class="navbar-brand" href="/buildmodel">
@@ -36,6 +38,7 @@
           <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">
         </a>
       {% endif %}
+      
 
               {% endif %}
               {% if loginstatus == false %}
@@ -43,7 +46,8 @@
                   <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">
                 </a>
               {% endif %}
-            </nav>
+              <h2>&ensp;SAT</h2>
+      
 
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
@@ -67,8 +71,8 @@
         <title>KTHFS System Architecture Development</title>
     </head>
     <body>
-        <h2>&ensp;System Architecture Development</h2>
-        <hr>
+        
+       
         {% block content %}{% endblock %}
     </body>
 
