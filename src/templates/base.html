@@ -5,7 +5,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto|Yantramanav:500&display=swap" rel="stylesheet">
     <style>
       body {font-family: 'Exo', sans-serif;}
-      nav {font-family: 'Exo', sans-serif;}
+      nav {font-family: 'Exo', sans-serif; } 
       head {font-family: 'Exo', sans-serif;}
     </style>
     <link rel="icon" type="image/png" href="/static/logo.png?v=1.0" >
@@ -42,15 +42,14 @@
 
               {% endif %}
               {% if loginstatus == false %}
-                <a class="navbar-brand" href="/login">
+                <a class="navbar-brand" href="/login">SAT
                   <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">
                 </a>
               {% endif %}
-              <h2>&ensp;SAT</h2>
       
 
             <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
+              <ul class="navbar-nav mr-auto">
                   {% if loginstatus == true %}
                   {% block navbar %}{% endblock %}
                   <li class="nav-item active">
@@ -58,7 +57,7 @@
                   </li>
                   {% endif %}
                   {% if loginstatus == false %}
-                    <li class="nav-item active">
+                    <li class="nav-item">
                       <a href="/login" class="nav-link" href="#">Login <span class="sr-only">(current)</span></a>
                     </li>
                   {% endif %}
@@ -68,7 +67,7 @@
           </nav>
     <head>
         
-        <title>KTHFS System Architecture Development</title>
+        <title>SAT</title>
     </head>
     <body>
         
