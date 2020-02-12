@@ -27,26 +27,26 @@
               
               {% if loginstatus == true %}
               {% if request.path == url_for('buildmodel') %}
-                <a class="navbar-brand" href="/buildmodel">
+                <a class="navbar-brand" href="/buildmodel">SAT
                   <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt=""> 
                 </a>
               {% endif %}
 
               {% if request.path == url_for('menu') %}
-              <a class="navbar-brand" href="/menu">
+              <a class="navbar-brand" href="/menu">SAT
                 <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">
               </a>
             {% endif %}
 
             {% if request.path == url_for('output') %}
-            <a class="navbar-brand" href="/buildmodel">
+            <a class="navbar-brand" href="/buildmodel">SAT
               <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">
             </a>
           {% endif %}
 
 
         {% if request.path == url_for('error') %}
-        <a class="navbar-brand" href="/buildmodel">
+        <a class="navbar-brand" href="/buildmodel">SAT
           <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">
         </a>
       {% endif %}
