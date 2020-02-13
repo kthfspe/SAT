@@ -123,9 +123,12 @@ class DataManager:
     
     def checkparentvalidity(self):
         for item in self.corrected_physical:
+
             if item['BlockType'] in blocklist.physical_blocks:
+
                 if item['Parent'] == '':
                     item['Parent'] == 'CHASSIS'
+
                 if (item['Parent'] not in self.physical_nameset) and (item['Parent'] not in self.enclosure_list):
                     self.error.append("ERROR: Invalid parent in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
@@ -133,15 +136,21 @@ class DataManager:
                     for parentitem in self.corrected_physical:
                         if parentitem['Name'] == item['Parent']:
                             if parentitem['BlockType'] not in blocklist.physical_blocks:
-                                self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+','+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
+                                self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['Filename'] )
-                            elif (item['BlockType'] == "OTSC" or "SENS" or "ACT" or "HMI") and ((parentitem['BlockType'] != 'CHASSIS') or \
-                                (parentitem['BlockType'] not in self.enclosure_list)):
-                                self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+','+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
+                                break
+                            elif (item['BlockType'] == "OTSC" or item['BlockType'] =="SENS" or item['BlockType'] =="ACT" or item['BlockType'] =="HMI"):
+                                if ((parentitem['BlockType'] != 'CHASSIS') or (parentitem['BlockType'] not in self.enclosure_list)):
+                                    print(item['Name'])
+                                    self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['Filename'] )
-                            elif (item['BlockType'] == 'NCU' or 'PCU') and ((item['Parent'] == 'CHASSIS') or (parenitem['Name'] not in self.enclosure_list)):
-                                self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+','+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
+                                    break
+                            elif (item['BlockType'] == 'NCU' or 'PCU') and ((item['Parent'] == 'CHASSIS') or (parentitem['Name'] not in self.enclosure_list)):
+                                self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['Filename'] )
+                                break
+
+    
                                 
     def checkfunctionvalidity(self):
         for item in self.corrected_functional:
