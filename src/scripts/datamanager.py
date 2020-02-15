@@ -17,6 +17,9 @@ class DataManager:
         pass
 
     def buildmodel(self, rf, rp):
+        self.error = []
+        self.corrected_functional = []
+        self.corrected_physical = []
         self.raw_physical = rp
         self.raw_functional = rf
 
@@ -48,7 +51,7 @@ class DataManager:
         self.checkfunctionvalidity()
         # Create function list
         self.createfunctionlist()
-        print(self.function_list)
+
         return self.error
         # Check function validity
 
