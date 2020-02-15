@@ -1,6 +1,7 @@
 from github import Github    
 import xml.etree.ElementTree as ET
 import base64  
+import os
 
 class GitManager:
     gitobject = None
@@ -22,7 +23,7 @@ class GitManager:
 
     def readfile(self, path):
 
-        filename = path.split('/')[len(path.split())] #Splits that last part after the last / as the filename
+        filename = os.path.basename(path)
         self.XMLContent = [] #Empties the XMLContent container for reading a new file
         self.repo = self.gitobject.get_repo("kthfspe/SA")
         self.contents = self.repo.get_contents(path)
