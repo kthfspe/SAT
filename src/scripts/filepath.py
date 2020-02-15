@@ -1,7 +1,7 @@
 import os
-from scripts import appconfig
+from scripts import satconfig
 
-if appconfig.debug == False:
+if satconfig.debug == False:
     defaultrepo = "kthfspe/SA"
     defaultLVphy = "LV_architecture/LV_physical_architecture.drawio"
     defaultLVfun = "LV_architecture/LV_functional_architecture.drawio"

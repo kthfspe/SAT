@@ -2,6 +2,7 @@ from github import Github
 import xml.etree.ElementTree as ET
 import base64  
 import os
+from scripts import satconfig
 
 class GitManager:
     gitobject = None
@@ -15,7 +16,7 @@ class GitManager:
         self.gitpat = pat
         self.gitobject = Github(pat)
         try:
-            self.repo = self.gitobject.get_repo("kthfspe/SA")
+            self.repo = self.gitobject.get_repo(satconfig.gitpath)
             return True
         except:
             print("Access Denied. Check your Personal Access Token and your access to repo kthfspe/SA")
@@ -25,7 +26,7 @@ class GitManager:
 
         filename = os.path.basename(path)
         self.XMLContent = [] #Empties the XMLContent container for reading a new file
-        self.repo = self.gitobject.get_repo("kthfspe/SA")
+        self.repo = self.gitobject.get_repo(satconfig.gitpath)
         self.contents = self.repo.get_contents(path)
         self.stringcontent = base64.b64decode(self.contents.content)
         self.root = ET.fromstring(self.stringcontent)       
