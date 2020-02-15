@@ -24,20 +24,24 @@ class DataManager:
         self.raw_functional = rf
 
         # Remove ignored blocks from the global block list
+        self.error.append("Building Model...")
+        self.error.append("Removing blocks from ignorelist...")
         self.removeignoredblocks()
-
         # Status checker function
 
         # Checks for blocktypes outside of global blocklist
+        self.error.append("Checking validity of BlockType field...")
         self.checkblockvalidity()
 
         # Check name validity: This is done separately from other fields as further checks are not possible
         # if 'Name' is missing
+        self.error.append("Checking validity of Name field...")
         self.checknamevalidity()
 
         # Create nameset
         # Creates a set of all names of all blocks in physical architecture
         self.createphysicalnameset()
+
 
         # Create enclosure list
         # Assumes all new parent values not in namelist as an enclosure
@@ -46,18 +50,24 @@ class DataManager:
         # Assigns empty parents to CHASSIS
         # Checks if parent name is valid
         # Checks if parent type is valid
+        self.error.append("Checking validity of Parent field...")
         self.checkparentvalidity()
 
+        # Check if function name is not empty
+        self.error.append("Checking validity of Function field...")
         self.checkfunctionvalidity()
+
         # Create function list
         self.createfunctionlist()
 
-        return self.error
-        # Check function validity
-
-        # Check allocations in functional architecture are vaild and in physical
+        # Check if allocation in funcitnla block is a valid name in physical block
+        self.error.append("Checking validity of Allocation field...")
+        self.checkallocationvalidity()
 
         # Generate power supply list
+        self.createpowersupplylist()
+
+        return self.error
 
         # Merge database
 
@@ -177,4 +187,19 @@ class DataManager:
                 functionlist.append(item['Function'])
         self.function_list = set(functionlist)
 
+    def checkallocationvalidity(self):
+        for item in self.corrected_functional:
+            if item['BlockType'] in blocklist.functional_blocks:
+                if item['Allocation'] == '':
+                    self.error.append("ERROR: Allocation missing in block " + item['Name'] + " in page " + item['PageName']\
+                        + " in file " + item['Filename'])
+                elif (item['Allocation'] not in self.physical_nameset): 
+                    self.error.append("ERROR: Invalid allocation in block " + item['Name'] + " in page " + item['PageName']\
+                        + " in file " + item['Filename'])
 
+    def createpowersupplylist(self):
+        supplylist = []
+        supplylist.append(blocklist.defaultpowerlist)
+        for item in self.corrected_physical:
+            if item ['BlockType'] == 'BAT':
+                supplylist.append(item['Name'])
