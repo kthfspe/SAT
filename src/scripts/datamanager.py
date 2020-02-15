@@ -64,12 +64,10 @@ class DataManager:
         self.error.append("Checking validity of Allocation field...")
         self.checkallocationvalidity()
 
-        # Generate power supply list
-        self.createpowersupplylist()
+        self.error.append("Merging data instances..")
+        self.mergedata()
 
         return self.error
-
-        # Merge database
 
         # Block wise checks
 
@@ -197,9 +195,5 @@ class DataManager:
                     self.error.append("ERROR: Invalid allocation in block " + item['Name'] + " in page " + item['PageName']\
                         + " in file " + item['Filename'])
 
-    def createpowersupplylist(self):
-        supplylist = []
-        supplylist.append(blocklist.defaultpowerlist)
-        for item in self.corrected_physical:
-            if item ['BlockType'] == 'BAT':
-                supplylist.append(item['Name'])
+    def mergedata(self):
+        pass
