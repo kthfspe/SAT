@@ -219,7 +219,7 @@ class DataManager:
                                 #print(item)
                                 #print(citem)
                                 for field in item:
-                                    if item[field] != citem[field] and (field not in blocklist.merge_field_ignorelist):
+                                    if item[field] != citem[field] and (field not in blocklist.mergefields_ignore):
                                         print(field)
                                         print(item[field])
                                         print(citem[field])
