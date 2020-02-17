@@ -216,10 +216,10 @@ class DataManager:
                         if item['Name'] == citem['Name'] and item['BlockType'] == citem['BlockType']:
                             ignorelist.append(i)
                             if item != citem:
-                                print(item)
-                                print(citem)
+                                #print(item)
+                                #print(citem)
                                 for field in item:
-                                    if item[field] != citem[field]:
+                                    if item[field] != citem[field] and (field not in blocklist.merge_field_ignorelist):
                                         print(field)
                                         print(item[field])
                                         print(citem[field])
