@@ -47,6 +47,9 @@ class DataManager:
         # Assumes all new parent values not in namelist as an enclosure
         self.createnclosurelist()
 
+        # Checks for floating signals
+        self.checkfloatingsignals()
+
         # Assigns empty parents to CHASSIS
         # Checks if parent name is valid
         # Checks if parent type is valid
@@ -197,16 +200,13 @@ class DataManager:
 
 
     def merge(self):
-        self.mergedata(self.corrected_physical, blocklist.physical_blocks)
-        self.mergedata(self.corrected_functional, blocklist.functional_blocks)
+        self.mergedata(self.corrected_physical) 
+        self.mergedata(self.corrected_functional)
 
 
-    def mergedata(self, data, blocklist):
+    def mergedata(self, data):
         # empty ignore list
         ignorelist = []
-        for item in data:
-            if item['BlockType'] not in blocklist:
-                ignorelist.append(data.index(item))
         for item in data:
             if data.index(item) not in ignorelist:
                 mergedinstances = 0
@@ -216,6 +216,8 @@ class DataManager:
                         if item['Name'] == citem['Name'] and item['BlockType'] == citem['BlockType']:
                             ignorelist.append(i)
                             if item != citem:
+                                print(item)
+                                print(citem)
                                 for field in item:
                                     if item[field] != citem[field]:
                                         print(field)
@@ -240,4 +242,7 @@ class DataManager:
 
         # remove all elements that are in index ignorelist
         # CHECK: Length of original data = length of final data + sum(merged instaces)
+        
+
+    def checkfloatingsignals(self):
         pass
