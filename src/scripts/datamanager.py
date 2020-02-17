@@ -65,7 +65,7 @@ class DataManager:
         self.checkallocationvalidity()
 
         self.error.append("Merging data instances..")
-        self.mergedata()
+        self.merge()
 
         return self.error
 
@@ -195,5 +195,49 @@ class DataManager:
                     self.error.append("ERROR: Invalid allocation in block " + item['Name'] + " in page " + item['PageName']\
                         + " in file " + item['Filename'])
 
-    def mergedata(self):
+
+    def merge(self):
+        self.mergedata(self.corrected_physical, blocklist.physical_blocks)
+        self.mergedata(self.corrected_functional, blocklist.functional_blocks)
+
+
+    def mergedata(self, data, blocklist):
+        # empty ignore list
+        ignorelist = []
+        for item in data:
+            if item['BlockType'] not in blocklist:
+                ignorelist.append(data.index(item))
+        for item in data:
+            if data.index(item) not in ignorelist:
+                mergedinstances = 0
+                for i in range(data.index(item)+1, len(data)):
+                    if data[i] not in ignorelist:
+                        citem = data[i]
+                        if item['Name'] == citem['Name'] and item['BlockType'] == citem['BlockType']:
+                            ignorelist.append(i)
+                            if item != citem:
+                                for field in item:
+                                    if item[field] != citem[field]:
+                                        print(field)
+                                        print(item[field])
+                                        print(citem[field])
+                                print("Merging item")
+                                mergedinstances+=1
+        print(ignorelist)
+                        
+        # for each item as focus object
+            # if index not in ignore list
+                # set mergedinstances to zero
+                # for all items after the focus object
+                    # if current item not in ignore list
+                        # if focus item and current item have same name and blocktype
+                            # add index of current item to ignore list
+                            # if focus item not equal to current item
+                                # merge all fields
+                                # add id of current item to focus item
+                                # increment mergedinstances
+                # add mergedinstances to focus item
+
+        # remove all elements that are in index ignorelist
+        # CHECK: Length of original data = length of final data + sum(merged instaces)
         pass
