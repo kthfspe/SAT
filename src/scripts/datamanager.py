@@ -18,6 +18,7 @@ class DataManager:
 
     def buildmodel(self, rf, rp):
         self.error = []
+        self.log = []
         self.corrected_functional = []
         self.corrected_physical = []
         self.raw_physical = rp
@@ -220,10 +221,17 @@ class DataManager:
                                 #print(citem)
                                 for field in item:
                                     if item[field] != citem[field] and (field not in blocklist.mergefields_ignore):
-                                        print(field)
-                                        print(item[field])
-                                        print(citem[field])
-                                print("Merging item")
+                                        if item[field] == "":
+                                            item[field] = citem[field]
+                                        elif citem[field] == "":
+                                            pass
+                                        else:
+                                            print(field,item[field])
+                                            print(field,citem[field])
+                                            self.error.append("ERROR: Merge conflict detected between (" + item["Name"]\
+                                                + ", Page: " + item['PageName'] + ", File: " + item['Filename'] + \
+                                                    ") and (" + citem["Name"]\
+                                                + ", Page: " + citem['PageName'] + ", File: " + citem['Filename'] + ")")
                                 mergedinstances+=1
         print(ignorelist)
                         
