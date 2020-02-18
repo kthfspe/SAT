@@ -12,13 +12,14 @@ class DataManager:
     function_list = set()
     error = []
     log = []
+    status = 0
 
     def __init__(self):
         pass
 
     def buildmodel(self, rf, rp):
         self.error = []
-        self.log = []
+        self.status = 0
         self.corrected_functional = []
         self.corrected_physical = []
         self.raw_physical = rp
@@ -71,7 +72,7 @@ class DataManager:
         self.error.append("Merging data instances..")
         self.merge()
 
-        return self.error
+        return self.error, self.status
 
         # Block wise checks
 
@@ -98,6 +99,7 @@ class DataManager:
             if item["BlockType"] not in blocklist.physical_blocktypes:
                 self.error.append("ERROR: Invalid Block in file " + item["Filename"] + " with BlockType " + item["BlockType"] + \
                    ", Name " + item['Name'] + " and ID " + item["id"]  )
+                self.status+=1
             else:
                 self.corrected_physical.append(item)
         # Functional Architecture - Block Validity Checking
@@ -105,6 +107,7 @@ class DataManager:
             if item["BlockType"] not in blocklist.functional_blocktypes:
                 self.error.append("ERROR: Invalid Block in file " + item["Filename"] + " with BlockType " + item["BlockType"] + \
                         ", Name " + item['Name'] + " and ID " + item["id"]  )
+                self.status+=1
             else:
                 self.corrected_functional.append(item)
 
@@ -116,6 +119,7 @@ class DataManager:
             if 'Name' not in item or item['Name']=='':
                 self.error.append("ERROR: No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
+                self.status+=1
                 faultf.append(self.corrected_functional[self.corrected_functional.index(item)])
         tempf = [item for item in self.corrected_functional if item not in faultf]
         self.corrected_functional = tempf
@@ -124,6 +128,7 @@ class DataManager:
             if ('Name' not in item) or (item['Name']==''):
                 self.error.append("ERROR    : No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
+                self.status+=1
                 faultp.append(self.corrected_physical[self.corrected_physical.index(item)])
         tempp = [item for item in self.corrected_physical if item not in faultp]
         self.corrected_physical = tempp
@@ -147,22 +152,26 @@ class DataManager:
                 if (item['Parent'] not in self.physical_nameset) and (item['Parent'] not in self.enclosure_list):
                     self.error.append("ERROR: Invalid parent in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
+                    self.status+=1
                 else:
                     for parentitem in self.corrected_physical:
                         if parentitem['Name'] == item['Parent']:
                             if parentitem['BlockType'] not in blocklist.physical_blocks:
                                 self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['Filename'] )
+                                self.status+=1
                                 break
                             elif (item['BlockType'] == "OTSC" or item['BlockType'] =="SENS" or item['BlockType'] =="ACT" or item['BlockType'] =="HMI"):
                                 if ((parentitem['BlockType'] != 'CHASSIS') or (parentitem['BlockType'] not in self.enclosure_list)):
                                     self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['Filename'] )
+                                    self.status+=1
                                     break
                             elif (item['BlockType'] == 'NCU' or item['BlockType'] == 'PCU') and ((item['Parent'] == 'CHASSIS') or (parentitem['Name'] not in self.enclosure_list)):
                                 print(item['Name'])
                                 self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['Filename'] )
+                                self.status+=1
                                 break
 
     
@@ -172,6 +181,7 @@ class DataManager:
             if item['Function'] == '':
                 self.error.append("ERROR: Function name missing in block " + item['Name'] + " in page " + item['PageName'] + \
                     " in file " + item["Filename"] )
+                self.status+=1
 
 
     def createnclosurelist(self):
@@ -195,9 +205,11 @@ class DataManager:
                 if item['Allocation'] == '':
                     self.error.append("ERROR: Allocation missing in block " + item['Name'] + " in page " + item['PageName']\
                         + " in file " + item['Filename'])
+                    self.status+=1
                 elif (item['Allocation'] not in self.physical_nameset): 
                     self.error.append("ERROR: Invalid allocation in block " + item['Name'] + " in page " + item['PageName']\
                         + " in file " + item['Filename'])
+                    self.status+=1
 
 
     def merge(self):
@@ -232,6 +244,7 @@ class DataManager:
                                                 + ", Page: " + item['PageName'] + ", File: " + item['Filename'] + \
                                                     ") and (" + citem["Name"]\
                                                 + ", Page: " + citem['PageName'] + ", File: " + citem['Filename'] + ")")
+                                            self.status+=1
                                 mergedinstances+=1
         print(ignorelist)
                         

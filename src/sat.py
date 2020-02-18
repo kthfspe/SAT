@@ -66,10 +66,14 @@ def buildmodel():
             raw_physical = raw_physical1 + raw_physical2 + raw_physical3      
 
         # Build data model using the raw data
-        error= dataman.buildmodel(raw_functional, raw_physical)
-        if error != []:
-            return render_template('error.html', loginstatus = loginstatus, error = error)
+        buildmodelerror, buildmodelstatus= dataman.buildmodel(raw_functional, raw_physical)
+        if  buildmodelstatus != 0:
+            return render_template('error.html', loginstatus = loginstatus, error = buildmodelerror)
+        elif error != []:
+            pass
+            # Menu with warning
         else:
+            # Menu without any warning
             return render_template('menu.html')
 
         # Save errors, warnings to log file
