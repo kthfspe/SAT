@@ -50,6 +50,7 @@ class DataManager:
         self.createnclosurelist()
 
         # Checks for floating signals
+        self.error.append("Checking for floating signals...")
         self.checkfloatingsignals()
 
         # Assigns empty parents to CHASSIS
@@ -168,7 +169,6 @@ class DataManager:
                                     self.status+=1
                                     break
                             elif (item['BlockType'] == 'NCU' or item['BlockType'] == 'PCU') and ((item['Parent'] == 'CHASSIS') or (parentitem['Name'] not in self.enclosure_list)):
-                                print(item['Name'])
                                 self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['Filename'] )
                                 self.status+=1
@@ -229,8 +229,6 @@ class DataManager:
                         if item['Name'] == citem['Name'] and item['BlockType'] == citem['BlockType']:
                             ignorelist.append(i)
                             if item != citem:
-                                #print(item)
-                                #print(citem)
                                 for field in item:
                                     if item[field] != citem[field] and (field not in blocklist.mergefields_ignore):
                                         if item[field] == "":
@@ -246,7 +244,6 @@ class DataManager:
                                                 + ", Page: " + citem['PageName'] + ", File: " + citem['Filename'] + ")")
                                             self.status+=1
                                 mergedinstances+=1
-        print(ignorelist)
                         
         # for each item as focus object
             # if index not in ignore list
@@ -266,4 +263,15 @@ class DataManager:
         
 
     def checkfloatingsignals(self):
-        pass
+        for item in self.corrected_functional:
+            if item["BlockType"] == blocklist.functional_signals:
+                if item["source"] == "" or item["target"] == "":
+                    print("Floating")
+                    self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
+                       item["Filename"]  )
+        for item in self.corrected_physical:
+            if item["BlockType"] == blocklist.physical_signals:
+                if item["source"] == "" or item["target"] == "":
+                    print("Floating")
+                    self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
+                       item["Filename"]  )
