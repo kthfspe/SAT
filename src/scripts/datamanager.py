@@ -257,7 +257,6 @@ class DataManager:
                                 # add id of current item to focus item
                                 # increment mergedinstances
                 # add mergedinstances to focus item
-
         # remove all elements that are in index ignorelist
         # CHECK: Length of original data = length of final data + sum(merged instaces)
         
