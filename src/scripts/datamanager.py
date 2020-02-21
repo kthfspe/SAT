@@ -230,6 +230,8 @@ class DataManager:
                             ignorelist.append(i)
                             if item != citem:
                                 for field in item:
+                                    #print(item)
+                                    #print(citem)
                                     if item[field] != citem[field] and (field not in blocklist.mergefields_ignore):
                                         if item[field] == "":
                                             item[field] = citem[field]
@@ -264,13 +266,13 @@ class DataManager:
     def checkfloatingsignals(self):
         for item in self.corrected_functional:
             if item["BlockType"] == blocklist.functional_signals:
-                if item["source"] == "" or item["target"] == "":
+                if item["source"] == "" or item["target"] == "" or "source" not in item or "target" not in item:
                     print("Floating")
                     self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
                        item["Filename"]  )
         for item in self.corrected_physical:
             if item["BlockType"] == blocklist.physical_signals:
-                if item["source"] == "" or item["target"] == "":
+                if item["source"] == "" or item["target"] == "" or "source" not in item or "target" not in item:
                     print("Floating")
                     self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
                        item["Filename"]  )
