@@ -48,7 +48,7 @@ class DataManager:
         # Create enclosure list
         # Assumes all new parent values not in namelist as an enclosure
         self.createnclosurelist()
-
+        print(self.enclosure_list)
         # Checks for floating signals
         self.error.append("Checking for floating signals...")
         self.checkfloatingsignals()
@@ -71,7 +71,7 @@ class DataManager:
         self.checkallocationvalidity()
 
         self.error.append("Merging data instances..")
-        self.merge()
+        #self.merge()
 
         return self.error, self.status
 
