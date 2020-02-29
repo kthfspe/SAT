@@ -39,11 +39,12 @@ class GitManager:
                 for item in child.iterfind('mxGraphModel/root/object'):
                     blockdata = item.attrib
                     blockmetadata = item[0].attrib
-                    blockmetadata['MetaParent'] = blockmetadata.pop('parent')
-                    del blockmetadata['style'] # Removes the style attribute as it is very cluttered when printing out and\
+                    if "parent" in blockmetadata:
+                        blockmetadata['MetaParent'] = blockmetadata.pop('parent')
+                        del blockmetadata['style'] # Removes the style attribute as it is very cluttered when printing out and\
                                                # information is not very readable either             
+                        blockdata.update(blockmetadata)
                     blockdata.update(pagedata)
-                    blockdata.update(blockmetadata)
                     self.XMLContent.append(blockdata)
 
         return self.XMLContent

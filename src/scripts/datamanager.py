@@ -71,7 +71,7 @@ class DataManager:
         self.checkallocationvalidity()
 
         self.error.append("Merging data instances..")
-        #self.merge()
+        self.merge()
 
         return self.error, self.status
 
@@ -230,21 +230,22 @@ class DataManager:
                             ignorelist.append(i)
                             if item != citem:
                                 for field in item:
-                                    #print(item)
-                                    #print(citem)
-                                    if item[field] != citem[field] and (field not in blocklist.mergefields_ignore):
-                                        if item[field] == "":
-                                            item[field] = citem[field]
-                                        elif citem[field] == "":
-                                            pass
-                                        else:
-                                            print(field,item[field])
-                                            print(field,citem[field])
-                                            self.error.append("ERROR: Merge conflict detected between (" + item["Name"]\
-                                                + ", Page: " + item['PageName'] + ", File: " + item['Filename'] + \
-                                                    ") and (" + citem["Name"]\
-                                                + ", Page: " + citem['PageName'] + ", File: " + citem['Filename'] + ")")
-                                            self.status+=1
+                                    print(item, field)
+                                    print(citem, field)
+                                    if field not in blocklist.mergefields_ignore:
+                                        if item[field] != citem[field]:
+                                            if item[field] == "":
+                                                item[field] = citem[field]
+                                            elif citem[field] == "":
+                                                pass
+                                            else:
+                                                print(field,item[field])
+                                                print(field,citem[field])
+                                                self.error.append("ERROR: Merge conflict detected between (" + item["Name"]\
+                                                    + ", Page: " + item['PageName'] + ", File: " + item['Filename'] + \
+                                                        ") and (" + citem["Name"]\
+                                                    + ", Page: " + citem['PageName'] + ", File: " + citem['Filename'] + ")")
+                                                self.status+=1
                                 mergedinstances+=1
                         
         # for each item as focus object
