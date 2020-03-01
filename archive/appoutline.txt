@@ -1,0 +1,8 @@
+Login Page
+    User enters github personal access token 
+    The token is used to authenticate and read the repository directly from the github remote repository
+    An error message shall be shown if the authentication fails
+    If authenticated correctly, the page should be directed to a build model page
+
+Build Model Page    
+    
