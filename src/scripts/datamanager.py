@@ -55,10 +55,11 @@ class DataManager:
         # Checks if parent type is valid
         self.error.append("Checking validity of Parent field...")
         self.checkparentvalidity()
+        
         # Create enclosure list
         # Assumes all new parent values not in namelist as an enclosure
         self.createnclosurelist()
-        print(self.enclosure_list)
+        
         # Check if function name is not empty
         self.error.append("Checking validity of Function field...")
         self.checkfunctionvalidity()
@@ -189,8 +190,6 @@ class DataManager:
         for item in self.corrected_physical:
             if item['BlockType'] in blocklist.physical_blocks:
                 if item['Parent'] not in self.physical_nameset:
-                    if item['Parent'] == '':
-                        print(item)
                     enclosurelist.append(item['Parent'])
         self.enclosure_list = set(enclosurelist)
 
