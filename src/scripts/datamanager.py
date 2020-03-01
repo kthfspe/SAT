@@ -45,10 +45,7 @@ class DataManager:
         self.createphysicalnameset()
 
 
-        # Create enclosure list
-        # Assumes all new parent values not in namelist as an enclosure
-        self.createnclosurelist()
-        print(self.enclosure_list)
+
         # Checks for floating signals
         self.error.append("Checking for floating signals...")
         self.checkfloatingsignals()
@@ -58,7 +55,10 @@ class DataManager:
         # Checks if parent type is valid
         self.error.append("Checking validity of Parent field...")
         self.checkparentvalidity()
-
+        # Create enclosure list
+        # Assumes all new parent values not in namelist as an enclosure
+        self.createnclosurelist()
+        print(self.enclosure_list)
         # Check if function name is not empty
         self.error.append("Checking validity of Function field...")
         self.checkfunctionvalidity()
@@ -148,7 +148,7 @@ class DataManager:
             if item['BlockType'] in blocklist.physical_blocks:
 
                 if item['Parent'] == '':
-                    item['Parent'] == 'CHASSIS'
+                    item['Parent'] = 'CHASSIS'
 
                 if (item['Parent'] not in self.physical_nameset) and (item['Parent'] not in self.enclosure_list):
                     self.error.append("ERROR: Invalid parent in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
@@ -189,6 +189,8 @@ class DataManager:
         for item in self.corrected_physical:
             if item['BlockType'] in blocklist.physical_blocks:
                 if item['Parent'] not in self.physical_nameset:
+                    if item['Parent'] == '':
+                        print(item)
                     enclosurelist.append(item['Parent'])
         self.enclosure_list = set(enclosurelist)
 
@@ -230,8 +232,6 @@ class DataManager:
                             ignorelist.append(i)
                             if item != citem:
                                 for field in item:
-                                    print(item, field)
-                                    print(citem, field)
                                     if field not in blocklist.mergefields_ignore:
                                         if item[field] != citem[field]:
                                             if item[field] == "":
@@ -239,8 +239,6 @@ class DataManager:
                                             elif citem[field] == "":
                                                 pass
                                             else:
-                                                print(field,item[field])
-                                                print(field,citem[field])
                                                 self.error.append("ERROR: Merge conflict detected between (" + item["Name"]\
                                                     + ", Page: " + item['PageName'] + ", File: " + item['Filename'] + \
                                                         ") and (" + citem["Name"]\
