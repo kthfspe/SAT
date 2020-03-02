@@ -5,4 +5,20 @@ Login Page
     If authenticated correctly, the page should be directed to a build model page
 
 Build Model Page    
-    
+    Choose Source
+        Remove ignored blocks
+        Check validity of crucial fields: 
+            Name
+            BlockType
+            Parent
+                Create enclosure list
+                Check parent validity
+            Function
+            Allocation
+        Check for floating signals
+        
+        Generate system spec
+            Export content BlockType wise to excel file 
+            
+        Generate wiring spec    
+        
