@@ -1,7 +1,6 @@
 import os
 from scripts import filepath, blocklist
 
-
 class DataManager:
     raw_physical = []
     raw_functional = []
@@ -13,6 +12,7 @@ class DataManager:
     error = []
     log = []
     status = 0
+    iddata = dict()
 
     def __init__(self):
         pass
@@ -39,28 +39,26 @@ class DataManager:
         # if 'Name' is missing
         self.error.append("Checking validity of Name field...")
         self.checknamevalidity()
-
-        # Create nameset
-        # Creates a set of all names of all blocks in physical architecture
-        self.createphysicalnameset()
-
-
-
+        
         # Checks for floating signals
         self.error.append("Checking for floating signals...")
         self.checkfloatingsignals()
-
+        
+        
+        # Create nameset
+        # Creates a set of all names of all blocks in physical architecture
+        self.createphysicalnameset()
+        # Create enclosure list
+        # Assumes all new parent values not in namelist as an enclosure
+        self.createnclosurelist()
+ 
         # Assigns empty parents to CHASSIS
         # Checks if parent name is valid
         # Checks if parent type is valid
         self.error.append("Checking validity of Parent field...")
         self.checkparentvalidity()
         
-        # Create enclosure list
-        # Assumes all new parent values not in namelist as an enclosure
-        self.createnclosurelist()
-        
-        # Check if function name is not empty
+       # Check if function name is not empty
         self.error.append("Checking validity of Function field...")
         self.checkfunctionvalidity()
 
@@ -71,9 +69,9 @@ class DataManager:
         self.error.append("Checking validity of Allocation field...")
         self.checkallocationvalidity()
 
-        self.error.append("Merging data instances..")
+        # self.error.append("Merging data instances..")
         self.merge()
-
+        self.createidlookup()
         return self.error, self.status
 
         # Block wise checks
@@ -217,34 +215,16 @@ class DataManager:
         self.mergedata(self.corrected_physical) 
         self.mergedata(self.corrected_functional)
 
-
     def mergedata(self, data):
-        # empty ignore list
-        ignorelist = []
-        for item in data:
-            if data.index(item) not in ignorelist:
-                mergedinstances = 0
-                for i in range(data.index(item)+1, len(data)):
-                    if data[i] not in ignorelist:
-                        citem = data[i]
-                        if item['Name'] == citem['Name'] and item['BlockType'] == citem['BlockType']:
-                            ignorelist.append(i)
-                            if item != citem:
-                                for field in item:
-                                    if field not in blocklist.mergefields_ignore:
-                                        if item[field] != citem[field]:
-                                            if item[field] == "":
-                                                item[field] = citem[field]
-                                            elif citem[field] == "":
-                                                pass
-                                            else:
-                                                self.error.append("ERROR: Merge conflict detected between (" + item["Name"]\
-                                                    + ", Page: " + item['PageName'] + ", File: " + item['Filename'] + \
-                                                        ") and (" + citem["Name"]\
-                                                    + ", Page: " + citem['PageName'] + ", File: " + citem['Filename'] + ")")
-                                                self.status+=1
-                                mergedinstances+=1
-                        
+        pass
+
+
+
+
+
+
+
+                       
         # for each item as focus object
             # if index not in ignore list
                 # set mergedinstances to zero
@@ -265,12 +245,27 @@ class DataManager:
         for item in self.corrected_functional:
             if item["BlockType"] == blocklist.functional_signals:
                 if item["source"] == "" or item["target"] == "" or "source" not in item or "target" not in item:
-                    print("Floating")
                     self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
                        item["Filename"]  )
+                    self.status+=1
         for item in self.corrected_physical:
             if item["BlockType"] == blocklist.physical_signals:
                 if item["source"] == "" or item["target"] == "" or "source" not in item or "target" not in item:
-                    print("Floating")
                     self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
                        item["Filename"]  )
+                    self.status+=1   
+
+    
+    def createidlookup(self):
+        idphysical = {k['id']:k for k in self.corrected_physical }
+        idfunctional = {k['id']:k for k in self.corrected_functional}
+        idphysical.update(idfunctional)
+        self.iddata = idphysical
+
+    def createidtree(self):
+        for item in self.corrected_physical:
+            self.addtree()
+        pass
+
+    def displayidtree(self):
+        pass

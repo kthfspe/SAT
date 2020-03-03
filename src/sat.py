@@ -69,8 +69,8 @@ def buildmodel():
         buildmodelerror, buildmodelstatus= dataman.buildmodel(raw_functional, raw_physical)
         if  buildmodelstatus != 0:
             return render_template('error.html', loginstatus = loginstatus, error = buildmodelerror)
-        elif error != []:
-            pass
+        elif buildmodelerror != []:
+            return render_template('menu.html', loginstatus = loginstatus)
             # Menu with warning
         else:
             # Menu without any warning

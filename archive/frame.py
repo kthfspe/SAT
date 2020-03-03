@@ -99,3 +99,30 @@ print(len(raw_fdb))
 print(len(merged_fdb))
 #print(errormessage)
 
+    def mergedata(self, data):
+        # empty ignore list
+        ignorelist = []
+        for item in data:
+            if data.index(item) not in ignorelist:
+                mergedinstances = 0
+                for i in range(data.index(item)+1, len(data)):
+                    if data[i] not in ignorelist:
+                        citem = data[i]
+                        if item['Name'] == citem['Name'] and item['BlockType'] == citem['BlockType']:
+                            ignorelist.append(i)
+                            if item != citem:
+                                for field in item:
+                                    if field not in blocklist.mergefields_ignore:
+                                        if item[field] != citem[field]:
+                                            if item[field] == "":
+                                                item[field] = citem[field]
+                                            elif citem[field] == "":
+                                                pass
+                                            else:
+                                                self.error.append("ERROR: Merge conflict detected between (" + item["Name"]\
+                                                    + ", Page: " + item['PageName'] + ", File: " + item['Filename'] + \
+                                                        ") and (" + citem["Name"]\
+                                                    + ", Page: " + citem['PageName'] + ", File: " + citem['Filename'] + ")")
+                                                self.status+=1
+                                mergedinstances+=1
+ 
