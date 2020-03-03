@@ -227,6 +227,9 @@ class DataManager:
     def mergedata(self, data):
         pass
 
+    def mergeblock(self, instances):
+        pass
+
 
 
     
