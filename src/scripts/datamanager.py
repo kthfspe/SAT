@@ -69,6 +69,9 @@ class DataManager:
         self.error.append("Checking validity of Allocation field...")
         self.checkallocationvalidity()
 
+        # Update connector names to include the name of the parent
+        self.updateconnectornames()
+
         # self.error.append("Merging data instances..")
         self.merge()
         self.createidlookup()
@@ -211,6 +214,12 @@ class DataManager:
                     self.status+=1
 
 
+    def updateconnectornames(self):
+        for item in self.corrected_physical:
+            if item['BlockType'] == "FCON" or item["BlockType"] == "MCON":
+                item["Name"] = item["Parent"] + "/" + item["Name"]
+                print(item["Name"])
+
     def merge(self):
         self.mergedata(self.corrected_physical) 
         self.mergedata(self.corrected_functional)
@@ -220,7 +229,7 @@ class DataManager:
 
 
 
-
+    
 
 
 
@@ -261,11 +270,3 @@ class DataManager:
         idfunctional = {k['id']:k for k in self.corrected_functional}
         idphysical.update(idfunctional)
         self.iddata = idphysical
-
-    def createidtree(self):
-        for item in self.corrected_physical:
-            self.addtree()
-        pass
-
-    def displayidtree(self):
-        pass
