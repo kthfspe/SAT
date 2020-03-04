@@ -218,14 +218,30 @@ class DataManager:
         for item in self.corrected_physical:
             if item['BlockType'] == "FCON" or item["BlockType"] == "MCON":
                 item["Name"] = item["Parent"] + "/" + item["Name"]
-                print(item["Name"])
 
     def merge(self):
-        self.mergedata(self.corrected_physical) 
-        self.mergedata(self.corrected_functional)
+        self.mergephysicaldata() 
+        #self.mergedata(self.corrected_functional)
 
-    def mergedata(self, data):
-        pass
+    def mergephysicaldata(self):
+        ignorelist = []
+        for item in self.corrected_physical:
+            if item['BlockType'] not in blocklist.physical_blocks:
+                ignorelist.append(item['id'])
+        for item in self.corrected_physical:
+            sublist = []
+            if item['id'] not in ignorelist:
+                ignorelist.append(item['id'])
+                sublist.append(item)
+                for i in range(self.corrected_physical.index(item)+1, len(self.corrected_physical)):
+                    citem = self.corrected_physical[i]
+                    if citem['id'] not in ignorelist:
+                        subitem = {k:item[k]  for k in ('Name','BlockType','Parent')}
+                        subcitem = {k:citem[k] for k in ('Name','BlockType','Parent')} 
+                        if subitem == subcitem:
+                            ignorelist.append(citem['id'])
+                            sublist.append(citem)
+            self.mergeblock(sublist)
 
     def mergeblock(self, instances):
         pass
