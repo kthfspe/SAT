@@ -73,7 +73,10 @@ class DataManager:
         self.updateconnectornames()
 
         # self.error.append("Merging data instances..")
-        self.merge()
+        
+        self.mergefunctionaldata()
+        self.mergephysicaldata()
+        
         self.createidlookup()
         return self.error, self.status
 
@@ -219,10 +222,6 @@ class DataManager:
             if item['BlockType'] == "FCON" or item["BlockType"] == "MCON":
                 item["Name"] = item["Parent"] + "/" + item["Name"]
 
-    def merge(self):
-        self.mergephysicaldata() 
-        #self.mergedata(self.corrected_functional)
-
     def mergephysicaldata(self):
         ignorelist = []
         for item in self.corrected_physical:
@@ -238,6 +237,26 @@ class DataManager:
                     if citem['id'] not in ignorelist:
                         subitem = {k:item[k]  for k in ('Name','BlockType','Parent')}
                         subcitem = {k:citem[k] for k in ('Name','BlockType','Parent')} 
+                        if subitem == subcitem:
+                            ignorelist.append(citem['id'])
+                            sublist.append(citem)
+            self.mergeblock(sublist)
+
+    def mergefunctionaldata(self):
+        ignorelist = []
+        for item in self.corrected_functional:
+            if item['BlockType'] not in blocklist.functional_blocks:
+                ignorelist.append(item['id'])
+        for item in self.corrected_functional:
+            sublist = []
+            if item['id'] not in ignorelist:
+                ignorelist.append(item['id'])
+                sublist.append(item)
+                for i in range(self.corrected_functional.index(item)+1, len(self.corrected_functional)):
+                    citem = self.corrected_functional[i]
+                    if citem['id'] not in ignorelist:
+                        subitem = {k:item[k]  for k in ('Name','BlockType','Function')}
+                        subcitem = {k:citem[k] for k in ('Name','BlockType','Function')} 
                         if subitem == subcitem:
                             ignorelist.append(citem['id'])
                             sublist.append(citem)
