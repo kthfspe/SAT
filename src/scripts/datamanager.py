@@ -301,7 +301,9 @@ class DataManager:
                         if item[field] != '' and merged_block[field] == '':
                             merged_block[field] = item[field]
                         elif item[field] != merged_block[field]:
-                            self.error.append("Merge conflict")
+                            self.error.append("MERGE CONFLICT: Block with Name " + item["Name"] + " in page/file: " + \
+                                item["PageName"] + "/" + item["Filename"] + " and " + merged_block["PageName"] + \
+                                    "/" + merged_block["Filename"] + " are conflicting over the field " + field)
                             self.actual_error_count += 1
                     if field in blocklist.mergefields_concat:
                         if item[field] != '' and merged_block[field] == '':
@@ -309,21 +311,6 @@ class DataManager:
                         elif item[field] != merged_block[field]:
                             merged_block[field] = merged_block[field] + ", " + item[field]
         return merged_block
-                       
-        # for each item as focus object
-            # if index not in ignore list
-                # set mergedinstances to zero
-                # for all items after the focus object
-                    # if current item not in ignore list
-                        # if focus item and current item have same name and blocktype
-                            # add index of current item to ignore list
-                            # if focus item not equal to current item
-                                # merge all fields
-                                # add id of current item to focus item
-                                # increment mergedinstances
-                # add mergedinstances to focus item
-        # remove all elements that are in index ignorelist
-        # CHECK: Length of original data = length of final data + sum(merged instaces)
         
 
     def checkfloatingsignals(self):
