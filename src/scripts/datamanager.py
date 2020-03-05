@@ -88,7 +88,10 @@ class DataManager:
 
 
         # Create look up table using global id
-        self.createidlookup()        
+        self.createidlookup()  
+
+        # Creates yaml file based on id data
+        self.createdatafile()      
 
         return self.error, self.actual_error_count
 
@@ -336,6 +339,8 @@ class DataManager:
         idfunctional = {k['global_id']:k for k in self.merged_functional}
         idphysical.update(idfunctional)
         self.iddata = idphysical
+
+    def createdatafile(self):
         if os.path.exists("file.yaml"):
             os.remove("file.yaml")
         with open('file.yaml', 'w') as file:
