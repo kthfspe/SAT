@@ -11,7 +11,7 @@ class DataManager:
     function_list = set()
     error = []
     log = []
-    status = 0
+    actual_error_count = 0
     iddata = dict()
 
     def __init__(self):
@@ -19,9 +19,11 @@ class DataManager:
 
     def buildmodel(self, rf, rp):
         self.error = []
-        self.status = 0
+        self.actual_error_count = 0
         self.corrected_functional = []
         self.corrected_physical = []
+        self.merged_functional = []
+        self.merged_physical = []
         self.raw_physical = rp
         self.raw_functional = rf
 
@@ -76,9 +78,12 @@ class DataManager:
         
         self.mergefunctionaldata()
         self.mergephysicaldata()
-        
         self.createidlookup()
-        return self.error, self.status
+
+        # Update parent id
+
+        # Update function id
+        return self.error, self.actual_error_count
 
         # Block wise checks
 
@@ -105,7 +110,7 @@ class DataManager:
             if item["BlockType"] not in blocklist.physical_blocktypes:
                 self.error.append("ERROR: Invalid Block in file " + item["Filename"] + " with BlockType " + item["BlockType"] + \
                    ", Name " + item['Name'] + " and ID " + item["id"]  )
-                self.status+=1
+                self.actual_error_count+=1
             else:
                 self.corrected_physical.append(item)
         # Functional Architecture - Block Validity Checking
@@ -113,7 +118,7 @@ class DataManager:
             if item["BlockType"] not in blocklist.functional_blocktypes:
                 self.error.append("ERROR: Invalid Block in file " + item["Filename"] + " with BlockType " + item["BlockType"] + \
                         ", Name " + item['Name'] + " and ID " + item["id"]  )
-                self.status+=1
+                self.actual_error_count+=1
             else:
                 self.corrected_functional.append(item)
 
@@ -125,7 +130,7 @@ class DataManager:
             if 'Name' not in item or item['Name']=='':
                 self.error.append("ERROR: No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
-                self.status+=1
+                self.actual_error_count+=1
                 faultf.append(self.corrected_functional[self.corrected_functional.index(item)])
         tempf = [item for item in self.corrected_functional if item not in faultf]
         self.corrected_functional = tempf
@@ -134,7 +139,7 @@ class DataManager:
             if ('Name' not in item) or (item['Name']==''):
                 self.error.append("ERROR    : No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
-                self.status+=1
+                self.actual_error_count+=1
                 faultp.append(self.corrected_physical[self.corrected_physical.index(item)])
         tempp = [item for item in self.corrected_physical if item not in faultp]
         self.corrected_physical = tempp
@@ -158,25 +163,25 @@ class DataManager:
                 if (item['Parent'] not in self.physical_nameset) and (item['Parent'] not in self.enclosure_list):
                     self.error.append("ERROR: Invalid parent in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                     + item['Filename'] )
-                    self.status+=1
+                    self.actual_error_count+=1
                 else:
                     for parentitem in self.corrected_physical:
                         if parentitem['Name'] == item['Parent']:
                             if parentitem['BlockType'] not in blocklist.physical_blocks:
                                 self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['Filename'] )
-                                self.status+=1
+                                self.actual_error_count+=1
                                 break
                             elif (item['BlockType'] == "OTSC" or item['BlockType'] =="SENS" or item['BlockType'] =="ACT" or item['BlockType'] =="HMI"):
                                 if ((parentitem['BlockType'] != 'CHASSIS') or (parentitem['BlockType'] not in self.enclosure_list)):
                                     self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['Filename'] )
-                                    self.status+=1
+                                    self.actual_error_count+=1
                                     break
                             elif (item['BlockType'] == 'NCU' or item['BlockType'] == 'PCU') and ((item['Parent'] == 'CHASSIS') or (parentitem['Name'] not in self.enclosure_list)):
                                 self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['Filename'] )
-                                self.status+=1
+                                self.actual_error_count+=1
                                 break
 
     
@@ -186,7 +191,7 @@ class DataManager:
             if item['Function'] == '':
                 self.error.append("ERROR: Function name missing in block " + item['Name'] + " in page " + item['PageName'] + \
                     " in file " + item["Filename"] )
-                self.status+=1
+                self.actual_error_count+=1
 
 
     def createnclosurelist(self):
@@ -210,11 +215,11 @@ class DataManager:
                 if item['Allocation'] == '':
                     self.error.append("ERROR: Allocation missing in block " + item['Name'] + " in page " + item['PageName']\
                         + " in file " + item['Filename'])
-                    self.status+=1
+                    self.actual_error_count+=1
                 elif (item['Allocation'] not in self.physical_nameset): 
                     self.error.append("ERROR: Invalid allocation in block " + item['Name'] + " in page " + item['PageName']\
                         + " in file " + item['Filename'])
-                    self.status+=1
+                    self.actual_error_count+=1
 
 
     def updateconnectornames(self):
@@ -224,9 +229,13 @@ class DataManager:
 
     def mergephysicaldata(self):
         ignorelist = []
+        globalidcounter = 1
         for item in self.corrected_physical:
             if item['BlockType'] not in blocklist.physical_blocks:
                 ignorelist.append(item['id'])
+                item["global_id"] = "P" + str(globalidcounter)
+                globalidcounter += 1
+                self.merged_physical.append(item)
         for item in self.corrected_physical:
             sublist = []
             if item['id'] not in ignorelist:
@@ -240,13 +249,25 @@ class DataManager:
                         if subitem == subcitem:
                             ignorelist.append(citem['id'])
                             sublist.append(citem)
-            self.mergeblock(sublist)
+                merged_block = self.mergeblock(sublist)
+                merged_block["global_id"] = "P" + str(globalidcounter)
+                globalidcounter += 1
+                self.merged_physical.append(merged_block)
+            else:
+                item["global_id"] = "P" + str(globalidcounter)
+                globalidcounter += 1
+                self.merged_physical.append(item)
+
 
     def mergefunctionaldata(self):
+        globalidcounter = 1
         ignorelist = []
         for item in self.corrected_functional:
             if item['BlockType'] not in blocklist.functional_blocks:
                 ignorelist.append(item['id'])
+                item["global_id"] = "F" + str(globalidcounter)
+                globalidcounter += 1
+                self.merged_functional.append(item)
         for item in self.corrected_functional:
             sublist = []
             if item['id'] not in ignorelist:
@@ -260,17 +281,34 @@ class DataManager:
                         if subitem == subcitem:
                             ignorelist.append(citem['id'])
                             sublist.append(citem)
-            self.mergeblock(sublist)
+                merged_block = self.mergeblock(sublist)
+                merged_block['global_id'] = "F" + str(globalidcounter)
+                globalidcounter+=1
+                self.merged_functional.append(merged_block)
+            else:
+                item["global_id"] = "F" + str(globalidcounter)
+                globalidcounter += 1
+                self.merged_functional.append(item)
 
     def mergeblock(self, instances):
-        pass
-
-
-
-    
-
-
-
+        merged_block = {}
+        for item in instances:
+            if len(merged_block) == 0:
+                merged_block = item
+            else:
+                for field in item:
+                    if field not in blocklist.mergefields_ignore:
+                        if item[field] != '' and merged_block[field] == '':
+                            merged_block[field] = item[field]
+                        elif item[field] != merged_block[field]:
+                            self.error.append("Merge conflict")
+                            self.actual_error_count += 1
+                    if field in blocklist.mergefields_concat:
+                        if item[field] != '' and merged_block[field] == '':
+                            merged_block[field] = item[field]
+                        elif item[field] != merged_block[field]:
+                            merged_block[field] = merged_block[field] + ", " + item[field]
+        return merged_block
                        
         # for each item as focus object
             # if index not in ignore list
@@ -294,13 +332,13 @@ class DataManager:
                 if item["source"] == "" or item["target"] == "" or "source" not in item or "target" not in item:
                     self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
                        item["Filename"]  )
-                    self.status+=1
+                    self.actual_error_count+=1
         for item in self.corrected_physical:
             if item["BlockType"] == blocklist.physical_signals:
                 if item["source"] == "" or item["target"] == "" or "source" not in item or "target" not in item:
                     self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
                        item["Filename"]  )
-                    self.status+=1   
+                    self.actual_error_count+=1   
 
     
     def createidlookup(self):
