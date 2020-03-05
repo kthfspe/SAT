@@ -341,7 +341,9 @@ class DataManager:
         self.iddata = idphysical
 
     def createdatafile(self):
-        if os.path.exists("file.yaml"):
-            os.remove("file.yaml")
-        with open('file.yaml', 'w') as file:
+        print(len(self.iddata))
+        print(len(self.corrected_functional) + len(self.corrected_physical))
+        if os.path.exists("db.yaml"):
+            os.remove("db.yaml")
+        with open('db.yaml', 'w') as file:
             documents = yaml.dump(self.iddata, file)
