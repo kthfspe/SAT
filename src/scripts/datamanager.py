@@ -74,20 +74,22 @@ class DataManager:
         # Update connector names to include the name of the parent
         self.updateconnectornames()
 
-        # self.error.append("Merging data instances..")
-        
+        # Merging redundant data instances
+        self.error.append("Merging data instances..")
         self.mergefunctionaldata()
         self.mergephysicaldata()
+
+        # Create look up table using global id
         self.createidlookup()
 
         # Update parent id
 
         # Update function id
-        return self.error, self.actual_error_count
 
         # Block wise checks
 
 
+        return self.error, self.actual_error_count
 
     def removeignoredblocks(self):  
         # Remove blocks to be ignored
@@ -329,7 +331,7 @@ class DataManager:
 
     
     def createidlookup(self):
-        idphysical = {k['id']:k for k in self.corrected_physical }
-        idfunctional = {k['id']:k for k in self.corrected_functional}
+        idphysical = {k['global_id']:k for k in self.merged_physical }
+        idfunctional = {k['global_id']:k for k in self.merged_functional}
         idphysical.update(idfunctional)
         self.iddata = idphysical
