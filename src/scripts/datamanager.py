@@ -78,7 +78,7 @@ class DataManager:
         # Merging redundant data instances
         self.error.append("Merging data instances..")
         self.mergefunctionaldata()
-        self.mergephysicaldata()
+        # self.mergephysicaldata()
 
         # Update parent id with global_id
 
@@ -256,11 +256,11 @@ class DataManager:
                             ignorelist.append(citem['id'])
                             sublist.append(citem)
                 merged_block = self.mergeblock(sublist)
-                merged_block["global_id"] = "P" + str(globalidcounter)
+                merged_block['global_id'] = "P" + str(globalidcounter)
                 globalidcounter += 1
                 self.merged_physical.append(merged_block)
             else:
-                item["global_id"] = "P" + str(globalidcounter)
+                item['global_id'] = "P" + str(globalidcounter)
                 globalidcounter += 1
                 self.merged_physical.append(item)
 
@@ -269,9 +269,10 @@ class DataManager:
         globalidcounter = 1
         ignorelist = []
         for item in self.corrected_functional:
+            print(item['Name'])
             if item['BlockType'] not in blocklist.functional_blocks:
                 ignorelist.append(item['id'])
-                item["global_id"] = "F" + str(globalidcounter)
+                item['global_id'] = "F" + str(globalidcounter)
                 globalidcounter += 1
                 self.merged_functional.append(item)
         for item in self.corrected_functional:
@@ -287,17 +288,20 @@ class DataManager:
                         if subitem == subcitem:
                             ignorelist.append(citem['id'])
                             sublist.append(citem)
-                merged_block = self.mergeblock(sublist)
-                merged_block['global_id'] = "F" + str(globalidcounter)
-                globalidcounter+=1
-                self.merged_functional.append(merged_block)
+                if len(sublist)>1:
+                    merged_block = self.mergeblock(sublist)
+                    merged_block['global_id'] = "F" + str(globalidcounter)
+                    globalidcounter+=1
+                    print(merged_block)
+                    self.merged_functional.append(merged_block)
             else:
-                item["global_id"] = "F" + str(globalidcounter)
+                item['global_id'] = "F" + str(globalidcounter)
                 globalidcounter += 1
                 self.merged_functional.append(item)
 
     def mergeblock(self, instances):
         merged_block = {}
+        print(instances)
         for item in instances:
             if len(merged_block) == 0:
                 merged_block = item
@@ -316,6 +320,7 @@ class DataManager:
                             merged_block[field] = item[field]
                         elif item[field] != merged_block[field]:
                             merged_block[field] = merged_block[field] + ", " + item[field]
+        print(merged_block)
         return merged_block
         
 
@@ -341,8 +346,10 @@ class DataManager:
         self.iddata = idphysical
 
     def createdatafile(self):
-        print(len(self.iddata))
-        print(len(self.corrected_functional) + len(self.corrected_physical))
+        print(len(self.merged_functional))
+        for item in self.merged_functional:
+            print(item['Name'])
+        print(len(self.corrected_functional))
         if os.path.exists("db.yaml"):
             os.remove("db.yaml")
         with open('db.yaml', 'w') as file:
