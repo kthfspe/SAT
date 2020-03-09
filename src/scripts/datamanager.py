@@ -232,6 +232,37 @@ class DataManager:
         for item in self.corrected_physical:
             if item['BlockType'] == "FCON" or item["BlockType"] == "MCON":
                 item["Name"] = item["Parent"] + "/" + item["Name"]
+    
+
+    def checkfloatingsignals(self):
+        for item in self.corrected_functional:
+            if item["BlockType"] == blocklist.functional_signals:
+                if item["source"] == "" or item["target"] == "" or "source" not in item or "target" not in item:
+                    self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
+                       item["FileName"]  )
+                    self.actual_error_count+=1
+        for item in self.corrected_physical:
+            if item["BlockType"] == blocklist.physical_signals:
+                if item["source"] == "" or item["target"] == "" or "source" not in item or "target" not in item:
+                    self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
+                       item["FileName"]  )
+                    self.actual_error_count+=1   
+
+    
+    def createidlookup(self):
+        idphysical = {k['global_id']:k for k in self.merged_physical }
+        idfunctional = {k['global_id']:k for k in self.merged_functional}
+        idphysical.update(idfunctional)
+        self.iddata = idphysical
+
+    def createdatafile(self):
+        print(len(self.iddata))
+        print(len(self.corrected_functional))
+        if os.path.exists("db.yaml"):
+            os.remove("db.yaml")
+        with open('db.yaml', 'w') as file:
+            documents = yaml.dump(self.iddata, file)
+
 
     def mergephysicaldata(self):
         ignorelist = []
@@ -322,35 +353,4 @@ class DataManager:
                             merged_block[field] = merged_block[field] + ", " + item[field]
         print(merged_block)
         return merged_block
-        
-
-    def checkfloatingsignals(self):
-        for item in self.corrected_functional:
-            if item["BlockType"] == blocklist.functional_signals:
-                if item["source"] == "" or item["target"] == "" or "source" not in item or "target" not in item:
-                    self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
-                       item["FileName"]  )
-                    self.actual_error_count+=1
-        for item in self.corrected_physical:
-            if item["BlockType"] == blocklist.physical_signals:
-                if item["source"] == "" or item["target"] == "" or "source" not in item or "target" not in item:
-                    self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
-                       item["FileName"]  )
-                    self.actual_error_count+=1   
-
     
-    def createidlookup(self):
-        idphysical = {k['global_id']:k for k in self.merged_physical }
-        idfunctional = {k['global_id']:k for k in self.merged_functional}
-        idphysical.update(idfunctional)
-        self.iddata = idphysical
-
-    def createdatafile(self):
-        print(len(self.merged_functional))
-        for item in self.merged_functional:
-            print(item['Name'])
-        print(len(self.corrected_functional))
-        if os.path.exists("db.yaml"):
-            os.remove("db.yaml")
-        with open('db.yaml', 'w') as file:
-            documents = yaml.dump(self.iddata, file)
