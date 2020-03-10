@@ -262,6 +262,26 @@ class DataManager:
             os.remove("db.yaml")
         with open('db.yaml', 'w') as file:
             documents = yaml.dump(self.iddata, file)
+        sub = self.sublist({'BlockType':'FS'}, self.corrected_functional)
+        self.mergeblock2(sub)
+
+    def sublist(self, match, data):
+        sub = []
+        for item in data:
+            res = all(item.get(key, None) == val for key, val in match.items()) 
+            if res:
+                sub.append(item)
+        return sub
+
+    def mergeblock2(self, data):
+        baseitem = data[0]
+        data.pop(0)
+        for field in data[0].keys():
+            for item in data:
+                if baseitem[field] == '' and item[field] != '':
+                    baseitem[field] = item[field]
+        
+                
 
 
     def mergephysicaldata(self):
@@ -300,7 +320,7 @@ class DataManager:
         globalidcounter = 1
         ignorelist = []
         for item in self.corrected_functional:
-            print(item['Name'])
+            #print(item['Name'])
             if item['BlockType'] not in blocklist.functional_blocks:
                 ignorelist.append(item['id'])
                 item['global_id'] = "F" + str(globalidcounter)
@@ -323,7 +343,7 @@ class DataManager:
                     merged_block = self.mergeblock(sublist)
                     merged_block['global_id'] = "F" + str(globalidcounter)
                     globalidcounter+=1
-                    print(merged_block)
+                    #print(merged_block)
                     self.merged_functional.append(merged_block)
             else:
                 item['global_id'] = "F" + str(globalidcounter)
@@ -332,7 +352,7 @@ class DataManager:
 
     def mergeblock(self, instances):
         merged_block = {}
-        print(instances)
+        #print(instances)
         for item in instances:
             if len(merged_block) == 0:
                 merged_block = item
@@ -351,6 +371,6 @@ class DataManager:
                             merged_block[field] = item[field]
                         elif item[field] != merged_block[field]:
                             merged_block[field] = merged_block[field] + ", " + item[field]
-        print(merged_block)
+        #print(merged_block)
         return merged_block
     
