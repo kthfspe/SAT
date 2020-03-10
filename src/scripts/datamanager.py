@@ -79,7 +79,8 @@ class DataManager:
         self.error.append("Merging data instances..")
         # self.mergefunctionaldata()
         # self.mergephysicaldata()
-        
+        print(self.corrected_functional) 
+        print(len(self.corrected_functional))
 
         # Update parent id with global_id
 
