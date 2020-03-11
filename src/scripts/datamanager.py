@@ -293,7 +293,6 @@ class DataManager:
                 item['target'] = self.iddata[item['target']]['Name']
         for item in self.corrected_physical:
             if item['BlockType'] in blocklist.physical_signals:
-                print(item)
                 item['source'] = self.iddata[item['source']]['Name']
                 item['target'] = self.iddata[item['target']]['Name']
 
