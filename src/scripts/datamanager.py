@@ -46,7 +46,8 @@ class DataManager:
         # Checks for floating signals
         self.error.append("Checking for floating signals...")
         self.checkfloatingsignals()
-        
+        #if self.actual_error_count>0:
+        #    return self.error, self.actual_error_count 
         
         # Create nameset
         # Creates a set of all names of all blocks in physical architecture
@@ -75,13 +76,20 @@ class DataManager:
         # Update connector names to include the name of the parent
         self.updateconnectornames()
 
+        self.createidlookup()
+
+        # Replaces id in sources and targets of all signals to names of the block
+        self.replacesourcetargetid()
+
         # Merging redundant data instances
         self.error.append("Merging data instances..")
-        # self.mergefunctionaldata()
-        # self.mergephysicaldata()
-        print(self.corrected_functional) 
+        print(len(self.corrected_functional))
+        self.mergefunctionaldata() 
         print(len(self.corrected_functional))
 
+        print(len(self.corrected_physical))
+        self.mergephysicaldata()
+        print(len(self.corrected_physical))
         # Update parent id with global_id
 
         # Update function id with global_id
@@ -90,7 +98,7 @@ class DataManager:
 
 
         # Create look up table using global id
-        self.createidlookup()  
+        self.createglobalidlookup()  
 
         # Creates yaml file based on id data
         self.createdatafile()      
@@ -121,6 +129,7 @@ class DataManager:
                 self.actual_error_count+=1
             else:
                 self.corrected_physical.append(item)
+
         # Functional Architecture - Block Validity Checking
         for item in self.raw_functional:
             if item["BlockType"] not in blocklist.functional_blocktypes:
@@ -238,25 +247,37 @@ class DataManager:
 
     def checkfloatingsignals(self):
         for item in self.corrected_functional:
-            if item["BlockType"] == blocklist.functional_signals:
-                if item["source"] == "" or item["target"] == "" or "source" not in item or "target" not in item:
+            if item["BlockType"] in blocklist.functional_signals:
+                if ('source' not in item) or ('target' not in item):
                     self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
                        item["FileName"]  )
                     self.actual_error_count+=1
+                elif (item['source'] == '') or (item['target'] == ''):
+                    self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
+                       item["FileName"]  )
+                    self.actual_error_count+=1
+
         for item in self.corrected_physical:
-            if item["BlockType"] == blocklist.physical_signals:
-                if item["source"] == "" or item["target"] == "" or "source" not in item or "target" not in item:
+            if item["BlockType"] in blocklist.physical_signals:
+                if ('source' not in item) or ('target' not in item):
                     self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
                        item["FileName"]  )
                     self.actual_error_count+=1   
+                elif (item['source'] == '') or (item['target'] == ''):
+                    self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
+                       item["FileName"]  )
+                    self.actual_error_count+=1
 
     
     def createidlookup(self):
-        idphysical = {k['global_id']:k for k in self.merged_physical }
-        idfunctional = {k['global_id']:k for k in self.merged_functional}
+        idphysical = {k['id']:k for k in self.corrected_physical }
+        idfunctional = {k['id']:k for k in self.corrected_functional}
         idphysical.update(idfunctional)
         self.iddata = idphysical
 
+    def createglobalidlookup(self):
+        pass
+    
     def createdatafile(self):
         #print(len(self.iddata))
         #print(len(self.corrected_functional))
@@ -265,4 +286,91 @@ class DataManager:
         with open('db.yaml', 'w') as file:
             documents = yaml.dump(self.iddata, file)
 
-   
+    def replacesourcetargetid(self):
+        for item in self.corrected_functional:
+            if item['BlockType'] in blocklist.functional_signals:
+                item['source'] = self.iddata[item['source']]['Name']
+                item['target'] = self.iddata[item['target']]['Name']
+        for item in self.corrected_physical:
+            if item['BlockType'] in blocklist.physical_signals:
+                print(item)
+                item['source'] = self.iddata[item['source']]['Name']
+                item['target'] = self.iddata[item['target']]['Name']
+
+
+    def mergefunctionaldata(self):
+        length = len(self.corrected_functional)
+        i = 0
+        while i < length:
+            j = i + 1
+            while j < length:
+                if self.corrected_functional[i]['Name'] == self.corrected_functional[j]['Name']:
+                    if self.corrected_functional[i]['BlockType'] == self.corrected_functional[j]['BlockType']:
+                        for field in self.corrected_functional[i]:
+                            if self.corrected_functional[i][field] == '' and self.corrected_functional[j][field] != '':
+                                self.corrected_functional[i][field] = self.corrected_functional[j][field]
+                            if field in blocklist.mergefields_concat:
+                                self.corrected_functional[i][field] = self.corrected_functional[i][field] + ", " +\
+                                    self.corrected_functional[j][field]
+                            if self.corrected_functional[i][field] != '' and self.corrected_functional[j][field] != '':
+                                if self.corrected_functional[i][field] != self.corrected_functional[j][field]:
+                                    if field not in blocklist.mergefields_ignore:
+                                        self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_functional[i]["Name"]\
+                                                    + ", Page: " + self.corrected_functional[i]['PageName'] + ", File: " + self.corrected_functional[i]['FileName'] + \
+                                                        ") and (" + self.corrected_functional[j]["Name"]\
+                                                    + ", Page: " + self.corrected_functional[j]['PageName'] + ", File: " + self.corrected_functional[j]['FileName'] + ")")
+                                        self.actual_error_count+=1
+
+                        del self.corrected_functional[j]
+                        length -= 1
+                else:
+                    j += 1
+            i += 1
+
+    def mergephysicaldata(self):
+        length = len(self.corrected_physical)
+        i = 0
+        while i < length:
+            j = i + 1
+            while j < length:
+                if self.corrected_physical[i]['Name'] == self.corrected_physical[j]['Name']:
+                    if self.corrected_physical[i]['BlockType'] == self.corrected_physical[j]['BlockType']:
+                        if self.corrected_physical[i]['BlockType'] in blocklist.physical_blocks:
+                            if self.corrected_physical[i]['Parent'] == self.corrected_physical[j]['Parent']:
+                                for field in self.corrected_physical[i]:
+                                    if self.corrected_physical[i][field] == '' and self.corrected_physical[j][field] != '':
+                                        self.corrected_physical[i][field] = self.corrected_physical[j][field]
+                                    if field in blocklist.mergefields_concat:
+                                        self.corrected_physical[i][field] = self.corrected_physical[i][field] + ", " +\
+                                            self.corrected_physical[j][field]
+                                    if self.corrected_physical[i][field] != '' and self.corrected_physical[j][field] != '':
+                                        if self.corrected_physical[i][field] != self.corrected_physical[j][field]:
+                                            if field not in blocklist.mergefields_ignore:
+                                                self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_physical[i]["Name"]\
+                                                            + ", Page: " + self.corrected_physical[i]['PageName'] + ", File: " + self.corrected_physical[i]['FileName'] + \
+                                                                ") and (" + self.corrected_physical[j]["Name"]\
+                                                            + ", Page: " + self.corrected_physical[j]['PageName'] + ", File: " + self.corrected_physical[j]['FileName'] + ")")
+                                                self.actual_error_count+=1
+                        else:
+                            for field in self.corrected_physical[i]:
+                                if self.corrected_physical[i][field] == '' and self.corrected_physical[j][field] != '':
+                                    self.corrected_physical[i][field] = self.corrected_physical[j][field]
+                                if field in blocklist.mergefields_concat:
+                                    self.corrected_physical[i][field] = self.corrected_physical[i][field] + ", " +\
+                                        self.corrected_physical[j][field]
+                                if self.corrected_physical[i][field] != '' and self.corrected_physical[j][field] != '':
+                                    if self.corrected_physical[i][field] != self.corrected_physical[j][field]:
+                                        if field not in blocklist.mergefields_ignore:
+                                            print(self.corrected_physical[i]['source'],self.corrected_physical[j]['source'])
+                                            self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_physical[i]["Name"]\
+                                                        + ", Page: " + self.corrected_physical[i]['PageName'] + ", File: " + self.corrected_physical[i]['FileName'] + \
+                                                            ") and (" + self.corrected_physical[j]["Name"]\
+                                                        + ", Page: " + self.corrected_physical[j]['PageName'] + ", File: " + self.corrected_physical[j]['FileName'] + ")")
+                                            self.actual_error_count+=1                           
+                        del self.corrected_physical[j]
+                        length -= 1
+                else:
+                    j += 1
+            i += 1
+
+           

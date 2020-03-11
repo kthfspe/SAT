@@ -13,5 +13,5 @@ defaultpowerlist = ["+24V", "+5V"]
 
 mergefields_ignore = ["id", "Filename", "PageName", "PageId", "MetaParent", "Allocation", \
     "x", "y", "label", "placeholders", "edge", "MetaParent", "width", "relative", "as", "source_x", "source_y",\
-       "target_x", "target_y" ]
+       "target_x", "target_y", "Function", "target" ]
 mergefields_concat = ["id", "Function", "target"]
