@@ -360,7 +360,6 @@ class DataManager:
                                 if self.corrected_physical[i][field] != '' and self.corrected_physical[j][field] != '':
                                     if self.corrected_physical[i][field] != self.corrected_physical[j][field]:
                                         if field not in blocklist.mergefields_ignore:
-                                            print(self.corrected_physical[i]['source'],self.corrected_physical[j]['source'])
                                             self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_physical[i]["Name"]\
                                                         + ", Page: " + self.corrected_physical[i]['PageName'] + ", File: " + self.corrected_physical[i]['FileName'] + \
                                                             ") and (" + self.corrected_physical[j]["Name"]\
