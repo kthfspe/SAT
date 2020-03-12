@@ -14,6 +14,8 @@ class DataManager:
     log = []
     actual_error_count = 0
     iddata = dict()
+    globaliddata = dict()
+    namedata = dict()
 
     def __init__(self):
         pass
@@ -91,15 +93,15 @@ class DataManager:
         self.mergephysicaldata()
         print(len(self.corrected_physical))
         # Update parent id with global_id
-
+        
         # Update function id with global_id
 
         # Block wise checks
 
 
         # Create look up table using global id
-        self.createglobalidlookup()  
 
+        self.createnamelookup()
         # Creates yaml file based on id data
         self.createdatafile()      
 
@@ -275,16 +277,43 @@ class DataManager:
         idphysical.update(idfunctional)
         self.iddata = idphysical
 
+    def createnamelookup(self):
+        idphysical = {k['Name']:k for k in self.corrected_physical }
+        idfunctional = {k['Name']:k for k in self.corrected_functional}
+        idphysical.update(idfunctional)
+        self.namedata = idphysical
+
     def createglobalidlookup(self):
-        pass
+        counter = 1
+        prefix = "F"
+        for item in self.corrected_functional:
+            item['global_id'] = prefix + str(counter)
+            counter += 1
+        counter = 1
+        prefix = "P"
+        for item in self.corrected_physical:
+            item['global_id'] = prefix + str(counter)
+            counter += 1
+
+        idphysical = {k['global_id']:k for k in self.corrected_physical }
+        idfunctional = {k['global_id']:k for k in self.corrected_functional}
+        idphysical.update(idfunctional)
+        self.globaliddata = idphysical
+
     
     def createdatafile(self):
         #print(len(self.iddata))
         #print(len(self.corrected_functional))
-        if os.path.exists("db.yaml"):
-            os.remove("db.yaml")
-        with open('db.yaml', 'w') as file:
-            documents = yaml.dump(self.iddata, file)
+        self.createfile("iddata.yaml",self.iddata)
+        self.createfile("namedata.yaml", self.namedata)
+           
+    def createfile(self, filename, data):
+        if os.path.exists(filename):
+            os.remove(filename)
+        with open(filename, 'w') as file:
+            documents = yaml.dump(data, file)
+
+
 
     def replacesourcetargetid(self):
         for item in self.corrected_functional:
@@ -313,7 +342,7 @@ class DataManager:
                                     self.corrected_functional[j][field]
                             if self.corrected_functional[i][field] != '' and self.corrected_functional[j][field] != '':
                                 if self.corrected_functional[i][field] != self.corrected_functional[j][field]:
-                                    if field not in blocklist.mergefields_ignore:
+                                    if field not in blocklist.mergefields_ignore_functional:
                                         self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_functional[i]["Name"]\
                                                     + ", Page: " + self.corrected_functional[i]['PageName'] + ", File: " + self.corrected_functional[i]['FileName'] + \
                                                         ") and (" + self.corrected_functional[j]["Name"]\
@@ -344,7 +373,7 @@ class DataManager:
                                             self.corrected_physical[j][field]
                                     if self.corrected_physical[i][field] != '' and self.corrected_physical[j][field] != '':
                                         if self.corrected_physical[i][field] != self.corrected_physical[j][field]:
-                                            if field not in blocklist.mergefields_ignore:
+                                            if field not in blocklist.mergefields_ignore_physical:
                                                 self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_physical[i]["Name"]\
                                                             + ", Page: " + self.corrected_physical[i]['PageName'] + ", File: " + self.corrected_physical[i]['FileName'] + \
                                                                 ") and (" + self.corrected_physical[j]["Name"]\
@@ -359,7 +388,7 @@ class DataManager:
                                         self.corrected_physical[j][field]
                                 if self.corrected_physical[i][field] != '' and self.corrected_physical[j][field] != '':
                                     if self.corrected_physical[i][field] != self.corrected_physical[j][field]:
-                                        if field not in blocklist.mergefields_ignore:
+                                        if field not in blocklist.mergefields_ignore_physical:
                                             self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_physical[i]["Name"]\
                                                         + ", Page: " + self.corrected_physical[i]['PageName'] + ", File: " + self.corrected_physical[i]['FileName'] + \
                                                             ") and (" + self.corrected_physical[j]["Name"]\
@@ -371,4 +400,4 @@ class DataManager:
                     j += 1
             i += 1
 
-           
+    

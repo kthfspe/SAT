@@ -11,8 +11,10 @@ functional_blocktypes = functional_blocks + functional_signals
 
 defaultpowerlist = ["+24V", "+5V"]
 
-mergefields_ignore_physical = ["id", "Filename", "PageName", "PageId", "MetaParent", "Allocation", \
+mergefields_ignore_physical = ["id", "Filename", "PageName", "PageId", "MetaParent",  \
     "x", "y", "label", "placeholders", "edge", "MetaParent", "width", "relative", "as", "source_x", "source_y",\
-       "target_x", "target_y", "Function", "target", "source" ]
-mergefields_ignore_functional = []
+       "target_x", "target_y", "target", "source" ]
+mergefields_ignore_functional = ["id", "Filename", "PageName", "PageId", "MetaParent", "Allocation", \
+    "x", "y", "label", "placeholders", "edge", "MetaParent", "width", "relative", "as", "source_x", "source_y",\
+       "target_x", "target_y", "Function", "target" ]
 mergefields_concat = ["id", "Function", "target"]
