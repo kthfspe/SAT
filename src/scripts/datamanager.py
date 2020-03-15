@@ -10,6 +10,8 @@ class DataManager:
     physical_nameset = set()
     enclosure_list = set()
     function_list = set()
+    power_set = set()
+    gnd_set = set()
     error = []
     log = []
     actual_error_count = 0
@@ -25,8 +27,6 @@ class DataManager:
         self.actual_error_count = 0
         self.corrected_functional = []
         self.corrected_physical = []
-        self.merged_functional = []
-        self.merged_physical = []
         self.raw_physical = rp
         self.raw_functional = rf
 
@@ -102,6 +102,9 @@ class DataManager:
         # Create look up table using global id
 
         self.createnamelookup()
+
+        self.powersupplylookup()
+
         # Creates yaml file based on id data
         self.createdatafile()      
 
@@ -282,6 +285,19 @@ class DataManager:
         idfunctional = {k['Name']:k for k in self.corrected_functional}
         idphysical.update(idfunctional)
         self.namedata = idphysical
+
+    def powersupplylookup(self):
+        powerlist = []
+        gndlist = []
+        for item in self.corrected_physical:
+            if "Supply" in item:
+                powerlist.append(item['Supply'])
+            if "GND" in item:
+                gndlist.append(item['GND'])
+
+        self.power_set = set(powerlist)
+        self.gnd_set = set(gndlist)
+
 
     def createglobalidlookup(self):
         counter = 1
