@@ -320,9 +320,9 @@ class DataManager:
         data["enclosure"] = self.enclosure_list
         data["power"] = self.power_set
 
-        if os.path.exists(satconfig.dbyamlfilename):
-            os.remove(satconfig.dbyamlfilename)
-        with open(satconfig.dbyamlfilename, 'w') as file:
+        if os.path.exists(filepath.dbyamlfilename):
+            os.remove(filepath.dbyamlfilename)
+        with open(filepath.dbyamlfilename, 'w') as file:
             documents = yaml.dump(data, file)
         
 

@@ -9,9 +9,4 @@ gitaccount = "kthfspe"
 gitrepo = "SA"
 gitpath = gitaccount + "/" + gitrepo
 
-dbyamlfilename = "db.yaml"
 
-# File path related
-
-
-# Blocklist related

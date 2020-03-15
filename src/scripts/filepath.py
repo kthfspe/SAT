@@ -29,4 +29,5 @@ localDVfun = "DV_architecture/DV_functional_architecture.drawio"
 
 db_path = os.getcwd() + "/db"
 source_path = os.getcwd()
+dbyamlfilename = "db/db.yaml"
 
