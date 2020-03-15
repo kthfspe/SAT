@@ -8,17 +8,20 @@
   Name: ReferenceSpeed
   PageId: 8sgjmSKyMTZagiL7FRI8
   PageName: Propulsion
+  SourceName: ReferenceSpeedEstimator
+  TargetName: MotorSpeedController
   Type: Information
   as: geometry
   edge: '1'
+  global_id: F10
   id: 80SNZC44-fTR_zHfF6Bs-0
   label: '<b>%Name% : %BlockType%</b>'
   placeholders: '1'
   relative: '1'
-  source: ReferenceSpeedEstimator
+  source: dh2uA4eiaawt6UCHKnqp-2
   source_x: '80'
   source_y: '310'
-  target: MotorSpeedController
+  target: dh2uA4eiaawt6UCHKnqp-0
   target_x: '310'
   target_y: '310'
   width: '160'
@@ -32,17 +35,20 @@
   Name: MotorPowerUVW
   PageId: 8sgjmSKyMTZagiL7FRI8
   PageName: Propulsion
+  SourceName: MotorSpeedController
+  TargetName: ElectricMotor
   Type: Energy
   as: geometry
   edge: '1'
+  global_id: F11
   id: 80SNZC44-fTR_zHfF6Bs-1
   label: '<b>%Name% : %BlockType%</b>'
   placeholders: '1'
   relative: '1'
-  source: MotorSpeedController
+  source: dh2uA4eiaawt6UCHKnqp-0
   source_x: '80'
   source_y: '310'
-  target: ElectricMotor
+  target: dh2uA4eiaawt6UCHKnqp-3
   target_x: '310'
   target_y: '310'
   width: '160'
@@ -56,17 +62,20 @@ Bl6xnmuNeiNVoP8VT8uE-1:
   Name: BikeSpeedPulse
   PageId: CxL4vbgALiEyS_8ftjiA
   PageName: BikeSpeed
+  SourceName: BikeSpeed
+  TargetName: PulseToSpeedConverter
   Type: information
   as: geometry
   edge: '1'
+  global_id: F5
   id: Bl6xnmuNeiNVoP8VT8uE-1
   label: '<b>%Name% : %BlockType%</b>'
   placeholders: '1'
   relative: '1'
-  source: BikeSpeed
+  source: OBl4HP1Sqyp-nDc-58IU-1
   source_x: '60'
   source_y: '420'
-  target: PulseToSpeedConverter
+  target: OBl4HP1Sqyp-nDc-58IU-4
   target_x: '290'
   target_y: '420'
   width: '160'
@@ -80,17 +89,20 @@ Bl6xnmuNeiNVoP8VT8uE-2:
   Name: BikeSpeedRaw
   PageId: CxL4vbgALiEyS_8ftjiA
   PageName: BikeSpeed
+  SourceName: PulseToSpeedConverter
+  TargetName: SensorPlausibilityCheck
   Type: Information
   as: geometry
   edge: '1'
+  global_id: F6
   id: Bl6xnmuNeiNVoP8VT8uE-2
   label: '<b>%Name% : %BlockType%</b>'
   placeholders: '1'
   relative: '1'
-  source: PulseToSpeedConverter
+  source: OBl4HP1Sqyp-nDc-58IU-4
   source_x: '60'
   source_y: '420'
-  target: SensorPlausibilityCheck
+  target: OBl4HP1Sqyp-nDc-58IU-2
   target_x: '290'
   target_y: '420'
   width: '160'
@@ -104,17 +116,20 @@ Bl6xnmuNeiNVoP8VT8uE-3:
   Name: BikeSpeedCorrected
   PageId: CxL4vbgALiEyS_8ftjiA
   PageName: BikeSpeed
+  SourceName: SensorPlausibilityCheck
+  TargetName: MotorSpeedController
   Type: Information
   as: geometry
   edge: '1'
+  global_id: F7
   id: Bl6xnmuNeiNVoP8VT8uE-3, rX7hp6kbmGO_W8NvW-J6-1
   label: '<b>%Name% : %BlockType%</b>'
   placeholders: '1'
   relative: '1'
-  source: SensorPlausibilityCheck
+  source: OBl4HP1Sqyp-nDc-58IU-2
   source_x: '60'
   source_y: '420'
-  target: MotorSpeedController, SpeedDeltaCalculator
+  target: OBl4HP1Sqyp-nDc-58IU-5, lXGBZ7STXAd_atv_A4eX-2
   target_x: '290'
   target_y: '420'
   width: '160'
@@ -128,17 +143,20 @@ FpaUlLngAdCkIRKB68SG-0:
   Name: ThrottleRequest
   PageId: VMgoXYU5R9Q9yI_71LkB
   PageName: ThrottleRequest
+  SourceName: ThrottleSensor
+  TargetName: MotorSpeedController
   Type: Information
   as: geometry
   edge: '1'
+  global_id: F13
   id: FpaUlLngAdCkIRKB68SG-0
   label: '<b>%Name% : %BlockType%</b>'
   placeholders: '1'
   relative: '1'
-  source: ThrottleSensor
+  source: nx52atOp_2DLuxGxYkma-3
   source_x: '95'
   source_y: '240'
-  target: MotorSpeedController
+  target: M9Lgb-TiSH23GFM2kgp6-0
   target_x: '260'
   target_y: '200'
   width: '160'
@@ -176,6 +194,7 @@ OBl4HP1Sqyp-nDc-58IU-1:
   PageId: CxL4vbgALiEyS_8ftjiA
   PageName: BikeSpeed
   as: geometry
+  global_id: F1
   height: '70'
   id: OBl4HP1Sqyp-nDc-58IU-1
   label: '<b>%Name% : %BlockType%</b>'
@@ -197,6 +216,7 @@ OBl4HP1Sqyp-nDc-58IU-2:
   PageId: CxL4vbgALiEyS_8ftjiA
   PageName: BikeSpeed
   as: geometry
+  global_id: F2
   height: '70'
   id: OBl4HP1Sqyp-nDc-58IU-2, lXGBZ7STXAd_atv_A4eX-0
   label: '<b>%Name% : %BlockType%</b>'
@@ -218,6 +238,7 @@ OBl4HP1Sqyp-nDc-58IU-4:
   PageId: CxL4vbgALiEyS_8ftjiA
   PageName: BikeSpeed
   as: geometry
+  global_id: F3
   height: '70'
   id: OBl4HP1Sqyp-nDc-58IU-4
   label: '<b>%Name% : %BlockType%</b>'
@@ -239,6 +260,7 @@ OBl4HP1Sqyp-nDc-58IU-5:
   PageId: CxL4vbgALiEyS_8ftjiA
   PageName: BikeSpeed
   as: geometry
+  global_id: F4
   height: '70'
   id: OBl4HP1Sqyp-nDc-58IU-5, dh2uA4eiaawt6UCHKnqp-0, M9Lgb-TiSH23GFM2kgp6-0
   label: '<b>%Name% : %BlockType%</b>'
@@ -280,6 +302,7 @@ Ys8SpRmWODw6HaS6W5Yc-1:
   Type: ''
   VoltageRating: ''
   as: geometry
+  global_id: P5
   height: '70'
   id: Ys8SpRmWODw6HaS6W5Yc-1
   label: '%Name% : %BlockType%'
@@ -321,6 +344,7 @@ Ys8SpRmWODw6HaS6W5Yc-2:
   Type: ''
   VoltageRating: ''
   as: geometry
+  global_id: P6
   height: '70'
   id: Ys8SpRmWODw6HaS6W5Yc-2
   label: '%Name% : %BlockType%'
@@ -339,6 +363,8 @@ Ys8SpRmWODw6HaS6W5Yc-3:
   NoOfWires: '3'
   PageId: BBh61nbygx2OczTx2PtH
   PageName: Propulsion
+  SourceName: BikeMotor/J2
+  TargetName: BikeMotor
   Unit: V
   VoltageMax: '45'
   VoltageMin: '0'
@@ -348,10 +374,10 @@ Ys8SpRmWODw6HaS6W5Yc-3:
   label: '<b>%Name% : %BlockType%</b>'
   placeholders: '1'
   relative: '1'
-  source: BikeMotor/J2
+  source: Ys8SpRmWODw6HaS6W5Yc-2
   source_x: '320'
   source_y: '285'
-  target: BikeMotor
+  target: j8V-1hMxA4bU853FGvTa-2
   target_x: '480'
   target_y: '285'
   width: '160'
@@ -368,6 +394,7 @@ bLo15xl2VFj0ck93BPsm-0:
   PageId: PlrIQ0s53UvJSi6cAbT4
   PageName: Brakelight
   as: geometry
+  global_id: F15
   height: '70'
   id: bLo15xl2VFj0ck93BPsm-0
   label: '<b>%Name% : %BlockType%</b>'
@@ -410,6 +437,7 @@ dh2uA4eiaawt6UCHKnqp-2:
   PageId: 8sgjmSKyMTZagiL7FRI8
   PageName: Propulsion
   as: geometry
+  global_id: F8
   height: '70'
   id: dh2uA4eiaawt6UCHKnqp-2
   label: '<b>%Name% : %BlockType%</b>'
@@ -431,6 +459,7 @@ dh2uA4eiaawt6UCHKnqp-3:
   PageId: 8sgjmSKyMTZagiL7FRI8
   PageName: Propulsion
   as: geometry
+  global_id: F9
   height: '70'
   id: dh2uA4eiaawt6UCHKnqp-3
   label: '<b>%Name% : %BlockType%</b>'
@@ -451,18 +480,21 @@ eIv0g1-WtwLJReh85AbT-0:
   PageName: Sensor
   Protocol: ''
   ProtocolSegment: ''
+  SourceName: MotorController
+  TargetName: MotorController/MainConnector
   VoltageHigh: '5'
   VoltageLow: '0'
   as: geometry
   edge: '1'
+  global_id: P12
   id: eIv0g1-WtwLJReh85AbT-0, eIv0g1-WtwLJReh85AbT-11
   label: '<b>%Name% : %BlockType%</b>'
   placeholders: '1'
   relative: '1'
-  source: MotorController
+  source: eIv0g1-WtwLJReh85AbT-1
   source_x: '649'
   source_y: '365'
-  target: MotorController/MainConnector, BrakeLight
+  target: eIv0g1-WtwLJReh85AbT-2, eIv0g1-WtwLJReh85AbT-10
   target_x: '649'
   target_y: '450'
   width: '160'
@@ -511,6 +543,7 @@ eIv0g1-WtwLJReh85AbT-10:
   Supply: BrakeLightSignal
   Type: LED
   as: geometry
+  global_id: P15
   height: '70'
   id: eIv0g1-WtwLJReh85AbT-10
   label: '<span style="text-align: center">%Name% : %BlockType%</span>'
@@ -531,6 +564,8 @@ eIv0g1-WtwLJReh85AbT-11:
   PageName: Sensor
   Protocol: ''
   ProtocolSegment: ''
+  SourceName: BrakeLight/BrakeLightConnector
+  TargetName: BrakeLight
   VoltageHigh: '5'
   VoltageLow: '0'
   as: geometry
@@ -539,10 +574,10 @@ eIv0g1-WtwLJReh85AbT-11:
   label: '<b>%Name% : %BlockType%</b>'
   placeholders: '1'
   relative: '1'
-  source: BrakeLight/BrakeLightConnector
+  source: eIv0g1-WtwLJReh85AbT-8
   source_x: '25'
   source_y: '260'
-  target: BrakeLight
+  target: eIv0g1-WtwLJReh85AbT-10
   target_x: '25'
   target_y: '350'
   width: '160'
@@ -597,6 +632,8 @@ eIv0g1-WtwLJReh85AbT-5:
   NoOfWires: '1'
   PageId: b5UhNH8fw1rHYind8Sh3
   PageName: Sensor
+  SourceName: MotorController/MainConnector
+  TargetName: MotorController
   Unit: '%'
   VoltageMax: '5'
   VoltageMin: '0'
@@ -606,10 +643,10 @@ eIv0g1-WtwLJReh85AbT-5:
   label: '<b>%Name% : %BlockType%</b>'
   placeholders: '1'
   relative: '1'
-  source: MotorController/MainConnector
+  source: nqOCFN8WeGmOZilWQvZ9-2
   source_x: '360'
   source_y: '570'
-  target: MotorController
+  target: nqOCFN8WeGmOZilWQvZ9-0
   target_x: '245'
   target_y: '470'
   width: '160'
@@ -646,6 +683,7 @@ eIv0g1-WtwLJReh85AbT-7:
   Type: ''
   VoltageRating: ''
   as: geometry
+  global_id: P13
   height: '70'
   id: eIv0g1-WtwLJReh85AbT-7
   label: '%Name% : %BlockType%'
@@ -687,6 +725,7 @@ eIv0g1-WtwLJReh85AbT-8:
   Type: wtow
   VoltageRating: '100'
   as: geometry
+  global_id: P14
   height: '70'
   id: eIv0g1-WtwLJReh85AbT-8
   label: '%Name% : %BlockType%'
@@ -712,6 +751,7 @@ j8V-1hMxA4bU853FGvTa-1:
   Position: pos_1
   Supply: '24'
   as: geometry
+  global_id: P1
   height: '70'
   id: j8V-1hMxA4bU853FGvTa-1, nqOCFN8WeGmOZilWQvZ9-0, eIv0g1-WtwLJReh85AbT-1
   label: '<b>%Name% : %BlockType%</b>'
@@ -740,6 +780,7 @@ j8V-1hMxA4bU853FGvTa-2:
   Position: pos_11
   Supply: MotorController
   as: geometry
+  global_id: P2
   height: '70'
   id: j8V-1hMxA4bU853FGvTa-2
   label: '<b>%Name% : %BlockType%</b>'
@@ -758,19 +799,22 @@ j8V-1hMxA4bU853FGvTa-3:
   NoOfWires: '3'
   PageId: BBh61nbygx2OczTx2PtH
   PageName: Propulsion
+  SourceName: MotorController
+  TargetName: MotorController/J1
   Unit: V
   VoltageMax: '45'
   VoltageMin: '0'
   as: geometry
   edge: '1'
+  global_id: P3
   id: j8V-1hMxA4bU853FGvTa-3, Ys8SpRmWODw6HaS6W5Yc-3
   label: '<b>%Name% : %BlockType%</b>'
   placeholders: '1'
   relative: '1'
-  source: MotorController
+  source: j8V-1hMxA4bU853FGvTa-1
   source_x: '180'
   source_y: '330'
-  target: MotorController/J1, BikeMotor
+  target: Ys8SpRmWODw6HaS6W5Yc-1, j8V-1hMxA4bU853FGvTa-2
   target_x: '450'
   target_y: '275'
   width: '160'
@@ -794,6 +838,7 @@ j8V-1hMxA4bU853FGvTa-4:
   SourceFuseRating: '5'
   Voltage: '24'
   as: geometry
+  global_id: P4
   height: '70'
   id: j8V-1hMxA4bU853FGvTa-4
   label: '<b>%Name% : %BlockType%</b>'
@@ -836,6 +881,7 @@ lXGBZ7STXAd_atv_A4eX-2:
   PageId: PlrIQ0s53UvJSi6cAbT4
   PageName: Brakelight
   as: geometry
+  global_id: F14
   height: '70'
   id: lXGBZ7STXAd_atv_A4eX-2
   label: '<b>%Name% : %BlockType%</b>'
@@ -902,6 +948,7 @@ nqOCFN8WeGmOZilWQvZ9-2:
   Type: ''
   VoltageRating: ''
   as: geometry
+  global_id: P7
   height: '70'
   id: nqOCFN8WeGmOZilWQvZ9-2, eIv0g1-WtwLJReh85AbT-2
   label: '%Name% : %BlockType%'
@@ -932,6 +979,7 @@ nqOCFN8WeGmOZilWQvZ9-4:
   Position: pos_3
   Supply: MotorController
   as: geometry
+  global_id: P8
   height: '70'
   id: nqOCFN8WeGmOZilWQvZ9-4
   label: '<span style="white-space: normal"><b>%Name% : %BlockType%</b></span>'
@@ -962,6 +1010,7 @@ nqOCFN8WeGmOZilWQvZ9-5:
   Position: pos_4
   Supply: MotorController
   as: geometry
+  global_id: P9
   height: '70'
   id: nqOCFN8WeGmOZilWQvZ9-5
   label: '<span style="white-space: normal"><b>%Name% : %BlockType%</b></span>'
@@ -982,18 +1031,21 @@ nqOCFN8WeGmOZilWQvZ9-6:
   PageName: Sensor
   Protocol: ''
   ProtocolSegment: ''
+  SourceName: ThrottleSensor
+  TargetName: CHASSIS/SensorConnector
   VoltageHigh: '5'
   VoltageLow: '0'
   as: geometry
   edge: '1'
+  global_id: P10
   id: nqOCFN8WeGmOZilWQvZ9-6, nqOCFN8WeGmOZilWQvZ9-7
   label: '<b>%Name% : %BlockType%</b>'
   placeholders: '1'
   relative: '1'
-  source: ThrottleSensor
+  source: nqOCFN8WeGmOZilWQvZ9-5
   source_x: '-170'
   source_y: '340'
-  target: CHASSIS/SensorConnector, MotorController
+  target: eIv0g1-WtwLJReh85AbT-7, nqOCFN8WeGmOZilWQvZ9-0
   target_x: '455'
   target_y: '605'
   width: '160'
@@ -1009,6 +1061,8 @@ nqOCFN8WeGmOZilWQvZ9-7:
   PageName: Sensor
   Protocol: ''
   ProtocolSegment: ''
+  SourceName: MotorController/MainConnector
+  TargetName: MotorController
   VoltageHigh: '5'
   VoltageLow: '0'
   as: geometry
@@ -1017,10 +1071,10 @@ nqOCFN8WeGmOZilWQvZ9-7:
   label: '<b>%Name% : %BlockType%</b>'
   placeholders: '1'
   relative: '1'
-  source: MotorController/MainConnector
+  source: nqOCFN8WeGmOZilWQvZ9-2
   source_x: '200'
   source_y: '215'
-  target: MotorController
+  target: nqOCFN8WeGmOZilWQvZ9-0
   target_x: '320'
   target_y: '215'
   width: '160'
@@ -1034,19 +1088,22 @@ nqOCFN8WeGmOZilWQvZ9-8:
   NoOfWires: '1'
   PageId: b5UhNH8fw1rHYind8Sh3
   PageName: Sensor
+  SourceName: WheelSpeedSensor
+  TargetName: CHASSIS/SensorConnector
   Unit: '%'
   VoltageMax: '5'
   VoltageMin: '0'
   as: geometry
   edge: '1'
+  global_id: P11
   id: nqOCFN8WeGmOZilWQvZ9-8, eIv0g1-WtwLJReh85AbT-5
   label: '<b>%Name% : %BlockType%</b>'
   placeholders: '1'
   relative: '1'
-  source: WheelSpeedSensor
+  source: nqOCFN8WeGmOZilWQvZ9-4
   source_x: '-200'
   source_y: '280'
-  target: CHASSIS/SensorConnector, MotorController
+  target: eIv0g1-WtwLJReh85AbT-7, nqOCFN8WeGmOZilWQvZ9-0
   target_x: '487.5'
   target_y: '605'
   width: '160'
@@ -1063,6 +1120,7 @@ nx52atOp_2DLuxGxYkma-3:
   PageId: VMgoXYU5R9Q9yI_71LkB
   PageName: ThrottleRequest
   as: geometry
+  global_id: F12
   height: '70'
   id: nx52atOp_2DLuxGxYkma-3
   label: '<b>%Name% : %BlockType%</b>'
@@ -1081,6 +1139,8 @@ rX7hp6kbmGO_W8NvW-J6-1:
   Name: BikeSpeedCorrected
   PageId: PlrIQ0s53UvJSi6cAbT4
   PageName: Brakelight
+  SourceName: SensorPlausibilityCheck
+  TargetName: SpeedDeltaCalculator
   Type: Information
   as: geometry
   edge: '1'
@@ -1088,10 +1148,10 @@ rX7hp6kbmGO_W8NvW-J6-1:
   label: '<b>%Name% : %BlockType%</b>'
   placeholders: '1'
   relative: '1'
-  source: SensorPlausibilityCheck
+  source: lXGBZ7STXAd_atv_A4eX-0
   source_x: '659'
   source_y: '250'
-  target: SpeedDeltaCalculator
+  target: lXGBZ7STXAd_atv_A4eX-2
   target_x: '650'
   target_y: '300'
   width: '160'
@@ -1105,17 +1165,20 @@ rX7hp6kbmGO_W8NvW-J6-2:
   Name: BrakeLightSignal
   PageId: PlrIQ0s53UvJSi6cAbT4
   PageName: Brakelight
+  SourceName: SpeedDeltaCalculator
+  TargetName: BrakeLightIndicator
   Type: energy
   as: geometry
   edge: '1'
+  global_id: F16
   id: rX7hp6kbmGO_W8NvW-J6-2
   label: '<b>%Name% : %BlockType%</b>'
   placeholders: '1'
   relative: '1'
-  source: SpeedDeltaCalculator
+  source: lXGBZ7STXAd_atv_A4eX-2
   source_x: '580'
   source_y: '540'
-  target: BrakeLightIndicator
+  target: bLo15xl2VFj0ck93BPsm-0
   target_x: '810'
   target_y: '540'
   width: '160'

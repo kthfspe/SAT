@@ -34,6 +34,7 @@ class DataManager:
         self.error.append("Building Model...")
         self.error.append("Removing blocks from ignorelist...")
         self.removeignoredblocks()
+
         # Status checker function
 
         # Checks for blocktypes outside of global blocklist
@@ -48,12 +49,11 @@ class DataManager:
         # Checks for floating signals
         self.error.append("Checking for floating signals...")
         self.checkfloatingsignals()
-        #if self.actual_error_count>0:
-        #    return self.error, self.actual_error_count 
         
         # Create nameset
         # Creates a set of all names of all blocks in physical architecture
         self.createphysicalnameset()
+
         # Create enclosure list
         # Assumes all new parent values not in namelist as an enclosure
         self.createnclosurelist()
@@ -78,6 +78,7 @@ class DataManager:
         # Update connector names to include the name of the parent
         self.updateconnectornames()
 
+        # Create a Lookup where the id is the key
         self.createidlookup()
 
         # Replaces id in sources and targets of all signals to names of the block
@@ -85,27 +86,21 @@ class DataManager:
 
         # Merging redundant data instances
         self.error.append("Merging data instances..")
-        print(len(self.corrected_functional))
         self.mergefunctionaldata() 
-        print(len(self.corrected_functional))
-
-        print(len(self.corrected_physical))
         self.mergephysicaldata()
-        print(len(self.corrected_physical))
-        # Update parent id with global_id
-        
-        # Update function id with global_id
 
-        # Block wise checks
+        # Adds a global id to all elements and creates a lookup with globalid as key      
+        self.createglobalidlookup()
 
-
-        # Create look up table using global id
-
+        # Creates a lookup with the name as the key
         self.createnamelookup()
 
-        self.powersupplylookup()
+        # Creates a set of all power supply elements
+        self.createpowerset()
 
-        # Creates yaml file based on id data
+        # Blockwise checks
+
+        # Creates final data structure and writes it to yaml files
         self.createdatafile()      
 
         return self.error, self.actual_error_count
@@ -286,7 +281,7 @@ class DataManager:
         idphysical.update(idfunctional)
         self.namedata = idphysical
 
-    def powersupplylookup(self):
+    def createpowerset(self):
         powerlist = []
         gndlist = []
         for item in self.corrected_physical:
@@ -334,12 +329,12 @@ class DataManager:
     def replacesourcetargetid(self):
         for item in self.corrected_functional:
             if item['BlockType'] in blocklist.functional_signals:
-                item['source'] = self.iddata[item['source']]['Name']
-                item['target'] = self.iddata[item['target']]['Name']
+                item['SourceName'] = self.iddata[item['source']]['Name']
+                item['TargetName'] = self.iddata[item['target']]['Name']
         for item in self.corrected_physical:
             if item['BlockType'] in blocklist.physical_signals:
-                item['source'] = self.iddata[item['source']]['Name']
-                item['target'] = self.iddata[item['target']]['Name']
+                item['SourceName'] = self.iddata[item['source']]['Name']
+                item['TargetName'] = self.iddata[item['target']]['Name']
 
 
     def mergefunctionaldata(self):
@@ -359,6 +354,7 @@ class DataManager:
                             if self.corrected_functional[i][field] != '' and self.corrected_functional[j][field] != '':
                                 if self.corrected_functional[i][field] != self.corrected_functional[j][field]:
                                     if field not in blocklist.mergefields_ignore_functional:
+                                        print(self.corrected_functional[i], self.corrected_functional[j])
                                         self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_functional[i]["Name"]\
                                                     + ", Page: " + self.corrected_functional[i]['PageName'] + ", File: " + self.corrected_functional[i]['FileName'] + \
                                                         ") and (" + self.corrected_functional[j]["Name"]\
