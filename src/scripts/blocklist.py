@@ -16,5 +16,5 @@ mergefields_ignore_physical = ["id", "Filename", "PageName", "PageId", "MetaPare
        "target_x", "target_y", "target", "source" , "SourceName", "TargetName"]
 mergefields_ignore_functional = ["id", "Filename", "PageName", "PageId", "MetaParent", "Allocation", \
     "x", "y", "label", "placeholders", "edge", "MetaParent", "width", "relative", "as", "source_x", "source_y",\
-       "target_x", "target_y", "Function", "target" , "TargetName", "SourceName"]
+       "target_x", "target_y", "Function", "target" , "TargetName", "SourceName", "source"]
 mergefields_concat = ["id", "Function", "target"]

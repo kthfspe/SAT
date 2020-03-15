@@ -1,5 +1,5 @@
 import os
-from scripts import filepath, blocklist
+from scripts import filepath, blocklist, satconfig
 import yaml
 
 class DataManager:
@@ -313,16 +313,18 @@ class DataManager:
 
     
     def createdatafile(self):
-        #print(len(self.iddata))
-        #print(len(self.corrected_functional))
-        self.createfile("iddata.yaml",self.iddata)
-        self.createfile("namedata.yaml", self.namedata)
-           
-    def createfile(self, filename, data):
-        if os.path.exists(filename):
-            os.remove(filename)
-        with open(filename, 'w') as file:
+        data = dict()
+        data["iddata"] = self.iddata
+        data["globaliddata"] = self.globaliddata
+        data["namedata"] = self.namedata
+        data["enclosure"] = self.enclosure_list
+        data["power"] = self.power_set
+
+        if os.path.exists(satconfig.dbyamlfilename):
+            os.remove(satconfig.dbyamlfilename)
+        with open(satconfig.dbyamlfilename, 'w') as file:
             documents = yaml.dump(data, file)
+        
 
 
 
