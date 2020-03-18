@@ -110,6 +110,10 @@ def menu():
     global loginstatus
     return render_template('menu.html', loginstatus = loginstatus)
 
+@app.route('/settings', methods=['GET', 'POST'])
+def settings():
+    global loginstatus
+    return render_template('settings.html', loginstatus = loginstatus)
 
 
 if __name__ == '__main__':
