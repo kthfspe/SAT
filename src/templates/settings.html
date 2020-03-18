@@ -10,12 +10,38 @@
 
 {% block content %} 
 {% if loginstatus == true %}
+<div class="w-50 p-3">
+
 <form>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label name="debug" class="form-check-label" for="exampleCheck1">Debug</label>
+      </div><br>
+
+        <div class="row">
+    <div class="col">
+      <input type="text" class="form-control" placeholder="Github Organization: kthfspe">
+    </div>
+    /
+    <div class="col">
+      <input type="text" class="form-control" placeholder="Github Repository: sa">
+    </div>
+  </div><br>
     <div class="form-group">
       <label for="exampleFormControlInput1">Email address</label>
       <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
     </div>
 </form>
+</div>
 
+
+
+<div class="w-50 p-3">
+    <input class="btn btn-danger" type="submit" value="Apply">
+            <input class="btn btn-success" type="submit" value="View Log">
+
+    
+</div>
 {% endif %}
 {% endblock %}
