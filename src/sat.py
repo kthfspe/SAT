@@ -8,7 +8,7 @@ from dbmanager import DBManager
 from localfile import readdrawiofile
 
 # from scripts.usermanager import UserManager
-import filepath
+import satconfig
 
 # Create Flask App object
 app = Flask(__name__)
@@ -44,25 +44,25 @@ def buildmodel():
         option = request.form['options']
         if option == "github":
             # Read each file from github
-            raw_functional1 = gitman.readfile(filepath.defaultLVfun)
-            raw_functional2 = gitman.readfile(filepath.defaultHVfun)
-            raw_functional3 = gitman.readfile(filepath.defaultDVfun)
+            raw_functional1 = gitman.readfile(satconfig.defaultLVfun)
+            raw_functional2 = gitman.readfile(satconfig.defaultHVfun)
+            raw_functional3 = gitman.readfile(satconfig.defaultDVfun)
             raw_functional = raw_functional1 + raw_functional2 + raw_functional3
-            raw_physical1 = gitman.readfile(filepath.defaultLVphy)
-            raw_physical2 = gitman.readfile(filepath.defaultHVphy)
-            raw_physical3 = gitman.readfile(filepath.defaultDVphy)
+            raw_physical1 = gitman.readfile(satconfig.defaultLVphy)
+            raw_physical2 = gitman.readfile(satconfig.defaultHVphy)
+            raw_physical3 = gitman.readfile(satconfig.defaultDVphy)
             raw_physical = raw_physical1 + raw_physical2 + raw_physical3       
         else:
             # Read file path from user
             path = request.form['localpath']
             # Read each drawio file locally
-            raw_functional1 = readdrawiofile(filepath.defaultLVfun)
-            raw_functional2 = readdrawiofile(filepath.defaultHVfun)
-            raw_functional3 = readdrawiofile(filepath.defaultDVfun)
+            raw_functional1 = readdrawiofile(satconfig.defaultLVfun)
+            raw_functional2 = readdrawiofile(satconfig.defaultHVfun)
+            raw_functional3 = readdrawiofile(satconfig.defaultDVfun)
             raw_functional = raw_functional1 + raw_functional2 + raw_functional3
-            raw_physical1 = readdrawiofile(filepath.defaultLVphy)
-            raw_physical2 = readdrawiofile(filepath.defaultHVphy)
-            raw_physical3 = readdrawiofile(filepath.defaultDVphy)
+            raw_physical1 = readdrawiofile(satconfig.defaultLVphy)
+            raw_physical2 = readdrawiofile(satconfig.defaultHVphy)
+            raw_physical3 = readdrawiofile(satconfig.defaultDVphy)
             raw_physical = raw_physical1 + raw_physical2 + raw_physical3      
 
         # Build data model using the raw data
