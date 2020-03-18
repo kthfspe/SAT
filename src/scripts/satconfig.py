@@ -64,3 +64,5 @@ mergefields_ignore_functional = ["id", "Filename", "PageName", "PageId", "MetaPa
     "x", "y", "label", "placeholders", "edge", "MetaParent", "width", "relative", "as", "source_x", "source_y",\
        "target_x", "target_y", "Function", "target" , "TargetName", "SourceName", "source"]
 mergefields_concat = ["id", "Function", "target"]
+
+#App list
