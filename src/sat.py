@@ -109,10 +109,15 @@ def error():
 def settings():
     global loginstatus
     if request.method == "GET":
-        return render_template('settings.html', loginstatus = loginstatus, config=satconfig.config)
-
-    if request.method == "POST":
-        return render_template('settings.html', loginstatus = loginstatus, config=satconfig.config)
+        if request.args.get("submitbutton") == "Apply & Rebuild Model":
+            for item in satconfig.config["settingspagefields"]:
+                satconfig.config[item] = request.args.get(item)
+            if request.args.get("debug"):
+                satconfig.config["debug"] = True
+            else:
+                satconfig.config["debug"] = False
+            return redirect(url_for('menu'))
+    return render_template('settings.html',loginstatus=loginstatus, config=satconfig.config)
 
 if __name__ == '__main__':
     # The server is run directly

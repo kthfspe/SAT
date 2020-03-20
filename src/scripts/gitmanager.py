@@ -16,7 +16,7 @@ class GitManager:
         self.gitpat = pat
         self.gitobject = Github(pat)
         try:
-            self.repo = self.gitobject.get_repo(satconfig.config["gitpath"])
+            self.repo = self.gitobject.get_repo(satconfig.config["gitaccount"]+"/"+satconfig.config["gitrepo"])
             return True
         except:
             print("Access Denied. Check your Personal Access Token and your access to repo kthfspe/SA")
@@ -24,10 +24,10 @@ class GitManager:
 
     def readfile(self, path):
         blockpositiondata = dict()
-        filename = os.path.basename(path)
+        filename = os.path.basename(str(path))
         self.XMLContent = [] #Empties the XMLContent container for reading a new file
-        self.repo = self.gitobject.get_repo(satconfig.config["gitpath"])
-        self.contents = self.repo.get_contents(path)
+        self.repo = self.gitobject.get_repo(satconfig.config["gitaccount"]+"/"+satconfig.config["gitrepo"])
+        self.contents = self.repo.get_contents(str(path))
         self.stringcontent = base64.b64decode(self.contents.content)
         self.root = ET.fromstring(self.stringcontent)       
         for child in self.root.findall('diagram'):
