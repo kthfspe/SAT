@@ -27,7 +27,7 @@ def login():
     if request.method == 'POST':
         if gitman.gitlogin(request.form['password']) == True:
             loginstatus = True
-            return redirect(url_for('buildmodel'))
+            return redirect(url_for('menu'))
         else:
             error = "Access Denied. Check your Personal Access Token and your access to repo kthfspe/SA"
             return render_template('login.html', error = error, loginstatus = loginstatus)
@@ -35,35 +35,22 @@ def login():
         loginstatus = False
         return render_template('login.html', error=error, loginstatus = False)
 
-@app.route('/buildmodel', methods=['GET', 'POST'])
-def buildmodel():
+
+@app.route('/menu', methods=['GET', 'POST'])
+def menu():
     global loginstatus, error
     raw_functional = []
     raw_physical = []
-    if request.method == 'POST':
-        option = request.form['options']
-        if option == "github":
-            # Read each file from github
-            raw_functional1 = gitman.readfile(satconfig.defaultLVfun)
-            raw_functional2 = gitman.readfile(satconfig.defaultHVfun)
-            raw_functional3 = gitman.readfile(satconfig.defaultDVfun)
-            raw_functional = raw_functional1 + raw_functional2 + raw_functional3
-            raw_physical1 = gitman.readfile(satconfig.defaultLVphy)
-            raw_physical2 = gitman.readfile(satconfig.defaultHVphy)
-            raw_physical3 = gitman.readfile(satconfig.defaultDVphy)
-            raw_physical = raw_physical1 + raw_physical2 + raw_physical3       
-        else:
-            # Read file path from user
-            path = request.form['localpath']
-            # Read each drawio file locally
-            raw_functional1 = readdrawiofile(satconfig.defaultLVfun)
-            raw_functional2 = readdrawiofile(satconfig.defaultHVfun)
-            raw_functional3 = readdrawiofile(satconfig.defaultDVfun)
-            raw_functional = raw_functional1 + raw_functional2 + raw_functional3
-            raw_physical1 = readdrawiofile(satconfig.defaultLVphy)
-            raw_physical2 = readdrawiofile(satconfig.defaultHVphy)
-            raw_physical3 = readdrawiofile(satconfig.defaultDVphy)
-            raw_physical = raw_physical1 + raw_physical2 + raw_physical3      
+    if request.method == 'GET':
+        # Read each file from github
+        raw_functional1 = gitman.readfile(satconfig.defaultLVfun)
+        raw_functional2 = gitman.readfile(satconfig.defaultHVfun)
+        raw_functional3 = gitman.readfile(satconfig.defaultDVfun)
+        raw_functional = raw_functional1 + raw_functional2 + raw_functional3
+        raw_physical1 = gitman.readfile(satconfig.defaultLVphy)
+        raw_physical2 = gitman.readfile(satconfig.defaultHVphy)
+        raw_physical3 = gitman.readfile(satconfig.defaultDVphy)
+        raw_physical = raw_physical1 + raw_physical2 + raw_physical3       
 
         # Build data model using the raw data
         buildmodelerror, buildmodelstatus= dataman.buildmodel(raw_functional, raw_physical)
@@ -88,8 +75,9 @@ def buildmodel():
 
         # Redirect to apps page : return redirect(url_for('menu'))  
         
-    elif request.method == 'GET':
-        return render_template('builddatamodel.html', loginstatus = loginstatus)
+    elif request.method == 'POST':
+        print("Menu Post")
+        return render_template('menu.html', loginstatus = loginstatus)
 
 
 @app.route('/output', methods=['GET', 'POST'])
@@ -105,10 +93,7 @@ def error():
     return render_template('error.html', loginstatus = loginstatus, error = error)
 
 
-@app.route('/menu', methods=['GET', 'POST'])
-def menu():
-    global loginstatus
-    return render_template('menu.html', loginstatus = loginstatus)
+
 
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():

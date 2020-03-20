@@ -36,20 +36,35 @@ class DataManager:
         self.removeignoredblocks()
 
         # Status checker function
-
+        if self.actual_error_count>0:
+            return self.error, self.actual_error_count
         # Checks for blocktypes outside of global satconfig
         self.error.append("Checking validity of BlockType field...")
         self.checkblockvalidity()
+        
+        
+        # Status checker function
+        if self.actual_error_count>0:
+            return self.error, self.actual_error_count
 
         # Check name validity: This is done separately from other fields as further checks are not possible
         # if 'Name' is missing
         self.error.append("Checking validity of Name field...")
         self.checknamevalidity()
         
+        # Status checker function
+        if self.actual_error_count>0:
+            return self.error, self.actual_error_count
+
         # Checks for floating signals
         self.error.append("Checking for floating signals...")
         self.checkfloatingsignals()
         
+        
+        # Status checker function
+        if self.actual_error_count>0:
+            return self.error, self.actual_error_count
+
         # Create nameset
         # Creates a set of all names of all blocks in physical architecture
         self.createphysicalnameset()
@@ -64,9 +79,18 @@ class DataManager:
         self.error.append("Checking validity of Parent field...")
         self.checkparentvalidity()
         
-       # Check if function name is not empty
+        
+        # Status checker function
+        if self.actual_error_count>0:
+            return self.error, self.actual_error_count
+
+        # Check if function name is not empty
         self.error.append("Checking validity of Function field...")
         self.checkfunctionvalidity()
+        
+        # Status checker function
+        if self.actual_error_count>0:
+            return self.error, self.actual_error_count
 
         # Create function list
         self.createfunctionlist()
@@ -74,6 +98,10 @@ class DataManager:
         # Check if allocation in funcitnla block is a valid name in physical block
         self.error.append("Checking validity of Allocation field...")
         self.checkallocationvalidity()
+        
+        # Status checker function
+        if self.actual_error_count>0:
+            return self.error, self.actual_error_count
 
         # Update connector names to include the name of the parent
         self.updateconnectornames()

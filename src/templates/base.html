@@ -13,12 +13,7 @@
             
               
               {% if loginstatus == true %}
-              {% if request.path == url_for('buildmodel') %}
-                <a class="navbar-brand" href="/buildmodel">
-                  <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">SAT
-                  
-                </a>
-              {% endif %}
+
 
               {% if request.path == url_for('menu') %}
               <a class="navbar-brand" href="/menu">
@@ -27,21 +22,19 @@
             {% endif %}
 
             {% if request.path == url_for('output') %}
-            <a class="navbar-brand" href="/buildmodel">
-              <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">SAT
-            </a>
+                <a class="navbar-brand" href="/menu">
+                <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">SAT
+              </a>
           {% endif %}
 
 
         {% if request.path == url_for('error') %}
-        <a class="navbar-brand" href="/buildmodel">
-          <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">SAT
-        </a>
+ 
       {% endif %}
   {% if request.path == url_for('settings') %}
-        <a class="navbar-brand" href="/buildmodel">
-          <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">SAT
-        </a>
+ <a class="navbar-brand" href="/menu">
+                <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">SAT
+              </a>
 
       {% endif %}     
 
@@ -80,5 +73,4 @@
         {% block content %}{% endblock %}
     </body>
 
-</html
->
+</html>
