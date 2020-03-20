@@ -25,6 +25,10 @@ config["settingspagefields"] = ["debug","gitaccount", "gitrepo", "defaultLVphy",
      "defaultHVfun", "defaultDVfun", "defaultDVphy", "exampleLVphy", "exampleLVfun", "exampleHVphy",\
      "exampleHVfun", "exampleDVfun", "exampleDVphy", "dbyamlfilename"     ]
 
+config["settingspagelistfields"] = ["ignore_blocktype", "physical_signals", "physical_blocks", "functional_signals",\
+    "functional_blocks","defaultpowerlist", "mergefields_ignore_physical", "mergefields_ignore_functional",\
+        "mergefields_concat"]
+
 config["dbyamlfilename"] = "db/db.yaml"
 
 config["ignore_blocktype"] = [ "FRAME", "IGNORE"]

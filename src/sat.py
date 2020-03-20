@@ -75,15 +75,6 @@ def menu():
 
         # Save errors, warnings to log file
 
-        # Redirect to build model page : return render_template('builddatamodel.html', loginstatus = loginstatus)
-
-        # OR
-
-        # Create DB
-
-        # Display success message
-
-        # Redirect to apps page : return redirect(url_for('menu'))  
         
     elif request.method == 'POST':
         print("Menu Post")
