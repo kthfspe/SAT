@@ -29,7 +29,7 @@ class DataManager:
         self.corrected_physical = []
         self.raw_physical = rp
         self.raw_functional = rf
-
+        self.physical_blocktypes = satconfig.config["physical_signals"]
         # Remove ignored blocks from the global block list
         self.error.append("Building Model...")
         self.error.append("Removing blocks from ignorelist...")
@@ -139,11 +139,11 @@ class DataManager:
         tempf = []
         tempp = []
         for item in self.raw_functional:
-            if item['BlockType'] not in satconfig.ignore_blocktype:
+            if item['BlockType'] not in satconfig.config["ignore_blocktype"]:
                 tempf.append(item)
         self.raw_functional = tempf
         for item in self.raw_physical:
-            if item['BlockType'] not in satconfig.ignore_blocktype:
+            if item['BlockType'] not in satconfig.config["ignore_blocktype"]:
                 tempp.append(item)
         self.raw_physical = tempp
 
@@ -151,7 +151,7 @@ class DataManager:
         # This function can be refactored to use del operator to remove elements and use the same data structure
         # Physical Architecture - Block Validity Checking
         for item in self.raw_physical:
-            if item["BlockType"] not in satconfig.physical_blocktypes:
+            if item["BlockType"] not in satconfig.config["physical_blocks"]+satconfig.config["physical_signals"]:
                 self.error.append("ERROR: Invalid Block in file " + item["FileName"] + " with BlockType " + item["BlockType"] + \
                    ", Name " + item['Name'] + " and ID " + item["id"]  )
                 self.actual_error_count+=1
@@ -160,7 +160,7 @@ class DataManager:
 
         # Functional Architecture - Block Validity Checking
         for item in self.raw_functional:
-            if item["BlockType"] not in satconfig.functional_blocktypes:
+            if item["BlockType"] not in satconfig.config["functional_blocks"]+satconfig.config["functional_signals"]:
                 self.error.append("ERROR: Invalid Block in file " + item["FileName"] + " with BlockType " + item["BlockType"] + \
                         ", Name " + item['Name'] + " and ID " + item["id"]  )
                 self.actual_error_count+=1
@@ -192,7 +192,7 @@ class DataManager:
     def createphysicalnameset(self):
         namelist = ['CHASSIS']
         for item in self.corrected_physical:
-            if item['BlockType'] in satconfig.physical_blocks:
+            if item['BlockType'] in satconfig.config["physical_blocks"]:
                 namelist.append(item['Name'])
         self.physical_nameset = set(namelist)
 
@@ -200,7 +200,7 @@ class DataManager:
     def checkparentvalidity(self):
         for item in self.corrected_physical:
 
-            if item['BlockType'] in satconfig.physical_blocks:
+            if item['BlockType'] in satconfig.config["physical_blocks"]:
 
                 if item['Parent'] == '':
                     item['Parent'] = 'CHASSIS'
@@ -212,7 +212,7 @@ class DataManager:
                 else:
                     for parentitem in self.corrected_physical:
                         if parentitem['Name'] == item['Parent']:
-                            if parentitem['BlockType'] not in satconfig.physical_blocks:
+                            if parentitem['BlockType'] not in satconfig.config["physical_blocks"]:
                                 self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['FileName'] )
                                 self.actual_error_count+=1
@@ -242,7 +242,7 @@ class DataManager:
     def createnclosurelist(self):
         enclosurelist = []
         for item in self.corrected_physical:
-            if item['BlockType'] in satconfig.physical_blocks:
+            if item['BlockType'] in satconfig.config["physical_blocks"]:
                 if item['Parent'] not in self.physical_nameset:
                     enclosurelist.append(item['Parent'])
         self.enclosure_list = set(enclosurelist)
@@ -250,13 +250,13 @@ class DataManager:
     def createfunctionlist(self):
         functionlist = []
         for item in self.corrected_functional:
-            if item['BlockType'] in satconfig.functional_blocks:
+            if item['BlockType'] in satconfig.config["functional_blocks"]:
                 functionlist.append(item['Function'])
         self.function_list = set(functionlist)
 
     def checkallocationvalidity(self):
         for item in self.corrected_functional:
-            if item['BlockType'] in satconfig.functional_blocks:
+            if item['BlockType'] in satconfig.config["functional_blocks"]:
                 if item['Allocation'] == '':
                     self.error.append("ERROR: Allocation missing in block " + item['Name'] + " in page " + item['PageName']\
                         + " in file " + item['FileName'])
@@ -275,7 +275,7 @@ class DataManager:
 
     def checkfloatingsignals(self):
         for item in self.corrected_functional:
-            if item["BlockType"] in satconfig.functional_signals:
+            if item["BlockType"] in satconfig.config["functional_signals"]:
                 if ('source' not in item) or ('target' not in item):
                     self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
                        item["FileName"]  )
@@ -286,7 +286,7 @@ class DataManager:
                     self.actual_error_count+=1
 
         for item in self.corrected_physical:
-            if item["BlockType"] in satconfig.physical_signals:
+            if item["BlockType"] in satconfig.config["physical_signals"]:
                 if ('source' not in item) or ('target' not in item):
                     self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
                        item["FileName"]  )
@@ -348,9 +348,9 @@ class DataManager:
         data["enclosure"] = self.enclosure_list
         data["power"] = self.power_set
 
-        if os.path.exists(satconfig.dbyamlfilename):
-            os.remove(satconfig.dbyamlfilename)
-        with open(satconfig.dbyamlfilename, 'w') as file:
+        if os.path.exists(satconfig.config["dbyamlfilename"]):
+            os.remove(satconfig.config["dbyamlfilename"])
+        with open(satconfig.config["dbyamlfilename"], 'w') as file:
             documents = yaml.dump(data, file)
         
 
@@ -358,11 +358,11 @@ class DataManager:
 
     def replacesourcetargetid(self):
         for item in self.corrected_functional:
-            if item['BlockType'] in satconfig.functional_signals:
+            if item['BlockType'] in satconfig.config["functional_signals"]:
                 item['SourceName'] = self.iddata[item['source']]['Name']
                 item['TargetName'] = self.iddata[item['target']]['Name']
         for item in self.corrected_physical:
-            if item['BlockType'] in satconfig.physical_signals:
+            if item['BlockType'] in satconfig.config["physical_signals"]:
                 item['SourceName'] = self.iddata[item['source']]['Name']
                 item['TargetName'] = self.iddata[item['target']]['Name']
 
@@ -378,12 +378,12 @@ class DataManager:
                         for field in self.corrected_functional[i]:
                             if self.corrected_functional[i][field] == '' and self.corrected_functional[j][field] != '':
                                 self.corrected_functional[i][field] = self.corrected_functional[j][field]
-                            if field in satconfig.mergefields_concat:
+                            if field in satconfig.config["mergefields_concat"]:
                                 self.corrected_functional[i][field] = self.corrected_functional[i][field] + ", " +\
                                     self.corrected_functional[j][field]
                             if self.corrected_functional[i][field] != '' and self.corrected_functional[j][field] != '':
                                 if self.corrected_functional[i][field] != self.corrected_functional[j][field]:
-                                    if field not in satconfig.mergefields_ignore_functional:
+                                    if field not in satconfig.config["mergefields_ignore_functional"]:
                                         print(self.corrected_functional[i], self.corrected_functional[j])
                                         self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_functional[i]["Name"]\
                                                     + ", Page: " + self.corrected_functional[i]['PageName'] + ", File: " + self.corrected_functional[i]['FileName'] + \
@@ -405,17 +405,17 @@ class DataManager:
             while j < length:
                 if self.corrected_physical[i]['Name'] == self.corrected_physical[j]['Name']:
                     if self.corrected_physical[i]['BlockType'] == self.corrected_physical[j]['BlockType']:
-                        if self.corrected_physical[i]['BlockType'] in satconfig.physical_blocks:
+                        if self.corrected_physical[i]['BlockType'] in satconfig.config["physical_blocks"]:
                             if self.corrected_physical[i]['Parent'] == self.corrected_physical[j]['Parent']:
                                 for field in self.corrected_physical[i]:
                                     if self.corrected_physical[i][field] == '' and self.corrected_physical[j][field] != '':
                                         self.corrected_physical[i][field] = self.corrected_physical[j][field]
-                                    if field in satconfig.mergefields_concat:
+                                    if field in satconfig.config["mergefields_concat"]:
                                         self.corrected_physical[i][field] = self.corrected_physical[i][field] + ", " +\
                                             self.corrected_physical[j][field]
                                     if self.corrected_physical[i][field] != '' and self.corrected_physical[j][field] != '':
                                         if self.corrected_physical[i][field] != self.corrected_physical[j][field]:
-                                            if field not in satconfig.mergefields_ignore_physical:
+                                            if field not in satconfig.config["mergefields_ignore_physical"]:
                                                 self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_physical[i]["Name"]\
                                                             + ", Page: " + self.corrected_physical[i]['PageName'] + ", File: " + self.corrected_physical[i]['FileName'] + \
                                                                 ") and (" + self.corrected_physical[j]["Name"]\
@@ -425,12 +425,12 @@ class DataManager:
                             for field in self.corrected_physical[i]:
                                 if self.corrected_physical[i][field] == '' and self.corrected_physical[j][field] != '':
                                     self.corrected_physical[i][field] = self.corrected_physical[j][field]
-                                if field in satconfig.mergefields_concat:
+                                if field in satconfig.config["mergefields_concat"]:
                                     self.corrected_physical[i][field] = self.corrected_physical[i][field] + ", " +\
                                         self.corrected_physical[j][field]
                                 if self.corrected_physical[i][field] != '' and self.corrected_physical[j][field] != '':
                                     if self.corrected_physical[i][field] != self.corrected_physical[j][field]:
-                                        if field not in satconfig.mergefields_ignore_physical:
+                                        if field not in satconfig.config["mergefields_ignore_physical"]:
                                             self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_physical[i]["Name"]\
                                                         + ", Page: " + self.corrected_physical[i]['PageName'] + ", File: " + self.corrected_physical[i]['FileName'] + \
                                                             ") and (" + self.corrected_physical[j]["Name"]\

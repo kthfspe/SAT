@@ -43,14 +43,24 @@ def menu():
     raw_physical = []
     if request.method == 'GET':
         # Read each file from github
-        raw_functional1 = gitman.readfile(satconfig.defaultLVfun)
-        raw_functional2 = gitman.readfile(satconfig.defaultHVfun)
-        raw_functional3 = gitman.readfile(satconfig.defaultDVfun)
-        raw_functional = raw_functional1 + raw_functional2 + raw_functional3
-        raw_physical1 = gitman.readfile(satconfig.defaultLVphy)
-        raw_physical2 = gitman.readfile(satconfig.defaultHVphy)
-        raw_physical3 = gitman.readfile(satconfig.defaultDVphy)
-        raw_physical = raw_physical1 + raw_physical2 + raw_physical3       
+        if satconfig.config["debug"]== False:
+            raw_functional1 = gitman.readfile(satconfig.config["defaultLVfun"])
+            raw_functional2 = gitman.readfile(satconfig.config["defaultHVfun"])
+            raw_functional3 = gitman.readfile(satconfig.config["defaultDVfun"])
+            raw_functional = raw_functional1 + raw_functional2 + raw_functional3
+            raw_physical1 = gitman.readfile(satconfig.config["defaultLVphy"])
+            raw_physical2 = gitman.readfile(satconfig.config["defaultHVphy"])
+            raw_physical3 = gitman.readfile(satconfig.config["defaultDVphy"])
+            raw_physical = raw_physical1 + raw_physical2 + raw_physical3       
+        else:
+            raw_functional1 = gitman.readfile(satconfig.config["exampleLVfun"])
+            raw_functional2 = gitman.readfile(satconfig.config["exampleHVfun"])
+            raw_functional3 = gitman.readfile(satconfig.config["exampleDVfun"])
+            raw_functional = raw_functional1 + raw_functional2 + raw_functional3
+            raw_physical1 = gitman.readfile(satconfig.config["exampleLVphy"])
+            raw_physical2 = gitman.readfile(satconfig.config["exampleHVphy"])
+            raw_physical3 = gitman.readfile(satconfig.config["exampleDVphy"])
+            raw_physical = raw_physical1 + raw_physical2 + raw_physical3       
 
         # Build data model using the raw data
         buildmodelerror, buildmodelstatus= dataman.buildmodel(raw_functional, raw_physical)
@@ -98,8 +108,11 @@ def error():
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
     global loginstatus
-    return render_template('settings.html', loginstatus = loginstatus)
+    if request.method == "GET":
+        return render_template('settings.html', loginstatus = loginstatus, config=config)
 
+    if request.method == "POST":
+        return render_template('settings.html', loginstatus = loginstatus, config=config)
 
 if __name__ == '__main__':
     # The server is run directly
