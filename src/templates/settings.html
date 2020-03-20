@@ -12,7 +12,13 @@
 
       <label for="exampleFormControlInput1">Runtime Configuration</label>
     <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        {% if config["debug"] == True %}
+        <input type="checkbox" class="form-check-input" id="exampleCheck1" value="True" checked>
+        {% endif%}
+
+        {% if config["debug"] == False %}
+        <input type="checkbox" class="form-check-input" id="exampleCheck1" value="True">
+        {% endif%}
         <label name="Example" class="form-check-label" for="exampleCheck1">Run Example Files</label>
       </div><br>
 
@@ -20,61 +26,61 @@
         <div class="row">
             <div class="input-group-text">github.com/</div>
     <div class="col">
-      <input type="text" class="form-control" placeholder="Github Organization: kthfspe">
+      <input type="text" class="form-control" value={{ config["gitaccount"] }}>
     </div>
     <div class="input-group-text">/</div>
     <div class="col">
-      <input type="text" class="form-control" placeholder="Github Repository: sa">
+      <input type="text" class="form-control" value={{config["gitrepo"]}}>
     </div>
   </div><br>
   <div class="form-row">
 
     <label for="inputEmail3" class="col-sm-1 col-form-label">LV Functional</label>
     <div class="form-group col-md-5">
-      <input type="text" class="form-control" id="inputEmail4" placeholder="Default Path">
+      <input type="text" class="form-control" id="defaultLVfun" value={{config["defaultLVfun"]}}>
     </div>
     <div class="form-group col-md-5">
-      <input type="text" class="form-control" id="inputPassword4" placeholder="Example Path">
+      <input type="text" class="form-control" id="exampleLVfun" value={{config["exampleLVfun"]}}>
     </div>
   </div>
  <div class="form-row">
 
     <label for="inputEmail3" class="col-sm-1 col-form-label">LV Physical</label>
     <div class="form-group col-md-5">
-      <input type="text" class="form-control" id="inputEmail4" placeholder="Default Path">
+      <input type="text" class="form-control" id="defaultLVphy" value={{config["defaultLVphy"]}}>
     </div>
     <div class="form-group col-md-5">
-      <input type="text" class="form-control" id="inputPassword4" placeholder="Example Path">
+      <input type="text" class="form-control" id="exampleLVphy" value={{config["exampleLVphy"]}}>
     </div>
   </div>
  <div class="form-row">
 
     <label for="inputEmail3" class="col-sm-1 col-form-label">HV Functional</label>
     <div class="form-group col-md-5">
-      <input type="text" class="form-control" id="inputEmail4" placeholder="Default Path">
+      <input type="text" class="form-control" id="defaultHVfun" value={{config["defaultHVfun"]}}>
     </div>
     <div class="form-group col-md-5">
-      <input type="text" class="form-control" id="inputPassword4" placeholder="Example Path">
+      <input type="text" class="form-control" id="exampleHVfun" value={{config["exampleHVfun"]}}>
     </div>
   </div>
  <div class="form-row">
 
     <label for="inputEmail3" class="col-sm-1 col-form-label">HV Physical</label>
     <div class="form-group col-md-5">
-      <input type="text" class="form-control" id="inputEmail4" placeholder="Default Path">
+      <input type="text" class="form-control" id="defaultHVphy" value={{config["defaultHVphy"]}}>
     </div>
     <div class="form-group col-md-5">
-      <input type="text" class="form-control" id="inputPassword4" placeholder="Example Path">
+      <input type="text" class="form-control" id="exampleHVphy" value={{config["exampleHVphy"]}}>
     </div>
   </div>
 <div class="form-row">
 
     <label for="inputEmail3" class="col-sm-1 col-form-label">DV Functional</label>
     <div class="form-group col-md-5">
-      <input type="text" class="form-control" id="inputEmail4" placeholder="Default Path">
+      <input type="text" class="form-control" id="defaultDVfun" value={{config["defaultDVfun"]}}>
     </div>
     <div class="form-group col-md-5">
-      <input type="text" class="form-control" id="inputPassword4" placeholder="Example Path">
+      <input type="text" class="form-control" id="exampleDVfun" value={{config["exampleDVfun"]}}>
     </div>
   </div>
 
@@ -82,10 +88,10 @@
 
     <label for="inputEmail3" class="col-sm-1 col-form-label">DV Physical</label>
     <div class="form-group col-md-5">
-      <input type="text" class="form-control" id="inputEmail4" placeholder="Default Path">
+      <input type="text" class="form-control" id="defaultDVphy" value={{config["defaultDVphy"]}}>
     </div>
     <div class="form-group col-md-5">
-      <input type="text" class="form-control" id="inputPassword4" placeholder="Example Path">
+      <input type="text" class="form-control" id="exampleDVphy" value={{config["exampleDVphy"]}}>
     </div>
   </div>
 

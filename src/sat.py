@@ -109,10 +109,10 @@ def error():
 def settings():
     global loginstatus
     if request.method == "GET":
-        return render_template('settings.html', loginstatus = loginstatus, config=config)
+        return render_template('settings.html', loginstatus = loginstatus, config=satconfig.config)
 
     if request.method == "POST":
-        return render_template('settings.html', loginstatus = loginstatus, config=config)
+        return render_template('settings.html', loginstatus = loginstatus, config=satconfig.config)
 
 if __name__ == '__main__':
     # The server is run directly
