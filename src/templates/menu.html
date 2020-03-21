@@ -12,80 +12,22 @@
 {% block content %} 
 
 {% if loginstatus == true %}
-<!--div class="w-50 p-3">
-        <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action active">Menu</a>
-                <a href="/buildmodel" method="post" class="list-group-item list-group-item-action">Generate Function Tree</a>
-        </div>
-</div-->
+
 
 <div class="p-3">
         <div class="row">
-                <div class="col-sm-3">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Special title treatment</h5>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      <a href="#" class="btn btn-danger">Go somewhere</a>
-                    </div>
-                  </div>
-                </div>
-               
+          {% for app in appdata %}
 
                 <div class="col-sm-3">
                   <div class="card">
                     <div class="card-body">
-                      <h5 class="card-title">Special title treatment</h5>
-                      
-                      <a href="#" class="btn btn-danger">Go somewhere</a>
+                      <h5 class="card-title">{{app.appname}}</h5>
+                      <p class="card-text">{{app.appsubtitle}}</p>
+                      <a href={{app["apppage"]}} class="btn btn-danger">{{app.appbutton}}</a>
                     </div>
                   </div>
                 </div>
-
-                <div class="col-sm-3">
-                        <div class="card">
-                          <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-danger">Go somewhere</a>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-sm-3">
-                        <div class="card">
-                          <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-danger">Go somewhere</a>
-                          </div>
-                        </div>
-                      </div>
-
-                      
-
-                      <div class="col-sm-3 mt-3">
-                        <div class="card">
-                          <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            
-                            <a href="#" class="btn btn-danger">Go somewhere</a>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-sm-3 mt-3">
-                        <div class="card">
-                          <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-danger">Go somewhere</a>
-                          </div>
-                        </div>
-                      </div>
-
-
-
+               {% endfor %}
               </div>
 
 </div>        

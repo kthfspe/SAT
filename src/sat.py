@@ -7,6 +7,8 @@ from datamanager import DataManager
 from dbmanager import DBManager
 from localfile import readdrawiofile
 import yaml
+import searchname
+import applist
 
 # from scripts.usermanager import UserManager
 import satconfig
@@ -71,7 +73,7 @@ def menu():
         if  buildmodelstatus != 0:
             return render_template('error.html', loginstatus = loginstatus, error = buildmodelerror)
         elif buildmodelerror != []:
-            return render_template('menu.html', loginstatus = loginstatus)
+            return render_template('menu.html', loginstatus = loginstatus, appdata=applist.appdata)
             # Menu with warning
         else:
             # Menu without any warning

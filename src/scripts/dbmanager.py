@@ -9,12 +9,11 @@ class DBManager:
         pass
 
     def readdb(self):
-        with open("../" + satconfig.config["dbyamlfilename"], 'r') as file:
+        with open(satconfig.config["dbyamlfilename"], 'r') as file:
             self.data.update(yaml.load(file))
 
     def getdata(self):
-        #print(self.data)
-        print(self.data["namedata"]["MotorSpeedController"])
+        return self.data
 
 
     
