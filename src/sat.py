@@ -123,7 +123,7 @@ def searchbyname():
             result = searchname.searchnameapp(request.args.get('NameToSearch'))
             return render_template('outputdict.html', loginstatus = loginstatus, output = result)
     inputfields =["NameToSearch"]
-    return render_template('inputtext.html', loginstatus = loginstatus, inputfield = inputfields)
+    return render_template('inputtext.html', loginstatus = loginstatus, inputfield = inputfields, app=applist.searchnamedata)
 
 
 """

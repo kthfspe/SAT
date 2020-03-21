@@ -5,7 +5,8 @@ searchnamedata = {
     "appsubtitle":"Search any block or signal by name",
     "appbutton":"Go",
     "appfunctionname":"searchname.searchnameapp",
-    "apppage":"/searchbyname"
+    "apppage":"/searchbyname",
+    "apphelptext":"Only the exact string match will be searched for. Not case sensitive",
 }
 
 
@@ -15,7 +16,8 @@ findfield = {
     "appsubtitle":"Find a string in any field in the DB",
     "appbutton":"Go",
     "appfunctionname":"findfield.findfieldapp",
-    "apppage":"/findfield"
+    "apppage":"/findfield",
+    "apphelptext": "Checks for all fields",
 }
 
 

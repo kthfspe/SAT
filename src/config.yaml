@@ -23,8 +23,8 @@ functional_blocks:
 - FE
 functional_signals:
 - FS
-gitaccount: null
-gitrepo: null
+gitaccount: kthfspe
+gitrepo: SA
 ignore_blocktype:
 - FRAME
 - IGNORE
