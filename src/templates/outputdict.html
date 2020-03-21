@@ -8,16 +8,25 @@
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item">
-          <a class="nav-link active" href="{{url_for('output')}}">Output</a>
+          <a class="nav-link active">Output</a>
         </li>
+
       </ul>
     </div>
     <div class="card-body">
       <h5 class="card-title">Output</h5>
-      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      <a href="#" class="/menu">Back to menu</a>
+      <p class="card-text">
+        <ol>
+      {% for item in output %}
+  <li>{{item, output[item]}}</li>
+  {% endfor %}
+</ol>
+      </p>
     </div>
   </div>
+
+
+
 
 
 
