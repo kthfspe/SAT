@@ -20,6 +20,7 @@ app = Flask(__name__)
 gitman = GitManager()
 dataman = DataManager()
 loginstatus = False
+buildstatus = False
 error = []
 
 @app.route('/', methods=['GET', 'POST'])
@@ -44,10 +45,10 @@ def login():
 
 @app.route('/menu', methods=['GET', 'POST'])
 def menu():
-    global loginstatus, error
+    global loginstatus, error, buildstatus
     raw_functional = []
     raw_physical = []
-    if request.method == 'GET':
+    if request.method == 'GET' and buildstatus == False:
         # Read each file from github
         if satconfig.config["debug"]== False:
             raw_functional1 = gitman.readfile(satconfig.config["defaultLVfun"])
@@ -73,8 +74,10 @@ def menu():
         if  buildmodelstatus != 0:
             return render_template('error.html', loginstatus = loginstatus, error = buildmodelerror)
         else:
+            buildstatus = True
             return render_template('menu.html', loginstatus = loginstatus, appdata=applist.appdata)
-        
+    elif buildstatus == True:
+        return render_template('menu.html', loginstatus = loginstatus, appdata = applist.appdata)
     elif request.method == 'POST':
         print("Menu Post")
         return render_template('menu.html', loginstatus = loginstatus)
@@ -88,9 +91,10 @@ def error():
 
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
-    global loginstatus
+    global loginstatus, buildstatus
     if request.method == "GET":
         if request.args.get("submitbutton") == "Apply & Rebuild Model":
+            buildstatus = False
             for item in satconfig.config["settingspagefields"]:
                 satconfig.config[item] = request.args.get(item)
             if request.args.get("debug"):
