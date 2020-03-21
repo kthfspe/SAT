@@ -72,15 +72,8 @@ def menu():
         buildmodelerror, buildmodelstatus= dataman.buildmodel(raw_functional, raw_physical)
         if  buildmodelstatus != 0:
             return render_template('error.html', loginstatus = loginstatus, error = buildmodelerror)
-        elif buildmodelerror != []:
-            return render_template('menu.html', loginstatus = loginstatus, appdata=applist.appdata)
-            # Menu with warning
         else:
-            # Menu without any warning
-            return render_template('menu.html')
-
-        # Save errors, warnings to log file
-
+            return render_template('menu.html', loginstatus = loginstatus, appdata=applist.appdata)
         
     elif request.method == 'POST':
         print("Menu Post")
@@ -90,7 +83,6 @@ def menu():
 @app.route('/error', methods=['GET', 'POST'])
 def error():
     global loginstatus
-
     return render_template('error.html', loginstatus = loginstatus, error = error)
 
 
