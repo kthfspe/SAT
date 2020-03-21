@@ -132,16 +132,7 @@
       <input type="text" class="form-control" name="dbyamlfilename" value={{config["dbyamlfilename"]}}>
     </div>
   </div>
-  {% for item in config["settingspagelistfields"] %}
-  <div class="form-group">
-    <label for="inputEmail3" class=" col-form-label">{{ item }}</label>
-    <div class="form-group">
-      {% for field in config[item] %}
-      <input type="text" class="form-control" name={{field,item}} value={{field}}>
-      {%endfor%}
-      {%endfor%}
-    </div>
-  </div>
+
      </div>
 
 
