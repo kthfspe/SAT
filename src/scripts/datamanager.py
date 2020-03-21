@@ -12,6 +12,7 @@ class DataManager:
     function_list = set()
     power_set = set()
     gnd_set = set()
+    global_field_set = set()
     error = []
     log = []
     actual_error_count = 0
