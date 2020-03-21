@@ -115,7 +115,7 @@ def output():
 def searchbyname():
     global loginstatus
     searchresults = searchname.searchnameapp()
-    return render_template('outputdict.html', loginstatus = loginstatus, output = satconfig.config)
+    return render_template('outputlistofdict.html', loginstatus = loginstatus, output = dataman.corrected_functional)
 
 
 """
