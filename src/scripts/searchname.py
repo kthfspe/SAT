@@ -1,8 +1,8 @@
 import satconfig
 from dbmanager import DBManager
 
-def searchnameapp():
+def searchnameapp(nametosearch):
     dbm = DBManager()
     dbm.readdb()
     data = dbm.getdata()
-    print("Search Name")
+    return data['namedata'][nametosearch]

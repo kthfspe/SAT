@@ -114,8 +114,12 @@ def output():
 @app.route('/searchbyname', methods=['GET', 'POST'])
 def searchbyname():
     global loginstatus
-    searchresults = searchname.searchnameapp()
-    return render_template('outputlistofdict.html', loginstatus = loginstatus, output = dataman.corrected_functional)
+    if request.method == "GET":
+        if request.args.get("submitbutton") == "Submit":
+            result = searchname.searchnameapp(request.args.get('NameToSearch'))
+            return render_template('outputdict.html', loginstatus = loginstatus, output = result)
+    inputfields =["NameToSearch"]
+    return render_template('inputtext.html', loginstatus = loginstatus, inputfield = inputfields)
 
 
 """
