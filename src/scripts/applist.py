@@ -21,10 +21,6 @@ findfield = {
 
 appdata = [
     searchnamedata,
-    findfield,searchnamedata,
     findfield,
-searchnamedata,
-    findfield
-
 ]
 

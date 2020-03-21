@@ -94,8 +94,6 @@ def error():
     return render_template('error.html', loginstatus = loginstatus, error = error)
 
 
-
-
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
     global loginstatus
@@ -124,8 +122,8 @@ def output():
 @app.route('/searchbyname', methods=['GET', 'POST'])
 def searchbyname():
     global loginstatus
-    searchname.searchnameapp()
-    return render_template('searchbyname.html', loginstatus = loginstatus)
+    searchresults = searchname.searchnameapp()
+    return render_template('searchbyname.html', loginstatus = loginstatus, outputlist = searchresults)
 
 
 """
