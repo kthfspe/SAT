@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 
+{% if loginstatus == true %}
+{% block navbar %}
+    <a class="navbar-brand" href="/menu">
+                <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">SAT
+              </a>
+<li class="nav-item active">
+  <a href="/menu" class="nav-link" href="#">Menu <span class="sr-only">(current)</span></a>
+</li>
 
+{% endblock %}
+{% endif %}
 {% block content %} 
 {% if loginstatus == true %}
 
@@ -8,13 +18,13 @@
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item">
-          <a class="nav-link active">Output</a>
+          <a class="nav-link active">Output List<span class="badge badge-light">{{output|length}}</span></a>
         </li>
 
       </ul>
     </div>
     <div class="card-body">
-      <h5 class="card-title">Output</h5>
+      <h5 class="card-title">Output List </h5>
       <p class="card-text">
         <ol>
       {% for item in output %}

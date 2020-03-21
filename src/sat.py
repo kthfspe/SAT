@@ -123,7 +123,7 @@ def output():
 def searchbyname():
     global loginstatus
     searchresults = searchname.searchnameapp()
-    return render_template('searchbyname.html', loginstatus = loginstatus, outputlist = searchresults)
+    return render_template('outputlist.html', loginstatus = loginstatus, output = satconfig.config["physical_blocks"])
 
 
 """
