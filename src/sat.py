@@ -6,6 +6,7 @@ from gitmanager import GitManager
 from datamanager import DataManager
 from dbmanager import DBManager
 from localfile import readdrawiofile
+import yaml
 
 # from scripts.usermanager import UserManager
 import satconfig
@@ -23,6 +24,9 @@ error = []
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     global loginstatus
+    # Read config file
+    with open(satconfig.config["configyamlfilename"], 'r') as file:
+        documents = yaml.load(file)
     error = None
     if request.method == 'POST':
         if gitman.gitlogin(request.form['password']) == True:
@@ -107,11 +111,20 @@ def settings():
                 satconfig.config["debug"] = True
             else:
                 satconfig.config["debug"] = False
+            # Write this configuration to file
+            if os.path.exists(satconfig.config["configyamlfilename"]):
+                os.remove(satconfig.config["configyamlfilename"])
+            with open(satconfig.config["configyamlfilename"], 'w') as file:
+                documents = yaml.dump(satconfig.config, file)
             return redirect(url_for('menu'))
     return render_template('settings.html',loginstatus=loginstatus, config=satconfig.config)
 
 if __name__ == '__main__':
     # The server is run directly
+    if os.path.exists(satconfig.config["configyamlfilename"]):
+        os.remove(satconfig.config["configyamlfilename"])
+    with open(satconfig.config["configyamlfilename"], 'w') as file:
+        documents = yaml.dump(satconfig.config, file)  
     app.debug = True
     app.run()
 # else: (If imported by another module)

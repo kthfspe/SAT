@@ -2,7 +2,8 @@
 # This can be used to create a settings page in the app so some of these can be changed via the web interface.
 config = dict()
 # App status
-config["debug"] = True 
+config["debug"] = True #To choose between example files or default files
+config["appdebug"] = True #to run flask server in debug mode with verbose error pages
 
 # GIT related
 config["gitaccount"] = "kthfspe"
@@ -30,6 +31,7 @@ config["settingspagelistfields"] = ["ignore_blocktype", "physical_signals", "phy
         "mergefields_concat"]
 
 config["dbyamlfilename"] = "db/db.yaml"
+config["configyamlfilename"] = "config.yaml"
 
 config["ignore_blocktype"] = [ "FRAME", "IGNORE"]
 

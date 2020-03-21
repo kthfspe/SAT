@@ -1,0 +1,124 @@
+appdebug: true
+configyamlfilename: config.yaml
+dbyamlfilename: db/db.yaml
+debug: true
+defaultDVfun: DV_architecture/DV_functional_architecture.drawio
+defaultDVphy: DV_architecture/DV_physical_architecture.drawio
+defaultHVfun: HV_architecture/HV_functional_architecture.drawio
+defaultHVphy: HV_architecture/HV_physical_architecture.drawio
+defaultLVfun: LV_architecture/LV_functional_architecture.drawio
+defaultLVphy: LV_architecture/LV_physical_architecture.drawio
+defaultpowerlist:
+- +24V
+- +5V
+exampleDVfun: examples/DV_architecture/DV_functional_architecture
+exampleDVphy: examples/DV_architecture/DV_physical_architecture
+exampleHVfun: examples/HV_architecture/HV_functional_architecture
+exampleHVphy: examples/HV_architecture/HV_physical_architecture
+exampleLVfun: examples/LV_architecture/LV_functional_architecture
+exampleLVphy: examples/LV_architecture/LV_physical_architecture
+functional_blocks:
+- ENVIN
+- ENVOUT
+- FE
+functional_signals:
+- FS
+gitaccount: null
+gitrepo: null
+ignore_blocktype:
+- FRAME
+- IGNORE
+mergefields_concat:
+- id
+- Function
+- target
+mergefields_ignore_functional:
+- id
+- Filename
+- PageName
+- PageId
+- MetaParent
+- Allocation
+- x
+- y
+- label
+- placeholders
+- edge
+- MetaParent
+- width
+- relative
+- as
+- source_x
+- source_y
+- target_x
+- target_y
+- Function
+- target
+- TargetName
+- SourceName
+- source
+mergefields_ignore_physical:
+- id
+- Filename
+- PageName
+- PageId
+- MetaParent
+- x
+- y
+- label
+- placeholders
+- edge
+- MetaParent
+- width
+- relative
+- as
+- source_x
+- source_y
+- target_x
+- target_y
+- target
+- source
+- SourceName
+- TargetName
+physical_blocks:
+- SENS
+- OTSC
+- ECU
+- NCU
+- BAT
+- FCON
+- MCON
+- ACT
+- HMI
+- PCU
+physical_signals:
+- DIG
+- ANA
+- CAN
+settingspagefields:
+- debug
+- gitaccount
+- gitrepo
+- defaultLVphy
+- defaultLVfun
+- defaultHVphy
+- defaultHVfun
+- defaultDVfun
+- defaultDVphy
+- exampleLVphy
+- exampleLVfun
+- exampleHVphy
+- exampleHVfun
+- exampleDVfun
+- exampleDVphy
+- dbyamlfilename
+settingspagelistfields:
+- ignore_blocktype
+- physical_signals
+- physical_blocks
+- functional_signals
+- functional_blocks
+- defaultpowerlist
+- mergefields_ignore_physical
+- mergefields_ignore_functional
+- mergefields_concat
