@@ -1,10 +1,11 @@
 
 searchnamedata = {
-    "appname":"Search By Name",
+    "appname": "Search By Name",
+    "apptitle":"searchbyname",
     "appsubtitle":"Search any block or signal by name",
     "appbutton":"Go",
     "appfunctionname":"searchname.searchnameapp",
-    "apppage":"/searchbyname.html"
+    "apppage":"/searchbyname"
 }
 
 appdata = [

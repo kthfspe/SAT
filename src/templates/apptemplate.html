@@ -2,6 +2,9 @@
 
 {% if loginstatus == true %}
 {% block navbar %}
+     <a class="navbar-brand" href="/menu">
+                <img src="{{url_for('static', filename='logo.png')}}" width="43" height="40" alt="">SAT
+              </a>
 <li class="nav-item active">
   <a href="/menu" class="nav-link" href="#">Menu <span class="sr-only">(current)</span></a>
 </li>

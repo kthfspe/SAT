@@ -87,15 +87,9 @@ def menu():
         return render_template('menu.html', loginstatus = loginstatus)
 
 
-@app.route('/output', methods=['GET', 'POST'])
-def output():
-    global loginstatus,error, warning
-
-    return render_template('output.html', loginstatus = loginstatus)
-
 @app.route('/error', methods=['GET', 'POST'])
 def error():
-    global loginstatus,error
+    global loginstatus
 
     return render_template('error.html', loginstatus = loginstatus, error = error)
 
@@ -120,6 +114,32 @@ def settings():
                 documents = yaml.dump(satconfig.config, file)
             return redirect(url_for('menu'))
     return render_template('settings.html',loginstatus=loginstatus, config=satconfig.config)
+
+@app.route('/output', methods=['GET', 'POST'])
+def output():
+    global loginstatus,error, warning
+
+    return render_template('output.html', loginstatus = loginstatus)
+
+@app.route('/searchbyname', methods=['GET', 'POST'])
+def searchbyname():
+    global loginstatus
+    searchname.searchnameapp()
+    return render_template('searchbyname.html', loginstatus = loginstatus)
+
+
+"""
+
+TEMPLATE FOR ADDING A ROUTE TO YOUR NEW APP
+
+@app.route('/apppage', methods=['GET', 'POST'])
+def apptitle():
+    global loginstatus
+    
+    return render_template('apppage.html', loginstatus = loginstatus)
+
+"""
+
 
 if __name__ == '__main__':
     # The server is run directly
