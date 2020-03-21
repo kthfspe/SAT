@@ -8,7 +8,23 @@ searchnamedata = {
     "apppage":"/searchbyname"
 }
 
+
+findfield = {
+    "appname": "Find",
+    "apptitle":"findfield",
+    "appsubtitle":"Find a string in any field in the DB",
+    "appbutton":"Go",
+    "appfunctionname":"findfield.findfieldapp",
+    "apppage":"/findfield"
+}
+
+
 appdata = [
-    searchnamedata
+    searchnamedata,
+    findfield,searchnamedata,
+    findfield,
+searchnamedata,
+    findfield
+
 ]
 

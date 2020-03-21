@@ -15,8 +15,12 @@
 
 
 <div class="p-3">
+
+  {% for app in appdata%}
+
+  {% if loop.index0 % 4 == 0%}
         <div class="row">
-          {% for app in appdata %}
+        {% endif %}
 
                 <div class="col-sm-3">
                   <div class="card">
@@ -27,9 +31,11 @@
                     </div>
                   </div>
                 </div>
-               {% endfor %}
-              </div>
-
+            
+  {% if loop.index % 4 == 0%}
+              </div><br><br>
+              {% endif %}
+{% endfor %}
 </div>        
 
 
