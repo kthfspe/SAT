@@ -107,11 +107,6 @@ def settings():
             return redirect(url_for('menu'))
     return render_template('settings.html',loginstatus=loginstatus, config=satconfig.config)
 
-@app.route('/output', methods=['GET', 'POST'])
-def output():
-    global loginstatus,error, warning
-
-    return render_template('output.html', loginstatus = loginstatus)
 
 @app.route('/searchbyname', methods=['GET', 'POST'])
 def searchbyname():
