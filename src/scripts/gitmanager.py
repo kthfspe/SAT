@@ -2,21 +2,22 @@ from github import Github
 import xml.etree.ElementTree as ET
 import base64  
 import os
-from scripts import satconfig
 
 class GitManager:
     gitobject = None
     repo = None
     gitpat = None
     XMLContent = [None]
+    config = dict()
     def __init__(self):
         pass
     
-    def gitlogin(self, pat):
+    def gitlogin(self, pat, config):
+        self.config = config
         self.gitpat = pat
         self.gitobject = Github(pat)
         try:
-            self.repo = self.gitobject.get_repo(satconfig.config["gitaccount"]+"/"+satconfig.config["gitrepo"])
+            self.repo = self.gitobject.get_repo(self.config["gitaccount"]+"/"+self.config["gitrepo"])
             return True
         except:
             print("Access Denied. Check your Personal Access Token and your access to repo kthfspe/SA")
@@ -26,7 +27,7 @@ class GitManager:
         blockpositiondata = dict()
         filename = os.path.basename(str(path))
         self.XMLContent = [] #Empties the XMLContent container for reading a new file
-        self.repo = self.gitobject.get_repo(satconfig.config["gitaccount"]+"/"+satconfig.config["gitrepo"])
+        self.repo = self.gitobject.get_repo(self.config["gitaccount"]+"/"+self.config["gitrepo"])
         self.contents = self.repo.get_contents(str(path))
         self.stringcontent = base64.b64decode(self.contents.content)
         self.root = ET.fromstring(self.stringcontent)       

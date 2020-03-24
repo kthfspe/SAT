@@ -8,10 +8,6 @@ from dbmanager import DBManager
 from configmanager import ConfigManager
 import yaml
 import searchname
-import applist
-
-# from scripts.usermanager import UserManager
-import satconfig
 
 # Create Flask App object
 app = Flask(__name__)
@@ -30,7 +26,7 @@ def login():
     global loginstatus
     error = None
     if request.method == 'POST':
-        if gitman.gitlogin(request.form['password']) == True:
+        if gitman.gitlogin(request.form['password'], configman.configdata) == True:
             loginstatus = True
             return redirect(url_for('menu'))
         else:
@@ -48,34 +44,34 @@ def menu():
     raw_physical = []
     if request.method == 'GET' and buildstatus == False:
         # Read each file from github
-        if satconfig.config["debug"]== False:
-            raw_functional1 = gitman.readfile(satconfig.config["defaultLVfun"])
-            raw_functional2 = gitman.readfile(satconfig.config["defaultHVfun"])
-            raw_functional3 = gitman.readfile(satconfig.config["defaultDVfun"])
+        if configman.configdata["debug"]== False:
+            raw_functional1 = gitman.readfile(configman.configdata["defaultLVfun"])
+            raw_functional2 = gitman.readfile(configman.configdata["defaultHVfun"])
+            raw_functional3 = gitman.readfile(configman.configdata["defaultDVfun"])
             raw_functional = raw_functional1 + raw_functional2 + raw_functional3
-            raw_physical1 = gitman.readfile(satconfig.config["defaultLVphy"])
-            raw_physical2 = gitman.readfile(satconfig.config["defaultHVphy"])
-            raw_physical3 = gitman.readfile(satconfig.config["defaultDVphy"])
+            raw_physical1 = gitman.readfile(configman.configdata["defaultLVphy"])
+            raw_physical2 = gitman.readfile(configman.configdata["defaultHVphy"])
+            raw_physical3 = gitman.readfile(configman.configdata["defaultDVphy"])
             raw_physical = raw_physical1 + raw_physical2 + raw_physical3       
         else:
-            raw_functional1 = gitman.readfile(satconfig.config["exampleLVfun"])
-            raw_functional2 = gitman.readfile(satconfig.config["exampleHVfun"])
-            raw_functional3 = gitman.readfile(satconfig.config["exampleDVfun"])
+            raw_functional1 = gitman.readfile(configman.configdata["exampleLVfun"])
+            raw_functional2 = gitman.readfile(configman.configdata["exampleHVfun"])
+            raw_functional3 = gitman.readfile(configman.configdata["exampleDVfun"])
             raw_functional = raw_functional1 + raw_functional2 + raw_functional3
-            raw_physical1 = gitman.readfile(satconfig.config["exampleLVphy"])
-            raw_physical2 = gitman.readfile(satconfig.config["exampleHVphy"])
-            raw_physical3 = gitman.readfile(satconfig.config["exampleDVphy"])
+            raw_physical1 = gitman.readfile(configman.configdata["exampleLVphy"])
+            raw_physical2 = gitman.readfile(configman.configdata["exampleHVphy"])
+            raw_physical3 = gitman.readfile(configman.configdata["exampleDVphy"])
             raw_physical = raw_physical1 + raw_physical2 + raw_physical3       
 
         # Build data model using the raw data
-        buildmodelerror, buildmodelstatus= dataman.buildmodel(raw_functional, raw_physical)
+        buildmodelerror, buildmodelstatus= dataman.buildmodel(raw_functional, raw_physical, configman.configdata)
         if  buildmodelstatus != 0:
             return render_template('error.html', loginstatus = loginstatus, error = buildmodelerror)
         else:
             buildstatus = True
-            return render_template('menu.html', loginstatus = loginstatus, appdata=applist.appdata)
+            return render_template('menu.html', loginstatus = loginstatus, appdata=configman.getappdata())
     elif buildstatus == True:
-        return render_template('menu.html', loginstatus = loginstatus, appdata = applist.appdata)
+        return render_template('menu.html', loginstatus = loginstatus, appdata = configman.getappdata())
     elif request.method == 'POST':
         print("Menu Post")
         return render_template('menu.html', loginstatus = loginstatus)
@@ -90,22 +86,19 @@ def error():
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
     global loginstatus, buildstatus
+    configman.loadconfigdata()
     if request.method == "GET":
         if request.args.get("submitbutton") == "Apply & Rebuild Model":
             buildstatus = False
-            for item in satconfig.config["settingspagefields"]:
-                satconfig.config[item] = request.args.get(item)
+            for item in configman.configdata["settingspagefields"]:
+                configman.configdata[item] = request.args.get(item)
             if request.args.get("debug"):
-                satconfig.config["debug"] = True
+                configman.configdata["debug"] = True
             else:
-                satconfig.config["debug"] = False
-            # Write this configuration to file
-            if os.path.exists(satconfig.config["configyamlfilename"]):
-                os.remove(satconfig.config["configyamlfilename"])
-            with open(satconfig.config["configyamlfilename"], 'w') as file:
-                documents = yaml.dump(satconfig.config, file)
+                configman.configdata["debug"] = False
+            configman.saveconfigdata()
             return redirect(url_for('menu'))
-    return render_template('settings.html',loginstatus=loginstatus, config=satconfig.config)
+    return render_template('settings.html',loginstatus=loginstatus, config=configman.configdata)
 
 
 @app.route('/searchbyname', methods=['GET', 'POST'])
@@ -113,10 +106,10 @@ def searchbyname():
     global loginstatus
     if request.method == "GET":
         if request.args.get("submitbutton") == "Submit":
-            result = searchname.searchnameapp(request.args.get('NameToSearch'))
+            result = searchname.searchnameapp(request.args.get('NameToSearch'), configman.configdata)
             return render_template('outputdict.html', loginstatus = loginstatus, output = result)
     inputfields =["NameToSearch"]
-    return render_template('inputtext.html', loginstatus = loginstatus, inputfield = inputfields, app=applist.searchnamedata)
+    return render_template('inputtext.html', loginstatus = loginstatus, inputfield = inputfields, app=configman.getappbyname(searchbyname))
 
 
 """
@@ -133,11 +126,8 @@ def apptitle():
 
 
 if __name__ == '__main__':
+    configman.loadconfigdata()
     # The server is run directly
-    if os.path.exists(satconfig.config["configyamlfilename"]):
-        os.remove(satconfig.config["configyamlfilename"])
-    with open(satconfig.config["configyamlfilename"], 'w') as file:
-        documents = yaml.dump(satconfig.config, file)  
     app.debug = True
     app.run()
 # else: (If imported by another module)

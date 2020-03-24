@@ -1,19 +1,30 @@
 import yaml
+import os
+
 
 class ConfigManager:
     configdata = []
+    configfilepath = "config.yaml"
     def __init__(self):
         pass
 
     def loadconfigdata(self):
-        with open(satconfig.config["configyamlfilename"], 'r') as file:
-            documents = yaml.load(file)
+        with open(self.configfilepath, 'r') as file:
+            self.configdata = yaml.load(file)
 
     def saveconfigdata(self):
-        if os.path.exists(satconfig.config["configyamlfilename"]):
-            os.remove(satconfig.config["configyamlfilename"])
-        with open(satconfig.config["configyamlfilename"], 'w') as file:
-            documents = yaml.dump(satconfig.config, file)  
+        if os.path.exists(self.configfilepath):
+            os.remove(self.configfilepath)
+        with open(self.configfilepath, 'w') as file:
+            yaml.dump(self.configdata, file)  
+
+    def getappdata(self):
+        return self.configdata["appdata"]
+
+    def getappbyname(self, appname):
+        for item in self.configdata["appdata"]:
+            if item["apptitle"] == appname:
+                return item
 
 
 
