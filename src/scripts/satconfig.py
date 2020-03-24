@@ -51,3 +51,22 @@ config["mergefields_ignore_functional"] = ["id", "Filename", "PageName", "PageId
     "x", "y", "label", "placeholders", "edge", "MetaParent", "width", "relative", "as", "source_x", "source_y",\
        "target_x", "target_y", "Function", "target" , "TargetName", "SourceName", "source"]
 config["mergefields_concat"] = ["id", "Function", "target"]
+
+config["appdata"] = [{
+    "appname": "Search By Name",
+    "apptitle":"searchbyname",
+    "appsubtitle":"Search any block or signal by name",
+    "appbutton":"Go",
+    "appfunctionname":"searchname.searchnameapp",
+    "apppage":"/searchbyname",
+    "apphelptext":"Only the exact string match will be searched for. Not case sensitive",
+}, {
+    "appname": "Find",
+    "apptitle":"findfield",
+    "appsubtitle":"Find a string in any field in the DB",
+    "appbutton":"Go",
+    "appfunctionname":"findfield.findfieldapp",
+    "apppage":"/findfield",
+    "apphelptext": "Checks for all fields",
+}
+]

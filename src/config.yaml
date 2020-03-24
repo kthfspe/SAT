@@ -1,3 +1,18 @@
+appdata:
+- appbutton: Go
+  appfunctionname: searchname.searchnameapp
+  apphelptext: Only the exact string match will be searched for. Not case sensitive
+  appname: Search By Name
+  apppage: /searchbyname
+  appsubtitle: Search any block or signal by name
+  apptitle: searchbyname
+- appbutton: Go
+  appfunctionname: findfield.findfieldapp
+  apphelptext: Checks for all fields
+  appname: Find
+  apppage: /findfield
+  appsubtitle: Find a string in any field in the DB
+  apptitle: findfield
 appdebug: true
 configyamlfilename: config.yaml
 dbyamlfilename: db/db.yaml

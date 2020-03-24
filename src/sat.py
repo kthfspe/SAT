@@ -5,6 +5,7 @@ from flask import Flask, url_for, render_template, request, redirect
 from gitmanager import GitManager
 from datamanager import DataManager
 from dbmanager import DBManager
+from configmanager import ConfigManager
 import yaml
 import searchname
 import applist
@@ -18,6 +19,7 @@ app = Flask(__name__)
 # Create git object to interface to Github
 gitman = GitManager()
 dataman = DataManager()
+configman = ConfigManager()
 loginstatus = False
 buildstatus = False
 error = []
@@ -26,9 +28,6 @@ error = []
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     global loginstatus
-    # Read config file
-    with open(satconfig.config["configyamlfilename"], 'r') as file:
-        documents = yaml.load(file)
     error = None
     if request.method == 'POST':
         if gitman.gitlogin(request.form['password']) == True:
