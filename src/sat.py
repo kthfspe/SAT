@@ -5,7 +5,6 @@ from flask import Flask, url_for, render_template, request, redirect
 from gitmanager import GitManager
 from datamanager import DataManager
 from dbmanager import DBManager
-from localfile import readdrawiofile
 import yaml
 import searchname
 import applist
