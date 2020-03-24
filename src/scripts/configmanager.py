@@ -21,9 +21,9 @@ class ConfigManager:
     def getappdata(self):
         return self.configdata["appdata"]
 
-    def getappbyname(self, appname):
+    def getappbyname(self, apptitle):
         for item in self.configdata["appdata"]:
-            if item["apptitle"] == appname:
+            if item["apptitle"] == apptitle:
                 return item
 
 
