@@ -898,7 +898,7 @@ iddata:
   Bl6xnmuNeiNVoP8VT8uE-2: *id004
   Bl6xnmuNeiNVoP8VT8uE-3: *id005
   FpaUlLngAdCkIRKB68SG-0: *id006
-  M9Lgb-TiSH23GFM2kgp6-0:
+  M9Lgb-TiSH23GFM2kgp6-0: &id032
     Allocation: MotorController
     BlockType: FE
     Comments: ''
@@ -925,7 +925,7 @@ iddata:
   OBl4HP1Sqyp-nDc-58IU-5: *id010
   Ys8SpRmWODw6HaS6W5Yc-1: *id011
   Ys8SpRmWODw6HaS6W5Yc-2: *id012
-  Ys8SpRmWODw6HaS6W5Yc-3:
+  Ys8SpRmWODw6HaS6W5Yc-3: &id033
     BlockType: ANA
     Comments: ''
     Description: ''
@@ -954,7 +954,7 @@ iddata:
     target_y: '285'
     width: '160'
   bLo15xl2VFj0ck93BPsm-0: *id013
-  dh2uA4eiaawt6UCHKnqp-0:
+  dh2uA4eiaawt6UCHKnqp-0: &id034
     Allocation: MotorController
     BlockType: FE
     Comments: ''
@@ -978,7 +978,7 @@ iddata:
   dh2uA4eiaawt6UCHKnqp-2: *id014
   dh2uA4eiaawt6UCHKnqp-3: *id015
   eIv0g1-WtwLJReh85AbT-0: *id016
-  eIv0g1-WtwLJReh85AbT-1:
+  eIv0g1-WtwLJReh85AbT-1: &id035
     BlockType: PCU
     Comments: ''
     Description: ''
@@ -1004,7 +1004,7 @@ iddata:
     x: '180'
     y: '240'
   eIv0g1-WtwLJReh85AbT-10: *id017
-  eIv0g1-WtwLJReh85AbT-11:
+  eIv0g1-WtwLJReh85AbT-11: &id036
     BlockType: DIG
     Comments: ''
     Description: ''
@@ -1033,7 +1033,7 @@ iddata:
     target_x: '25'
     target_y: '350'
     width: '160'
-  eIv0g1-WtwLJReh85AbT-2:
+  eIv0g1-WtwLJReh85AbT-2: &id037
     BlockType: FCON
     Comments: ''
     CurrentRating: '5'
@@ -1074,7 +1074,7 @@ iddata:
     width: '130'
     x: '180'
     y: '400'
-  eIv0g1-WtwLJReh85AbT-5:
+  eIv0g1-WtwLJReh85AbT-5: &id038
     BlockType: ANA
     Comments: ''
     Description: ''
@@ -1108,7 +1108,7 @@ iddata:
   j8V-1hMxA4bU853FGvTa-2: *id021
   j8V-1hMxA4bU853FGvTa-3: *id022
   j8V-1hMxA4bU853FGvTa-4: *id023
-  lXGBZ7STXAd_atv_A4eX-0:
+  lXGBZ7STXAd_atv_A4eX-0: &id039
     Allocation: MotorController
     BlockType: FE
     Comments: ''
@@ -1130,7 +1130,7 @@ iddata:
     x: '584'
     y: '170'
   lXGBZ7STXAd_atv_A4eX-2: *id024
-  nqOCFN8WeGmOZilWQvZ9-0:
+  nqOCFN8WeGmOZilWQvZ9-0: &id040
     BlockType: PCU
     Comments: ''
     Description: ''
@@ -1159,7 +1159,7 @@ iddata:
   nqOCFN8WeGmOZilWQvZ9-4: *id026
   nqOCFN8WeGmOZilWQvZ9-5: *id027
   nqOCFN8WeGmOZilWQvZ9-6: *id028
-  nqOCFN8WeGmOZilWQvZ9-7:
+  nqOCFN8WeGmOZilWQvZ9-7: &id041
     BlockType: DIG
     Comments: ''
     Description: ''
@@ -1190,7 +1190,7 @@ iddata:
     width: '160'
   nqOCFN8WeGmOZilWQvZ9-8: *id029
   nx52atOp_2DLuxGxYkma-3: *id030
-  rX7hp6kbmGO_W8NvW-J6-1:
+  rX7hp6kbmGO_W8NvW-J6-1: &id042
     BlockType: FS
     Comments: ''
     Description: ''
@@ -1217,34 +1217,50 @@ iddata:
     target_y: '300'
     width: '160'
   rX7hp6kbmGO_W8NvW-J6-2: *id031
-namedata:
-  BikeMotor: *id021
-  BikeMotor/J2: *id012
-  BikeSpeed: *id007
-  BikeSpeedCorrected: *id005
-  BikeSpeedPulse: *id003
-  BikeSpeedRaw: *id004
-  BrakeLight: *id017
-  BrakeLight/BrakeLightConnector: *id019
-  BrakeLightIndicator: *id013
-  BrakeLightSignal: *id031
-  CHASSIS/SensorConnector: *id018
-  ElectricMotor: *id015
-  MainBattery: *id023
-  MotorController: *id020
-  MotorController/J1: *id011
-  MotorController/MainConnector: *id025
-  MotorPowerUVW: *id002
-  MotorSpeedController: *id010
-  PulseToSpeedConverter: *id009
-  ReferenceSpeed: *id001
-  ReferenceSpeedEstimator: *id014
-  SensorPlausibilityCheck: *id008
-  SpeedDeltaCalculator: *id024
-  ThrottleRequest: *id006
-  ThrottleSensor: *id030
-  WheelSpeedSensor: *id026
 power: !!set
   '24': null
   BrakeLightSignal: null
   MotorController: null
+rawiddata:
+  80SNZC44-fTR_zHfF6Bs-0: *id001
+  80SNZC44-fTR_zHfF6Bs-1: *id002
+  Bl6xnmuNeiNVoP8VT8uE-1: *id003
+  Bl6xnmuNeiNVoP8VT8uE-2: *id004
+  Bl6xnmuNeiNVoP8VT8uE-3: *id005
+  FpaUlLngAdCkIRKB68SG-0: *id006
+  M9Lgb-TiSH23GFM2kgp6-0: *id032
+  OBl4HP1Sqyp-nDc-58IU-1: *id007
+  OBl4HP1Sqyp-nDc-58IU-2: *id008
+  OBl4HP1Sqyp-nDc-58IU-4: *id009
+  OBl4HP1Sqyp-nDc-58IU-5: *id010
+  Ys8SpRmWODw6HaS6W5Yc-1: *id011
+  Ys8SpRmWODw6HaS6W5Yc-2: *id012
+  Ys8SpRmWODw6HaS6W5Yc-3: *id033
+  bLo15xl2VFj0ck93BPsm-0: *id013
+  dh2uA4eiaawt6UCHKnqp-0: *id034
+  dh2uA4eiaawt6UCHKnqp-2: *id014
+  dh2uA4eiaawt6UCHKnqp-3: *id015
+  eIv0g1-WtwLJReh85AbT-0: *id016
+  eIv0g1-WtwLJReh85AbT-1: *id035
+  eIv0g1-WtwLJReh85AbT-10: *id017
+  eIv0g1-WtwLJReh85AbT-11: *id036
+  eIv0g1-WtwLJReh85AbT-2: *id037
+  eIv0g1-WtwLJReh85AbT-5: *id038
+  eIv0g1-WtwLJReh85AbT-7: *id018
+  eIv0g1-WtwLJReh85AbT-8: *id019
+  j8V-1hMxA4bU853FGvTa-1: *id020
+  j8V-1hMxA4bU853FGvTa-2: *id021
+  j8V-1hMxA4bU853FGvTa-3: *id022
+  j8V-1hMxA4bU853FGvTa-4: *id023
+  lXGBZ7STXAd_atv_A4eX-0: *id039
+  lXGBZ7STXAd_atv_A4eX-2: *id024
+  nqOCFN8WeGmOZilWQvZ9-0: *id040
+  nqOCFN8WeGmOZilWQvZ9-2: *id025
+  nqOCFN8WeGmOZilWQvZ9-4: *id026
+  nqOCFN8WeGmOZilWQvZ9-5: *id027
+  nqOCFN8WeGmOZilWQvZ9-6: *id028
+  nqOCFN8WeGmOZilWQvZ9-7: *id041
+  nqOCFN8WeGmOZilWQvZ9-8: *id029
+  nx52atOp_2DLuxGxYkma-3: *id030
+  rX7hp6kbmGO_W8NvW-J6-1: *id042
+  rX7hp6kbmGO_W8NvW-J6-2: *id031

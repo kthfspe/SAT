@@ -16,6 +16,7 @@ class DataManager:
     log = []
     actual_error_count = 0
     iddata = dict()
+    rawiddata = dict()
     globaliddata = dict()
     namedata = dict()
 
@@ -30,7 +31,10 @@ class DataManager:
         self.corrected_physical = []
         self.raw_physical = rp
         self.raw_functional = rf
-        self.physical_blocktypes = self.config["physical_signals"]
+        
+        # Create a dict lookup with raw data to save to db later
+        self.createrawlookup()
+        
         # Remove ignored blocks from the global block list
         self.error.append("Building Model...")
         self.error.append("Removing blocks from ignorelist...")
@@ -120,9 +124,6 @@ class DataManager:
 
         # Adds a global id to all elements and creates a lookup with globalid as key      
         self.createglobalidlookup()
-
-        # Creates a lookup with the name as the key
-        self.createnamelookup()
 
         # Creates a set of all power supply elements
         self.createpowerset()
@@ -304,11 +305,11 @@ class DataManager:
         idphysical.update(idfunctional)
         self.iddata = idphysical
 
-    def createnamelookup(self):
-        idphysical = {k['Name']:k for k in self.corrected_physical }
-        idfunctional = {k['Name']:k for k in self.corrected_functional}
+    def createrawlookup(self):
+        idphysical = {k['id']:k for k in self.raw_physical }
+        idfunctional = {k['id']:k for k in self.raw_functional}
         idphysical.update(idfunctional)
-        self.namedata = idphysical
+        self.rawiddata = idphysical
 
     def createpowerset(self):
         powerlist = []
@@ -345,9 +346,9 @@ class DataManager:
         data = dict()
         data["iddata"] = self.iddata
         data["globaliddata"] = self.globaliddata
-        data["namedata"] = self.namedata
         data["enclosure"] = self.enclosure_list
         data["power"] = self.power_set
+        data['rawiddata'] = self.rawiddata
 
         if os.path.exists(self.config["dbyamlfilename"]):
             os.remove(self.config["dbyamlfilename"])

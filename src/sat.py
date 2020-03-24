@@ -7,7 +7,7 @@ from datamanager import DataManager
 from dbmanager import DBManager
 from configmanager import ConfigManager
 import yaml
-import searchname
+import searchname, findfield
 
 # Create Flask App object
 app = Flask(__name__)
@@ -110,6 +110,17 @@ def searchbyname():
             return render_template('outputdict.html', loginstatus = loginstatus, output = result)
     inputfields =["NameToSearch"]
     return render_template('inputtext.html', loginstatus = loginstatus, inputfield = inputfields, app=configman.getappbyname(searchbyname))
+
+@app.route('/findfield', methods=['GET', 'POST'])
+def find():
+    global loginstatus
+    if request.method == "GET":
+        if request.args.get("submitbutton") == "Submit":
+            result = findfield.findfieldapp(request.args.get('FieldToSearch'), configman.configdata)
+            return render_template('outputlistofdict.html', loginstatus = loginstatus, output = result)
+    inputfields =["FieldToSearch"]
+    return render_template('inputtext.html', loginstatus = loginstatus, inputfield = inputfields, app=configman.getappbyname(searchbyname))
+
 
 
 """
