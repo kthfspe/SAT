@@ -6,7 +6,7 @@ class ConfigManager:
     configdata = []
     configfilepath = "config.yaml"
     def __init__(self):
-        pass
+        self.loadconfigdata()
 
     def loadconfigdata(self):
         with open(self.configfilepath, 'r') as file:
