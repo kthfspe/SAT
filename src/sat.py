@@ -45,23 +45,19 @@ def menu():
     if request.method == 'GET' and buildstatus == False:
         # Read each file from github
         if configman.configdata["debug"]== False:
-            raw_functional1 = gitman.readfile(configman.configdata["defaultLVfun"])
-            raw_functional2 = gitman.readfile(configman.configdata["defaultHVfun"])
-            raw_functional3 = gitman.readfile(configman.configdata["defaultDVfun"])
-            raw_functional = raw_functional1 + raw_functional2 + raw_functional3
-            raw_physical1 = gitman.readfile(configman.configdata["defaultLVphy"])
-            raw_physical2 = gitman.readfile(configman.configdata["defaultHVphy"])
-            raw_physical3 = gitman.readfile(configman.configdata["defaultDVphy"])
-            raw_physical = raw_physical1 + raw_physical2 + raw_physical3       
+            raw_functional = gitman.readfile(configman.configdata["defaultLVfun"]) +\
+                                gitman.readfile(configman.configdata["defaultHVfun"])+\
+                                gitman.readfile(configman.configdata["defaultDVfun"])
+            raw_physical = gitman.readfile(configman.configdata["defaultLVphy"]) +\
+                            gitman.readfile(configman.configdata["defaultHVphy"]) +\
+                            gitman.readfile(configman.configdata["defaultDVphy"])
         else:
-            raw_functional1 = gitman.readfile(configman.configdata["exampleLVfun"])
-            raw_functional2 = gitman.readfile(configman.configdata["exampleHVfun"])
-            raw_functional3 = gitman.readfile(configman.configdata["exampleDVfun"])
-            raw_functional = raw_functional1 + raw_functional2 + raw_functional3
-            raw_physical1 = gitman.readfile(configman.configdata["exampleLVphy"])
-            raw_physical2 = gitman.readfile(configman.configdata["exampleHVphy"])
-            raw_physical3 = gitman.readfile(configman.configdata["exampleDVphy"])
-            raw_physical = raw_physical1 + raw_physical2 + raw_physical3       
+            raw_functional = gitman.readfile(configman.configdata["exampleLVfun"])+\
+                                gitman.readfile(configman.configdata["exampleHVfun"])+\
+                                gitman.readfile(configman.configdata["exampleDVfun"])
+            raw_physical1 = gitman.readfile(configman.configdata["exampleLVphy"])+\
+                            gitman.readfile(configman.configdata["exampleHVphy"])+\
+                            gitman.readfile(configman.configdata["exampleDVphy"])
 
         # Build data model using the raw data
         buildmodelerror, buildmodelstatus= dataman.buildmodel(raw_functional, raw_physical, configman.configdata)
@@ -107,9 +103,9 @@ def searchbyname():
     if request.method == "GET":
         if request.args.get("submitbutton") == "Submit":
             result = searchname.searchnameapp(request.args.get('NameToSearch'), configman.configdata)
-            return render_template('outputlistofdict.html', loginstatus = loginstatus, output = result, app = configman.getappbytitle(searchbyname))
+            return render_template('outputlistofdict.html', loginstatus = loginstatus, output = result, app = configman.getappbytitle("searchbyname"))
     inputfields =["NameToSearch"]
-    return render_template('inputtext.html', loginstatus = loginstatus, inputfield = inputfields, app=configman.getappbytitle(searchbyname))
+    return render_template('inputtext.html', loginstatus = loginstatus, inputfield = inputfields, app=configman.getappbytitle("searchbyname"))
 
 @app.route('/findfield', methods=['GET', 'POST'])
 def find():
@@ -117,9 +113,9 @@ def find():
     if request.method == "GET":
         if request.args.get("submitbutton") == "Submit":
             result = findfield.findfieldapp(request.args.get('FieldToSearch'), configman.configdata)
-            return render_template('outputlistofdict.html', loginstatus = loginstatus, output = result, app=configman.getappbytitle(findfield))
+            return render_template('outputlistofdict.html', loginstatus = loginstatus, output = result, app=configman.getappbytitle("findfield"))
     inputfields =["FieldToSearch"]
-    return render_template('inputtext.html', loginstatus = loginstatus, inputfield = inputfields, app=configman.getappbytitle(findfield))
+    return render_template('inputtext.html', loginstatus = loginstatus, inputfield = inputfields, app=configman.getappbytitle("findfield"))
 
 
 
