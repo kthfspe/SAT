@@ -18,7 +18,7 @@
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item">
-<a class="nav-link active">Output List of Dict<span class="badge badge-light">{{output|length}}</span></a>
+<a class="nav-link active">{{app["appdisplayname"]}}<span class="badge badge-light">{{output|length}}</span></a>
         </li>
  
       </ul>
@@ -26,13 +26,15 @@
     <div class="card-body">
       <h5 class="card-title">Output</h5>
       <p class="card-text">
-        <ol>
+      
       {% for item in output %}
+      <ol>
       {% for field in item%}
   <li>{{field, item[field]}}</li>
   {% endfor %}
+      </ol>
   {% endfor %}
-</ol>
+
       </p>
     </div>
   </div>

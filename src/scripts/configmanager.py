@@ -21,10 +21,13 @@ class ConfigManager:
     def getappdata(self):
         return self.configdata["appdata"]
 
-    def getappbyname(self, apptitle):
+    def getappbytitle(self, apptitle):
         for item in self.configdata["appdata"]:
             if item["apptitle"] == apptitle:
                 return item
+    
+    def getappfield(self, apptitle, field):
+        return [i[field] for i in self.configdata['appdata'] if i["apptitle"] == apptitle][0]
 
 
 

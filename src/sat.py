@@ -107,9 +107,9 @@ def searchbyname():
     if request.method == "GET":
         if request.args.get("submitbutton") == "Submit":
             result = searchname.searchnameapp(request.args.get('NameToSearch'), configman.configdata)
-            return render_template('outputdict.html', loginstatus = loginstatus, output = result)
+            return render_template('outputlistofdict.html', loginstatus = loginstatus, output = result, app = configman.getappbytitle(searchbyname))
     inputfields =["NameToSearch"]
-    return render_template('inputtext.html', loginstatus = loginstatus, inputfield = inputfields, app=configman.getappbyname(searchbyname))
+    return render_template('inputtext.html', loginstatus = loginstatus, inputfield = inputfields, app=configman.getappbytitle(searchbyname))
 
 @app.route('/findfield', methods=['GET', 'POST'])
 def find():
@@ -117,9 +117,9 @@ def find():
     if request.method == "GET":
         if request.args.get("submitbutton") == "Submit":
             result = findfield.findfieldapp(request.args.get('FieldToSearch'), configman.configdata)
-            return render_template('outputlistofdict.html', loginstatus = loginstatus, output = result)
+            return render_template('outputlistofdict.html', loginstatus = loginstatus, output = result, app=configman.getappbytitle(findfield))
     inputfields =["FieldToSearch"]
-    return render_template('inputtext.html', loginstatus = loginstatus, inputfield = inputfields, app=configman.getappbyname(searchbyname))
+    return render_template('inputtext.html', loginstatus = loginstatus, inputfield = inputfields, app=configman.getappbytitle(findfield))
 
 
 

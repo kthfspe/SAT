@@ -1,19 +1,19 @@
 appdata:
 - appbutton: Go
-  apppackagename: searchname
+  appdisplayname: Search By Name
+  appdisplaysubtext: Search any block or signal by name
   appfunctionname: searchnameapp
   apphelptext: Only the exact string match will be searched for. Not case sensitive
-  appdisplayname: Search By Name
+  apppackagename: searchname
   apppage: /searchbyname
-  appdisplaysubtext: Search any block or signal by name
   apptitle: searchbyname
 - appbutton: Go
-  apppackagename: findfield
+  appdisplayname: Find
+  appdisplaysubtext: Find a string in any field in the DB
   appfunctionname: findfieldapp
   apphelptext: Checks for all fields
-  appdisplayname: Find
+  apppackagename: findfield
   apppage: /findfield
-  appdisplaysubtext: Find a string in any field in the DB
   apptitle: findfield
 appdebug: true
 configyamlfilename: config.yaml
@@ -114,8 +114,6 @@ physical_signals:
 - CAN
 settingspagefields:
 - debug
-- gitaccount
-- gitrepo
 - defaultLVphy
 - defaultLVfun
 - defaultHVphy
