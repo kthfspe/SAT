@@ -55,7 +55,7 @@ def menu():
             raw_functional = gitman.readfile(configman.configdata["exampleLVfun"])+\
                                 gitman.readfile(configman.configdata["exampleHVfun"])+\
                                 gitman.readfile(configman.configdata["exampleDVfun"])
-            raw_physical1 = gitman.readfile(configman.configdata["exampleLVphy"])+\
+            raw_physical = gitman.readfile(configman.configdata["exampleLVphy"])+\
                             gitman.readfile(configman.configdata["exampleHVphy"])+\
                             gitman.readfile(configman.configdata["exampleDVphy"])
 

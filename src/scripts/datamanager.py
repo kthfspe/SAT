@@ -31,7 +31,6 @@ class DataManager:
         self.corrected_physical = []
         self.raw_physical = rp
         self.raw_functional = rf
-        
         # Create a dict lookup with raw data to save to db later
         self.createrawlookup()
         
@@ -194,7 +193,7 @@ class DataManager:
     def createphysicalnameset(self):
         namelist = ['CHASSIS']
         for item in self.corrected_physical:
-            if item['BlockType'] in self.config["physical_blocks"]:
+            if item["BlockType"] in self.config["physical_blocks"]:
                 namelist.append(item['Name'])
         self.physical_nameset = set(namelist)
 
