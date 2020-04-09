@@ -5,9 +5,9 @@ def searchnameapp(nametosearch, config):
     dbm.readdb()
     data = dbm.getdata()
     result = []
-    for item in data['globaliddata'].keys():
-        if data['globaliddata'][item]['Name'].lower() == nametosearch.lower():
-            result.append(data['globaliddata'][item])
+    for globalid in data['globaliddata'].keys():
+        if data['globaliddata'][globalid]['Name'].lower() == nametosearch.lower():
+            result.append(data['globaliddata'][globalid])
     if result != []:
         return result
     else:

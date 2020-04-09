@@ -121,6 +121,9 @@ class DataManager:
         self.mergefunctionaldata() 
         self.mergephysicaldata()
 
+        # Add parent and child data 
+        self.addparentchild()
+
         # Adds a global id to all elements and creates a lookup with globalid as key      
         self.createglobalidlookup()
 
@@ -219,7 +222,7 @@ class DataManager:
                                 self.actual_error_count+=1
                                 break
                             elif (item['BlockType'] == "OTSC" or item['BlockType'] =="SENS" or item['BlockType'] =="ACT" or item['BlockType'] =="HMI"):
-                                if ((parentitem['BlockType'] != 'CHASSIS') or (parentitem['BlockType'] not in self.enclosure_list)):
+                                if ((item['Parent'] != 'CHASSIS') and (parentitem['Name'] not in self.enclosure_list)):
                                     self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['FileName'] )
                                     self.actual_error_count+=1
@@ -244,9 +247,17 @@ class DataManager:
         enclosurelist = []
         for item in self.corrected_physical:
             if item['BlockType'] in self.config["physical_blocks"]:
-                if item['Parent'] not in self.physical_nameset:
+                if item['Parent'] not in self.physical_nameset and (item["Parent"] != ""):
                     enclosurelist.append(item['Parent'])
         self.enclosure_list = set(enclosurelist)
+        newenclosure = dict()
+        for item in self.enclosure_list:
+            print(item)
+            newenclosure["Name"] = item
+            newenclosure["BlockType"] = "ENC"
+            newenclosure["Parent"] = "CHASSIS"
+            newenclosure["id"] = "0000000000000000000"
+            self.corrected_physical.append(newenclosure)
 
     def createfunctionlist(self):
         functionlist = []
@@ -385,7 +396,6 @@ class DataManager:
                             if self.corrected_functional[i][field] != '' and self.corrected_functional[j][field] != '':
                                 if self.corrected_functional[i][field] != self.corrected_functional[j][field]:
                                     if field not in self.config["mergefields_ignore_functional"]:
-                                        print(self.corrected_functional[i], self.corrected_functional[j])
                                         self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_functional[i]["Name"]\
                                                     + ", Page: " + self.corrected_functional[i]['PageName'] + ", File: " + self.corrected_functional[i]['FileName'] + \
                                                         ") and (" + self.corrected_functional[j]["Name"]\
@@ -443,4 +453,20 @@ class DataManager:
                     j += 1
             i += 1
 
-    
+    def addparentchild(self):
+        for item in self.corrected_physical:
+            if item["BlockType"] in self.config["physical_blocks"]:
+                for parentitem in self.corrected_physical:
+                    if parentitem["Name"].lower() == item["Parent"].lower():
+                        item["ParentBlock"] = parentitem
+                        break
+
+        for item in self.corrected_physical:
+            if item["BlockType"] in self.config["physical_blocks"]:
+                item["ChildBlocks"] = []
+                for childitem in self.corrected_physical:
+                    if "Parent" in childitem:
+                        if childitem["Parent"].lower() == item["Name"].lower():
+                            item["ChildBlocks"].append(childitem)
+                if item["ChildBlocks"] == []:
+                    del item["ChildBlocks"]

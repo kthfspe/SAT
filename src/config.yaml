@@ -108,6 +108,7 @@ physical_blocks:
 - ACT
 - HMI
 - PCU
+- ENC
 physical_signals:
 - DIG
 - ANA
