@@ -181,6 +181,11 @@ class DataManager:
                     + item['FileName'] )
                 self.actual_error_count+=1
                 faultf.append(self.corrected_functional[self.corrected_functional.index(item)])
+            elif " " in item["Name"]:
+                self.error.append("ERROR: Name (" + item["Name"] + ") not following correct naming convention for block with ID: " \
+                    + item["id"] + " in page " + item["PageName"] + " in file " + item["FileName"])
+                self.actual_error_count+=1
+                faultf.append(self.corrected_functional[self.corrected_functional.index(item)])
         tempf = [item for item in self.corrected_functional if item not in faultf]
         self.corrected_functional = tempf
 
@@ -188,6 +193,11 @@ class DataManager:
             if ('Name' not in item) or (item['Name']==''):
                 self.error.append("ERROR    : No name for block with ID: " + item['id'] + " in page " + item['PageName'] + " in file "\
                     + item['FileName'] )
+                self.actual_error_count+=1
+                faultp.append(self.corrected_physical[self.corrected_physical.index(item)])
+            elif " " in item["Name"]:
+                self.error.append("ERROR: Name (" + item["Name"] + ") not following correct naming convention for block with ID: " \
+                    + item["id"] + " in page " + item["PageName"] + " in file " + item["FileName"])
                 self.actual_error_count+=1
                 faultp.append(self.corrected_physical[self.corrected_physical.index(item)])
         tempp = [item for item in self.corrected_physical if item not in faultp]
@@ -252,7 +262,6 @@ class DataManager:
         self.enclosure_list = set(enclosurelist)
         newenclosure = dict()
         for item in self.enclosure_list:
-            print(item)
             newenclosure["Name"] = item
             newenclosure["BlockType"] = "ENC"
             newenclosure["Parent"] = "CHASSIS"
@@ -267,14 +276,15 @@ class DataManager:
         self.function_list = set(functionlist)
 
     def checkallocationvalidity(self):
+        print(self.physical_nameset)
         for item in self.corrected_functional:
             if item['BlockType'] in self.config["functional_blocks"]:
                 if item['Allocation'] == '':
                     self.error.append("ERROR: Allocation missing in block " + item['Name'] + " in page " + item['PageName']\
                         + " in file " + item['FileName'])
                     self.actual_error_count+=1
-                elif (item['Allocation'] not in self.physical_nameset): 
-                    self.error.append("ERROR: Invalid allocation in block " + item['Name'] + " in page " + item['PageName']\
+                elif item['Allocation'] not in self.physical_nameset: 
+                    self.error.append("ERROR: Invalid allocation(" + item["Allocation"]+ ") in block " + item['Name'] + " in page " + item['PageName']\
                         + " in file " + item['FileName'])
                     self.actual_error_count+=1
 

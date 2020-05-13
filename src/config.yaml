@@ -18,7 +18,7 @@ appdata:
 appdebug: true
 configyamlfilename: config.yaml
 dbyamlfilename: db/db.yaml
-debug: true
+debug: false
 defaultDVfun: DV_architecture/DV_functional_architecture.drawio
 defaultDVphy: DV_architecture/DV_physical_architecture.drawio
 defaultHVfun: HV_architecture/HV_functional_architecture.drawio
