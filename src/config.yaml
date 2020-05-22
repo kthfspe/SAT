@@ -15,10 +15,18 @@ appdata:
   apppackagename: findfield
   apppage: /findfield
   apptitle: findfield
+- appbutton: Generate
+  appdisplayname: Product Tree
+  appdisplaysubtext: Generate a product tree based on the system architecture
+  appfunctionname: producttreeapp
+  apphelptext: Checks for all fields
+  apppackagename: producttree
+  apppage: /producttree
+  apptitle: producttree
 appdebug: true
 configyamlfilename: config.yaml
 dbyamlfilename: db/db.yaml
-debug: false
+debug: true
 defaultDVfun: DV_architecture/DV_functional_architecture.drawio
 defaultDVphy: DV_architecture/DV_physical_architecture.drawio
 defaultHVfun: HV_architecture/HV_functional_architecture.drawio

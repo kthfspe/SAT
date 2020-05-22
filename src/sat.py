@@ -7,7 +7,7 @@ from datamanager import DataManager
 from dbmanager import DBManager
 from configmanager import ConfigManager
 import yaml
-import searchname, findfield
+import searchname, findfield, producttree
 
 # Create Flask App object
 app = Flask(__name__)
@@ -117,7 +117,11 @@ def find():
     inputfields =["FieldToSearch"]
     return render_template('inputtext.html', loginstatus = loginstatus, inputfield = inputfields, app=configman.getappbytitle("findfield"))
 
-
+@app.route('/producttree', methods=['GET', 'POST'])
+def ptree():
+    global loginstatus
+    output = producttree.producttreeapp(configman.configdata)
+    return render_template('outputlist.html', loginstatus = loginstatus, app=configman.getappbytitle("producttree"), output=[])
 
 """
 

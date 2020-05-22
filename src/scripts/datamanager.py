@@ -276,7 +276,6 @@ class DataManager:
         self.function_list = set(functionlist)
 
     def checkallocationvalidity(self):
-        print(self.physical_nameset)
         for item in self.corrected_functional:
             if item['BlockType'] in self.config["functional_blocks"]:
                 if item['Allocation'] == '':
