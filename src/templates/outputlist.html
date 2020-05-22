@@ -14,7 +14,7 @@
 {% block content %} 
 {% if loginstatus == true %}
 
-<div class="card text-center">
+<div class="card">
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item">
@@ -25,7 +25,7 @@
     </div>
     <div class="card-body">
       <h5 class="card-title">Output</h5>
-      <p class="card-text">
+      <p class="card-text text-left">
         <ol>
       {% for item in output %}
   <li>{{item}}</li>

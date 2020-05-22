@@ -121,7 +121,7 @@ def find():
 def ptree():
     global loginstatus
     output = producttree.producttreeapp(configman.configdata)
-    return render_template('outputlist.html', loginstatus = loginstatus, app=configman.getappbytitle("producttree"), output=[])
+    return render_template('outputlist.html', loginstatus = loginstatus, app=configman.getappbytitle("producttree"), output=output)
 
 """
 

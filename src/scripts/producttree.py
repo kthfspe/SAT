@@ -8,6 +8,7 @@ def producttreeapp(config):
     physicalproducttree = []
     functionalproducttree = []
     listprint(output, 0, physicalproducttree)
+    return physicalproducttree
 
 def listprint(li, level, output):
     if isinstance(li,list):
