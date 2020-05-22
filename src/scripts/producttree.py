@@ -8,10 +8,6 @@ def producttreeapp(config):
     physicalproducttree = []
     functionalproducttree = []
     listprint(output, 0, physicalproducttree)
-    print(physicalproducttree)
-    allocations = findallallocation(data, "CAR", config)
-    listprint(allocations,0,functionalproducttree)
-    print(functionalproducttree)
 
 def listprint(li, level, output):
     if isinstance(li,list):
@@ -34,17 +30,15 @@ def findallchildren(data, parentname, config):
                 subchildlist = findallchildren(data,data["globaliddata"][item]["Name"],config)
                 if subchildlist != []:
                     childlist.append(subchildlist)
+                subfunctionlist = findallfunctions(data, data["globaliddata"][item]["Name"], config)
+                if subfunctionlist != []:
+                    childlist.append(subfunctionlist)
     return childlist
 
-def findallallocation(data, parentname, config):
-    childlist = []
-    found = 0
+def findallfunctions(data, name, config):
+    output = []
     for item in data["globaliddata"]:
-        if data["globaliddata"][item]["BlockType"] in config["functional_blocks"]:
-            if data["globaliddata"][item]["Function"] == parentname:
-                found +=1
-                childlist.append(data["globaliddata"][item]["Name"])
-                subchildlist = findallchildren(data,data["globaliddata"][item]["Name"],config)
-                if subchildlist != []:
-                    childlist.append(subchildlist)
-    return childlist
+        if (data["globaliddata"][item]["BlockType"] in config["functional_blocks"]):
+            if data["globaliddata"][item]["Allocation"] == name:
+                output.append("F: " + data["globaliddata"][item]["Name"])
+    return output
