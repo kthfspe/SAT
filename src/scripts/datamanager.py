@@ -186,6 +186,8 @@ class DataManager:
                     + item["id"] + " in page " + item["PageName"] + " in file " + item["FileName"])
                 self.actual_error_count+=1
                 faultf.append(self.corrected_functional[self.corrected_functional.index(item)])
+            elif "\n" in item["Name"]:
+                item["Name"] = item["Name"].replace("\n","")
         tempf = [item for item in self.corrected_functional if item not in faultf]
         self.corrected_functional = tempf
 
@@ -200,6 +202,8 @@ class DataManager:
                     + item["id"] + " in page " + item["PageName"] + " in file " + item["FileName"])
                 self.actual_error_count+=1
                 faultp.append(self.corrected_physical[self.corrected_physical.index(item)])
+            elif "\n" in item["Name"]:
+                item["Name"] = item["Name"].replace("\n","")
         tempp = [item for item in self.corrected_physical if item not in faultp]
         self.corrected_physical = tempp
 
@@ -209,6 +213,7 @@ class DataManager:
             if item["BlockType"] in self.config["physical_blocks"]:
                 namelist.append(item['Name'])
         self.physical_nameset = set(namelist)
+        print(self.physical_nameset)
 
     
     def checkparentvalidity(self):
@@ -278,11 +283,15 @@ class DataManager:
     def checkallocationvalidity(self):
         for item in self.corrected_functional:
             if item['BlockType'] in self.config["functional_blocks"]:
+                if "\n" in item["Allocation"]:
+                    item["Allocation"] = item["Allocation"].replace("\n","")
+                if item["Allocation"].lower() == "tbd":
+                    item["Allocation"] = "CHASSIS"
                 if item['Allocation'] == '':
                     self.error.append("ERROR: Allocation missing in block " + item['Name'] + " in page " + item['PageName']\
                         + " in file " + item['FileName'])
                     self.actual_error_count+=1
-                elif item['Allocation'] not in self.physical_nameset: 
+                elif (item['Allocation'] not in self.physical_nameset) and (item['Allocation'].lower() not in self.physical_nameset): 
                     self.error.append("ERROR: Invalid allocation(" + item["Allocation"]+ ") in block " + item['Name'] + " in page " + item['PageName']\
                         + " in file " + item['FileName'])
                     self.actual_error_count+=1
