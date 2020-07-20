@@ -5,9 +5,11 @@
 
 ### VisualStudioCode ###
 **/.vscode/
-**/venv/
 
-venv/*
+
+venv/
+venv
+
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -30,6 +32,6 @@ venv/*
 archive/gitxmlreadcommit.py
 # Setuptools distribution folder.
 /dist/
-/venv/
+
 # Python egg metadata, regenerated from source files by setuptools.
 /*.egg-info
