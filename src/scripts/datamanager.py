@@ -118,21 +118,25 @@ class DataManager:
 
         # Merging redundant data instances
         self.error.append("Merging data instances..")
-        self.mergefunctionaldata() 
+        print("Starting functional merge")
+        self.mergefunctionaldata()
+        print("Starting physical merge") 
         self.mergephysicaldata()
 
+        print("Starting parent child data addition")
         # Add parent and child data 
         self.addparentchild()
-
+        print("Creating global id lookup")
         # Adds a global id to all elements and creates a lookup with globalid as key      
         self.createglobalidlookup()
-
+        print("Creating Power data")
         # Creates a set of all power supply elements
         self.createpowerset()
 
         # Blockwise checks
 
         # Creates final data structure and writes it to yaml files
+        print("Creating data file")
         self.createdatafile()      
 
         return self.error, self.actual_error_count
@@ -213,7 +217,6 @@ class DataManager:
             if item["BlockType"] in self.config["physical_blocks"]:
                 namelist.append(item['Name'])
         self.physical_nameset = set(namelist)
-        print(self.physical_nameset)
 
     
     def checkparentvalidity(self):
