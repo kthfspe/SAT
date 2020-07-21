@@ -27,13 +27,13 @@ class DataManager:
         self.config = config
         self.error = []
         self.actual_error_count = 0
-        self.corrected_functional = []
+        self.corrected_functional = []  # To store only the valid blocks
         self.corrected_physical = []
         self.raw_physical = rp
         self.raw_functional = rf
         # Create a dict lookup with raw data to save to db later
         self.createrawlookup()
-        
+
         # Remove ignored blocks from the global block list
         self.error.append("Building Model...")
         self.error.append("Removing blocks from ignorelist...")
@@ -45,8 +45,8 @@ class DataManager:
         # Checks for blocktypes outside of global satconfig
         self.error.append("Checking validity of BlockType field...")
         self.checkblockvalidity()
-        
-        
+
+
         # Status checker function
         if self.actual_error_count>0:
             return self.error, self.actual_error_count
@@ -55,7 +55,7 @@ class DataManager:
         # if 'Name' is missing
         self.error.append("Checking validity of Name field...")
         self.checknamevalidity()
-        
+
         # Status checker function
         if self.actual_error_count>0:
             return self.error, self.actual_error_count
@@ -63,8 +63,8 @@ class DataManager:
         # Checks for floating signals
         self.error.append("Checking for floating signals...")
         self.checkfloatingsignals()
-        
-        
+
+
         # Status checker function
         if self.actual_error_count>0:
             return self.error, self.actual_error_count
@@ -76,14 +76,14 @@ class DataManager:
         # Create enclosure list
         # Assumes all new parent values not in namelist as an enclosure
         self.createnclosurelist()
- 
+
         # Assigns empty parents to CHASSIS
         # Checks if parent name is valid
         # Checks if parent type is valid
         self.error.append("Checking validity of Parent field...")
         self.checkparentvalidity()
-        
-        
+
+
         # Status checker function
         if self.actual_error_count>0:
             return self.error, self.actual_error_count
@@ -91,7 +91,7 @@ class DataManager:
         # Check if function name is not empty
         self.error.append("Checking validity of Function field...")
         self.checkfunctionvalidity()
-        
+
         # Status checker function
         if self.actual_error_count>0:
             return self.error, self.actual_error_count
@@ -102,7 +102,7 @@ class DataManager:
         # Check if allocation in funcitnla block is a valid name in physical block
         self.error.append("Checking validity of Allocation field...")
         self.checkallocationvalidity()
-        
+
         # Status checker function
         if self.actual_error_count>0:
             return self.error, self.actual_error_count
@@ -118,30 +118,26 @@ class DataManager:
 
         # Merging redundant data instances
         self.error.append("Merging data instances..")
-        print("Starting functional merge")
         self.mergefunctionaldata()
-        print("Starting physical merge") 
         self.mergephysicaldata()
 
-        print("Starting parent child data addition")
-        # Add parent and child data 
+        # Add parent and child data
         self.addparentchild()
-        print("Creating global id lookup")
-        # Adds a global id to all elements and creates a lookup with globalid as key      
+
+        # Adds a global id to all elements and creates a lookup with globalid as key
         self.createglobalidlookup()
-        print("Creating Power data")
+
         # Creates a set of all power supply elements
         self.createpowerset()
 
         # Blockwise checks
 
         # Creates final data structure and writes it to yaml files
-        print("Creating data file")
-        self.createdatafile()      
+        self.createdatafile()
 
         return self.error, self.actual_error_count
 
-    def removeignoredblocks(self):  
+    def removeignoredblocks(self):
         # Remove blocks to be ignored
         # This function can be refactored to use del operator to remove elements
         tempf = []
@@ -175,7 +171,7 @@ class DataManager:
             else:
                 self.corrected_functional.append(item)
 
-    
+
     def checknamevalidity(self):
         faultf = []
         faultp = []
@@ -217,8 +213,9 @@ class DataManager:
             if item["BlockType"] in self.config["physical_blocks"]:
                 namelist.append(item['Name'])
         self.physical_nameset = set(namelist)
+        print(self.physical_nameset)
 
-    
+
     def checkparentvalidity(self):
         for item in self.corrected_physical:
 
@@ -251,8 +248,8 @@ class DataManager:
                                 self.actual_error_count+=1
                                 break
 
-    
-                                
+
+
     def checkfunctionvalidity(self):
         for item in self.corrected_functional:
             if item['Function'] == '':
@@ -269,11 +266,13 @@ class DataManager:
                     enclosurelist.append(item['Parent'])
         self.enclosure_list = set(enclosurelist)
         newenclosure = dict()
+        enc_num = 0
         for item in self.enclosure_list:
+            enc_num += 1
             newenclosure["Name"] = item
             newenclosure["BlockType"] = "ENC"
             newenclosure["Parent"] = "CHASSIS"
-            newenclosure["id"] = "0000000000000000000"
+            newenclosure["id"] = "ENC" + str(enc_num)
             self.corrected_physical.append(newenclosure)
 
     def createfunctionlist(self):
@@ -294,7 +293,7 @@ class DataManager:
                     self.error.append("ERROR: Allocation missing in block " + item['Name'] + " in page " + item['PageName']\
                         + " in file " + item['FileName'])
                     self.actual_error_count+=1
-                elif (item['Allocation'] not in self.physical_nameset) and (item['Allocation'].lower() not in self.physical_nameset): 
+                elif (item['Allocation'] not in self.physical_nameset) and (item['Allocation'].lower() not in self.physical_nameset):
                     self.error.append("ERROR: Invalid allocation(" + item["Allocation"]+ ") in block " + item['Name'] + " in page " + item['PageName']\
                         + " in file " + item['FileName'])
                     self.actual_error_count+=1
@@ -304,7 +303,7 @@ class DataManager:
         for item in self.corrected_physical:
             if item['BlockType'] == "FCON" or item["BlockType"] == "MCON":
                 item["Name"] = item["Parent"] + "/" + item["Name"]
-    
+
 
     def checkfloatingsignals(self):
         for item in self.corrected_functional:
@@ -323,13 +322,13 @@ class DataManager:
                 if ('source' not in item) or ('target' not in item):
                     self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
                        item["FileName"]  )
-                    self.actual_error_count+=1   
+                    self.actual_error_count+=1
                 elif (item['source'] == '') or (item['target'] == ''):
                     self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
                        item["FileName"]  )
                     self.actual_error_count+=1
 
-    
+
     def createidlookup(self):
         idphysical = {k['id']:k for k in self.corrected_physical }
         idfunctional = {k['id']:k for k in self.corrected_functional}
@@ -372,7 +371,7 @@ class DataManager:
         idphysical.update(idfunctional)
         self.globaliddata = idphysical
 
-    
+
     def createdatafile(self):
         data = dict()
         data["iddata"] = self.iddata
@@ -381,11 +380,11 @@ class DataManager:
         data["power"] = self.power_set
         data['rawiddata'] = self.rawiddata
 
-        if os.path.exists(self.config["dbyamlfilename"]):
-            os.remove(self.config["dbyamlfilename"])
+        # if os.path.exists(self.config["dbyamlfilename"]):
+        #     os.remove(self.config["dbyamlfilename"])
         with open(self.config["dbyamlfilename"], 'w') as file:
             documents = yaml.dump(data, file)
-        
+
 
 
 
@@ -401,78 +400,122 @@ class DataManager:
 
 
     def mergefunctionaldata(self):
-        length = len(self.corrected_functional)
-        i = 0
-        while i < length:
-            j = i + 1
-            while j < length:
-                if self.corrected_functional[i]['Name'] == self.corrected_functional[j]['Name']:
-                    if self.corrected_functional[i]['BlockType'] == self.corrected_functional[j]['BlockType']:
-                        for field in self.corrected_functional[i]:
-                            if self.corrected_functional[i][field] == '' and self.corrected_functional[j][field] != '':
-                                self.corrected_functional[i][field] = self.corrected_functional[j][field]
-                            if field in self.config["mergefields_concat"]:
-                                self.corrected_functional[i][field] = self.corrected_functional[i][field] + ", " +\
-                                    self.corrected_functional[j][field]
-                            if self.corrected_functional[i][field] != '' and self.corrected_functional[j][field] != '':
-                                if self.corrected_functional[i][field] != self.corrected_functional[j][field]:
-                                    if field not in self.config["mergefields_ignore_functional"]:
-                                        self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_functional[i]["Name"]\
-                                                    + ", Page: " + self.corrected_functional[i]['PageName'] + ", File: " + self.corrected_functional[i]['FileName'] + \
-                                                        ") and (" + self.corrected_functional[j]["Name"]\
-                                                    + ", Page: " + self.corrected_functional[j]['PageName'] + ", File: " + self.corrected_functional[j]['FileName'] + ")")
-                                        self.actual_error_count+=1
+        set_of_names = dict()
 
-                        del self.corrected_functional[j]
-                        length -= 1
-                else:
-                    j += 1
-            i += 1
+        for item in self.corrected_functional:
+            key = item['Name'] + item['BlockType']
+            if key in set_of_names:
+                for field in item:
+                    if field not in self.config['mergefields_ignore_functional']:
+                        if item[field] != '' and set_of_names[key][field] == '':
+                            set_of_names[key][field] = item[field]
+
+                        if field in self.config["mergefields_concat"] and set_of_names[key][field] != item[field]:
+                            set_of_names[key][field] += ', ' + item[field]
+            else:
+                set_of_names[key] = item
+
+        self.corrected_functional = set_of_names.values()
+    # def mergefunctionaldata(self):
+    #     length = len(self.corrected_functional)
+    #     i = 0
+    #     while i < length:
+    #         j = i + 1
+    #         while j < length:
+    #             if self.corrected_functional[i]['Name'] == self.corrected_functional[j]['Name']:
+    #                 if self.corrected_functional[i]['BlockType'] == self.corrected_functional[j]['BlockType']:
+    #                     for field in self.corrected_functional[i]:
+    #                         if self.corrected_functional[i][field] == '' and self.corrected_functional[j][field] != '':
+    #                             self.corrected_functional[i][field] = self.corrected_functional[j][field]
+    #
+    #                         if field in self.config["mergefields_concat"]:
+    #                             self.corrected_functional[i][field] = self.corrected_functional[i][field] + ", " +\
+    #                                 self.corrected_functional[j][field]
+    #
+    #                         if self.corrected_functional[i][field] != '' and self.corrected_functional[j][field] != '':
+    #                             if self.corrected_functional[i][field] != self.corrected_functional[j][field]:
+    #                                 if field not in self.config["mergefields_ignore_functional"]:
+    #                                     self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_functional[i]["Name"]\
+    #                                                 + ", Page: " + self.corrected_functional[i]['PageName'] + ", File: " + self.corrected_functional[i]['FileName'] + \
+    #                                                     ") and (" + self.corrected_functional[j]["Name"]\
+    #                                                 + ", Page: " + self.corrected_functional[j]['PageName'] + ", File: " + self.corrected_functional[j]['FileName'] + ")")
+    #                                     self.actual_error_count+=1
+    #
+    #                     del self.corrected_functional[j]
+    #                     length -= 1
+    #             else:
+    #                 j += 1
+    #         i += 1
+
+
+
 
     def mergephysicaldata(self):
-        length = len(self.corrected_physical)
-        i = 0
-        while i < length:
-            j = i + 1
-            while j < length:
-                if self.corrected_physical[i]['Name'] == self.corrected_physical[j]['Name']:
-                    if self.corrected_physical[i]['BlockType'] == self.corrected_physical[j]['BlockType']:
-                        if self.corrected_physical[i]['BlockType'] in self.config["physical_blocks"]:
-                            if self.corrected_physical[i]['Parent'] == self.corrected_physical[j]['Parent']:
-                                for field in self.corrected_physical[i]:
-                                    if self.corrected_physical[i][field] == '' and self.corrected_physical[j][field] != '':
-                                        self.corrected_physical[i][field] = self.corrected_physical[j][field]
-                                    if field in self.config["mergefields_concat"]:
-                                        self.corrected_physical[i][field] = self.corrected_physical[i][field] + ", " +\
-                                            self.corrected_physical[j][field]
-                                    if self.corrected_physical[i][field] != '' and self.corrected_physical[j][field] != '':
-                                        if self.corrected_physical[i][field] != self.corrected_physical[j][field]:
-                                            if field not in self.config["mergefields_ignore_physical"]:
-                                                self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_physical[i]["Name"]\
-                                                            + ", Page: " + self.corrected_physical[i]['PageName'] + ", File: " + self.corrected_physical[i]['FileName'] + \
-                                                                ") and (" + self.corrected_physical[j]["Name"]\
-                                                            + ", Page: " + self.corrected_physical[j]['PageName'] + ", File: " + self.corrected_physical[j]['FileName'] + ")")
-                                                self.actual_error_count+=1
-                        else:
-                            for field in self.corrected_physical[i]:
-                                if self.corrected_physical[i][field] == '' and self.corrected_physical[j][field] != '':
-                                    self.corrected_physical[i][field] = self.corrected_physical[j][field]
-                                if field in self.config["mergefields_concat"]:
-                                    self.corrected_physical[i][field] = self.corrected_physical[i][field] + ", " +\
-                                        self.corrected_physical[j][field]
-                                if self.corrected_physical[i][field] != '' and self.corrected_physical[j][field] != '':
-                                    if self.corrected_physical[i][field] != self.corrected_physical[j][field]:
-                                        if field not in self.config["mergefields_ignore_physical"]:
-                                            self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_physical[i]["Name"]\
-                                                        + ", Page: " + self.corrected_physical[i]['PageName'] + ", File: " + self.corrected_physical[i]['FileName'] + \
-                                                            ") and (" + self.corrected_physical[j]["Name"]\
-                                                        + ", Page: " + self.corrected_physical[j]['PageName'] + ", File: " + self.corrected_physical[j]['FileName'] + ")")
-                                            self.actual_error_count+=1                           
-                        del self.corrected_physical[j]
-                        length -= 1
-                else:
-                    j += 1
-            i += 1
+        set_of_names = dict()
+
+        for item in self.corrected_physical:
+            key = item['Name'] + item['BlockType']
+            if item['BlockType'] in self.config["physical_blocks"]:
+                key += item['Parent']
+            if key in set_of_names:
+                for field in item:
+                    if field not in self.config['mergefields_ignore_physical']:
+                        if item[field] != '' and set_of_names[key][field] == '':
+                            set_of_names[key][field] = item[field]
+
+                        if field in self.config["mergefields_concat"] and set_of_names[key][field] != item[field]:
+                            set_of_names[key][field] += ', ' + item[field]
+
+
+            else:
+                set_of_names[key] = item
+
+        self.corrected_physical = set_of_names.values()
+
+    # def mergephysicaldata(self):
+    #     length = len(self.corrected_physical)
+    #     i = 0
+    #     while i < length:
+    #         j = i + 1
+    #         while j < length:
+    #             if self.corrected_physical[i]['Name'] == self.corrected_physical[j]['Name']:
+    #                 if self.corrected_physical[i]['BlockType'] == self.corrected_physical[j]['BlockType']:
+    #                     if self.corrected_physical[i]['BlockType'] in self.config["physical_blocks"]:
+    #                         if self.corrected_physical[i]['Parent'] == self.corrected_physical[j]['Parent']:
+    #                             for field in self.corrected_physical[i]:
+    #                                 if self.corrected_physical[i][field] == '' and self.corrected_physical[j][field] != '':
+    #                                     self.corrected_physical[i][field] = self.corrected_physical[j][field]
+    #                                 if field in self.config["mergefields_concat"]:
+    #                                     self.corrected_physical[i][field] = self.corrected_physical[i][field] + ", " +\
+    #                                         self.corrected_physical[j][field]
+    #                                 if self.corrected_physical[i][field] != '' and self.corrected_physical[j][field] != '':
+    #                                     if self.corrected_physical[i][field] != self.corrected_physical[j][field]:
+    #                                         if field not in self.config["mergefields_ignore_physical"]:
+    #                                             self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_physical[i]["Name"]\
+    #                                                         + ", Page: " + self.corrected_physical[i]['PageName'] + ", File: " + self.corrected_physical[i]['FileName'] + \
+    #                                                             ") and (" + self.corrected_physical[j]["Name"]\
+    #                                                         + ", Page: " + self.corrected_physical[j]['PageName'] + ", File: " + self.corrected_physical[j]['FileName'] + ")")
+    #                                             self.actual_error_count+=1
+    #                     else:
+    #                         for field in self.corrected_physical[i]:
+    #                             if self.corrected_physical[i][field] == '' and self.corrected_physical[j][field] != '':
+    #                                 self.corrected_physical[i][field] = self.corrected_physical[j][field]
+    #                             if field in self.config["mergefields_concat"]:
+    #                                 self.corrected_physical[i][field] = self.corrected_physical[i][field] + ", " +\
+    #                                     self.corrected_physical[j][field]
+    #                             if self.corrected_physical[i][field] != '' and self.corrected_physical[j][field] != '':
+    #                                 if self.corrected_physical[i][field] != self.corrected_physical[j][field]:
+    #                                     if field not in self.config["mergefields_ignore_physical"]:
+    #                                         self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_physical[i]["Name"]\
+    #                                                     + ", Page: " + self.corrected_physical[i]['PageName'] + ", File: " + self.corrected_physical[i]['FileName'] + \
+    #                                                         ") and (" + self.corrected_physical[j]["Name"]\
+    #                                                     + ", Page: " + self.corrected_physical[j]['PageName'] + ", File: " + self.corrected_physical[j]['FileName'] + ")")
+    #                                         self.actual_error_count+=1
+    #                     del self.corrected_physical[j]
+    #                     length -= 1
+    #             else:
+    #                 j += 1
+    #         i += 1
 
     def addparentchild(self):
         for item in self.corrected_physical:

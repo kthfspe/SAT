@@ -1,0 +1,22 @@
+datamanager.py
+  line 60:
+    is it necessary to have this check so many times?
+  line 335:
+    what is happening here???
+  line 383:
+    this shouldn't be necessary, 'w' truncates the file if it exists
+
+
+config.yaml
+  line 56:
+    what is mergefields_concat really?
+
+
+Ideas:
+  - Have a "Build" or "Rebuild" button in menu instead of automatically build
+    at login
+
+
+
+Reworks:
+  mergefunctionaldata, line 402 in datamanager

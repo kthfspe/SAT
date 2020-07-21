@@ -1,13 +1,13 @@
 import sys
 import os
 sys.path.insert(0,os.getcwd()+"/scripts")
-from flask import Flask, url_for, render_template, request, redirect
-from gitmanager import GitManager
-from datamanager import DataManager
-from dbmanager import DBManager
-from configmanager import ConfigManager
-import yaml
-import searchname, findfield, producttree
+from flask import Flask, url_for, render_template, request, redirect            # lirbrary used to make the web application
+from gitmanager import GitManager                                               # class that can read in github files and parse xml files
+from datamanager import DataManager                                             # manages the parsed data, checks validity nad merges data
+from dbmanager import DBManager                                                 # managing of database
+from configmanager import ConfigManager                                         # managing all the block configurations, defaults and things that makes it compatible with the used draw.io library
+import yaml                                                                     # to enable the use of yaml files (data structures)
+import searchname, findfield, producttree                                       # developed tools
 
 # Create Flask App object
 app = Flask(__name__)
@@ -20,8 +20,8 @@ loginstatus = False
 buildstatus = False
 error = []
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])                                        # Creates the index page for the web app
+@app.route('/login', methods=['GET', 'POST'])                                   # Creates the login page for the web app
 def login():
     global loginstatus
     error = None
@@ -38,6 +38,7 @@ def login():
 
 
 @app.route('/menu', methods=['GET', 'POST'])
+
 def menu():
     global loginstatus, error, buildstatus
     raw_functional = []
@@ -130,7 +131,7 @@ TEMPLATE FOR ADDING A ROUTE TO YOUR NEW APP
 @app.route('/apppage', methods=['GET', 'POST'])
 def apptitle():
     global loginstatus
-    
+
     return render_template('apppage.html', loginstatus = loginstatus)
 
 """

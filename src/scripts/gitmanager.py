@@ -1,17 +1,17 @@
-from github import Github    
+from github import Github
 import xml.etree.ElementTree as ET
-import base64  
+import base64
 import os
 
 class GitManager:
     gitobject = None
     repo = None
     gitpat = None
-    XMLContent = [None]
+    XMLContent = [None]                                                         # Unused
     config = dict()
     def __init__(self):
         pass
-    
+
     def gitlogin(self, pat, config):
         self.config = config
         self.gitpat = pat
@@ -30,7 +30,7 @@ class GitManager:
         self.repo = self.gitobject.get_repo(self.config["gitaccount"]+"/"+self.config["gitrepo"])
         self.contents = self.repo.get_contents(str(path))
         self.stringcontent = base64.b64decode(self.contents.content)
-        self.root = ET.fromstring(self.stringcontent)       
+        self.root = ET.fromstring(self.stringcontent)
         for child in self.root.findall('diagram'):
             pagedata = child.attrib
             if 'name' in pagedata:
@@ -55,7 +55,7 @@ class GitManager:
                     if "parent" in blockmetadata:
                         blockmetadata['MetaParent'] = blockmetadata.pop('parent')
                         del blockmetadata['style'] # Removes the style attribute as it is very cluttered when printing out and\
-                                               # information is not very readable either             
+                                               # information is not very readable either
                     blockdata.update(blockmetadata)
                     blockdata.update(pagedata)
                     blockdata.update(blockpositiondata)
@@ -63,4 +63,3 @@ class GitManager:
                     self.XMLContent.append(blockdata)
 
         return self.XMLContent
-
