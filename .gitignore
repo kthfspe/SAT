@@ -37,3 +37,4 @@ archive/gitxmlreadcommit.py
 
 # Python egg metadata, regenerated from source files by setuptools.
 /*.egg-info
+src/spy.yaml
