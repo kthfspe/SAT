@@ -77,6 +77,7 @@ class DataManager:
         # Assumes all new parent values not in namelist as an enclosure
         self.createnclosurelist()
 
+        # print(self.enclosure_list)
         # Assigns empty parents to CHASSIS
         # Checks if parent name is valid
         # Checks if parent type is valid
@@ -171,7 +172,6 @@ class DataManager:
             else:
                 self.corrected_functional.append(item)
 
-
     def checknamevalidity(self):
         faultf = []
         faultp = []
@@ -213,8 +213,6 @@ class DataManager:
             if item["BlockType"] in self.config["physical_blocks"]:
                 namelist.append(item['Name'])
         self.physical_nameset = set(namelist)
-        print(self.physical_nameset)
-
 
     def checkparentvalidity(self):
         for item in self.corrected_physical:
@@ -224,7 +222,7 @@ class DataManager:
                 if item['Parent'] == '':
                     item['Parent'] = 'CHASSIS'
 
-                if (item['Parent'] not in self.physical_nameset) and (item['Parent'] not in self.enclosure_list):
+                if (item['Parent'] not in self.physical_nameset) and (item['Parent'] not in self.enclosure_nameset):
                     self.error.append("ERROR: Invalid parent in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                     + item['FileName'] )
                     self.actual_error_count+=1
@@ -232,23 +230,21 @@ class DataManager:
                     for parentitem in self.corrected_physical:
                         if parentitem['Name'] == item['Parent']:
                             if parentitem['BlockType'] not in self.config["physical_blocks"]:
-                                self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
+                                self.error.append("ERROR: Invalid parent type1 ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['FileName'] )
                                 self.actual_error_count+=1
                                 break
                             elif (item['BlockType'] == "OTSC" or item['BlockType'] =="SENS" or item['BlockType'] =="ACT" or item['BlockType'] =="HMI"):
-                                if ((item['Parent'] != 'CHASSIS') and (parentitem['Name'] not in self.enclosure_list)):
-                                    self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
+                                if ((item['Parent'] != 'CHASSIS') and (parentitem['Name'] not in self.enclosure_nameset)):
+                                    self.error.append("ERROR: Invalid parent type2 ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['FileName'] )
                                     self.actual_error_count+=1
                                     break
-                            elif (item['BlockType'] == 'NCU' or item['BlockType'] == 'PCU') and ((item['Parent'] == 'CHASSIS') or (parentitem['Name'] not in self.enclosure_list)):
-                                self.error.append("ERROR: Invalid parent type ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
+                            elif (item['BlockType'] == 'NCU' or item['BlockType'] == 'PCU') and ((item['Parent'] == 'CHASSIS') or (parentitem['Name'] not in self.enclosure_nameset)):
+                                self.error.append("ERROR: Invalid parent type3 ("+ parentitem['Name']+', '+parentitem['BlockType'] +") in block " + item['Name'] + " in page " + item['PageName'] + " in file "\
                         + item['FileName'] )
                                 self.actual_error_count+=1
                                 break
-
-
 
     def checkfunctionvalidity(self):
         for item in self.corrected_functional:
@@ -257,23 +253,29 @@ class DataManager:
                     " in file " + item["FileName"] )
                 self.actual_error_count+=1
 
-
     def createnclosurelist(self):
-        enclosurelist = []
+        raw_enclosurelist = []
         for item in self.corrected_physical:
             if item['BlockType'] in self.config["physical_blocks"]:
                 if item['Parent'] not in self.physical_nameset and (item["Parent"] != ""):
-                    enclosurelist.append(item['Parent'])
-        self.enclosure_list = set(enclosurelist)
-        newenclosure = dict()
+                    raw_enclosurelist.append(item['Parent'])
+        self.enclosure_nameset = set(raw_enclosurelist)
+        # print(self.enclosure_nameset)
+
+        self.enclosure_list = []
         enc_num = 0
-        for item in self.enclosure_list:
+        for enclosure_name in self.enclosure_nameset:
             enc_num += 1
-            newenclosure["Name"] = item
-            newenclosure["BlockType"] = "ENC"
-            newenclosure["Parent"] = "CHASSIS"
-            newenclosure["id"] = "ENC" + str(enc_num)
+            # print(enclosure_name)
+            newenclosure = {
+                "BlockType": "ENC",
+                "Parent": "CHASSIS",
+                "Name": enclosure_name,
+                "id": "ENC" + str(enc_num)
+                }
             self.corrected_physical.append(newenclosure)
+            self.enclosure_list.append(newenclosure)
+        print(self.enclosure_list)
 
     def createfunctionlist(self):
         functionlist = []
@@ -298,12 +300,10 @@ class DataManager:
                         + " in file " + item['FileName'])
                     self.actual_error_count+=1
 
-
     def updateconnectornames(self):
         for item in self.corrected_physical:
             if item['BlockType'] == "FCON" or item["BlockType"] == "MCON":
                 item["Name"] = item["Parent"] + "/" + item["Name"]
-
 
     def checkfloatingsignals(self):
         for item in self.corrected_functional:
@@ -327,7 +327,6 @@ class DataManager:
                     self.error.append("ERROR: Floating Signal: " + item["Name"] + " in Page " + item["PageName"] + " in File " + \
                        item["FileName"]  )
                     self.actual_error_count+=1
-
 
     def createidlookup(self):
         idphysical = {k['id']:k for k in self.corrected_physical }
@@ -353,7 +352,6 @@ class DataManager:
         self.power_set = set(powerlist)
         self.gnd_set = set(gndlist)
 
-
     def createglobalidlookup(self):
         counter = 1
         prefix = "F"
@@ -371,7 +369,6 @@ class DataManager:
         idphysical.update(idfunctional)
         self.globaliddata = idphysical
 
-
     def createdatafile(self):
         data = dict()
         data["iddata"] = self.iddata
@@ -380,13 +377,12 @@ class DataManager:
         data["power"] = self.power_set
         data['rawiddata'] = self.rawiddata
 
+
         # if os.path.exists(self.config["dbyamlfilename"]):
         #     os.remove(self.config["dbyamlfilename"])
         with open(self.config["dbyamlfilename"], 'w') as file:
             documents = yaml.dump(data, file)
-
-
-
+            file.close()
 
     def replacesourcetargetid(self):
         for item in self.corrected_functional:
@@ -397,7 +393,6 @@ class DataManager:
             if item['BlockType'] in self.config["physical_signals"]:
                 item['SourceName'] = self.iddata[item['source']]['Name']
                 item['TargetName'] = self.iddata[item['target']]['Name']
-
 
     def mergefunctionaldata(self):
         set_of_names = dict()
@@ -446,8 +441,6 @@ class DataManager:
     #             else:
     #                 j += 1
     #         i += 1
-
-
 
 
     def mergephysicaldata(self):

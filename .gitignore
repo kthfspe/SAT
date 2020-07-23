@@ -39,3 +39,4 @@ archive/gitxmlreadcommit.py
 /*.egg-info
 src/spy.yaml
 src/db/db.yaml
+src/db/errors.yaml

@@ -45,3 +45,14 @@ raw_physical =\
 
 # Build model
 buildmodelerror, buildmodelstatus = dataman.buildmodel(raw_functional, raw_physical, configman.configdata)
+
+# Log errors to file
+with open('db/errors.yaml', 'w') as errorlog:
+    documents = yaml.dump(buildmodelerror, errorlog)
+    errorlog.close()
+
+
+# print(buildmodelerror, buildmodelstatus)
+# for item in dataman.corrected_physical:
+#     if item['BlockType'] == 'ENC':
+#         print(item['Name'])
