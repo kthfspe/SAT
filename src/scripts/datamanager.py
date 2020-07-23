@@ -27,12 +27,11 @@ class DataManager:
         self.config = config
         self.error = []
         self.actual_error_count = 0
-        self.corrected_functional = []  # To store only the valid blocks
+        self.corrected_functional = []                                          # To store only the valid blocks
         self.corrected_physical = []
         self.raw_physical = rp
         self.raw_functional = rf
-        # Create a dict lookup with raw data to save to db later
-        self.createrawlookup()
+        self.createrawlookup()                                                  # Create a dict lookup with raw data to save to db later
 
         # Remove ignored blocks from the global block list
         self.error.append("Building Model...")
@@ -42,10 +41,10 @@ class DataManager:
         # Status checker function
         if self.actual_error_count>0:
             return self.error, self.actual_error_count
+
         # Checks for blocktypes outside of global satconfig
         self.error.append("Checking validity of BlockType field...")
         self.checkblockvalidity()
-
 
         # Status checker function
         if self.actual_error_count>0:
@@ -63,7 +62,6 @@ class DataManager:
         # Checks for floating signals
         self.error.append("Checking for floating signals...")
         self.checkfloatingsignals()
-
 
         # Status checker function
         if self.actual_error_count>0:
@@ -83,7 +81,6 @@ class DataManager:
         # Checks if parent type is valid
         self.error.append("Checking validity of Parent field...")
         self.checkparentvalidity()
-
 
         # Status checker function
         if self.actual_error_count>0:
@@ -260,13 +257,11 @@ class DataManager:
                 if item['Parent'] not in self.physical_nameset and (item["Parent"] != ""):
                     raw_enclosurelist.append(item['Parent'])
         self.enclosure_nameset = set(raw_enclosurelist)
-        # print(self.enclosure_nameset)
 
         self.enclosure_list = []
         enc_num = 0
         for enclosure_name in self.enclosure_nameset:
             enc_num += 1
-            # print(enclosure_name)
             newenclosure = {
                 "BlockType": "ENC",
                 "Parent": "CHASSIS",
@@ -275,7 +270,6 @@ class DataManager:
                 }
             self.corrected_physical.append(newenclosure)
             self.enclosure_list.append(newenclosure)
-        print(self.enclosure_list)
 
     def createfunctionlist(self):
         functionlist = []
@@ -377,9 +371,6 @@ class DataManager:
         data["power"] = self.power_set
         data['rawiddata'] = self.rawiddata
 
-
-        # if os.path.exists(self.config["dbyamlfilename"]):
-        #     os.remove(self.config["dbyamlfilename"])
         with open(self.config["dbyamlfilename"], 'w') as file:
             documents = yaml.dump(data, file)
             file.close()
