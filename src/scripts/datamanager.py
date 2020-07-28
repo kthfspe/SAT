@@ -8,6 +8,8 @@ class DataManager:
     corrected_physical = []
     physical_nameset = set()
     enclosure_list = set()
+    connector_list = []
+    # connector_types = set()
     function_list = set()
     power_set = set()
     gnd_set = set()
@@ -107,6 +109,9 @@ class DataManager:
 
         # Update connector names to include the name of the parent
         self.updateconnectornames()
+
+        # Check connector validity
+        self.checkconnectorvalidity()
 
         # Create a Lookup where the id is the key
         self.createidlookup()
@@ -250,6 +255,48 @@ class DataManager:
                     " in file " + item["FileName"] )
                 self.actual_error_count+=1
 
+    def checkconnectorvalidity(self):
+        with open(self.config['connectorlistfilename'], 'r') as conn_file:
+            connector_types = yaml.load(conn_file)
+            conn_file.close()
+
+
+
+        for item in self.connector_list:
+            Connector_is_valid = True
+            invalid_fields = ''
+            for field in self.config['connector_matchfields']:
+                field_is_valid = False
+                if field in item:
+                    if item['BlockType'] in 'FCON, MCON':
+                        ConnTypes = connector_types['BoardConnectors']
+                    else:
+                        ConnTypes = connector_types['LEMOConnectors']
+                        for conn in ConnTypes:
+                            if item[field] in conn[field]:
+                                field_is_valid = True
+                                break
+                else:
+                    continue
+                if not field_is_valid:
+                    Connector_is_valid = False
+                    invalid_fields += field + ' = ' + item[field] + ', '
+            print('Invalid fields: {} in connector {}'.format(invalid_fields, item['Name']))
+                                # print('Invalid field {}={} in {}'.format(field, item[field], item['Name']))
+            # if item['BlockType'] in 'FCON, MCON':
+            #     for connector_type in connector_types['BoardConnectors']:
+            #         if item['Family'] in connector_type['Family'] and str(item['Pins']) in connector_type['Pins']:
+            #             if item['BlockType'][0] == connector_type['Gender']:
+            #                 Connector_is_valid = True
+            #                 break
+            # elif item['BlockType'] == 'LEMO':
+            #     for connector_type in connector_types['LEMOConnectors']:
+            #         if item['Model']+item['Series']+item['Gender']+item['Pins']+item['AlignmentKey'] == connector_type['Model']+connector_type['Series']+connector_type['Gender']+connector_type['Pins']+connector_type['AlignmentKey']:
+            #             Connector_is_valid = True
+            #             break
+            # if not Connector_is_valid:
+            #     print('Unknown Connector type or number of pins: {} for {}'.format(item['Pins'], item['Name']))
+
     def createnclosurelist(self):
         raw_enclosurelist = []
         for item in self.corrected_physical:
@@ -296,8 +343,13 @@ class DataManager:
 
     def updateconnectornames(self):
         for item in self.corrected_physical:
-            if item['BlockType'] == "FCON" or item["BlockType"] == "MCON":
+            if item['BlockType'] in "FCON, MCON, LEMO":
                 item["Name"] = item["Parent"] + "/" + item["Name"]
+                # self.connector_types.add(item['Type'])
+                self.connector_list.append(item)
+
+        # print(self.connector_types, '\n\n\n')
+        print(len(self.connector_list))
 
     def checkfloatingsignals(self):
         for item in self.corrected_functional:

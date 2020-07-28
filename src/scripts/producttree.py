@@ -1,5 +1,7 @@
 from dbmanager import DBManager
 
+showfunctions = True
+
 def producttreeapp(config):
     dbm = DBManager(config)
     dbm.readdb()
@@ -11,7 +13,7 @@ def producttreeapp(config):
     return physicalproducttree
 
 def listprint(li, level, output):
-    if isinstance(li,list):
+    if isinstance(li, list):
         for item in li:
             listprint(item, level+1, output)
     if isinstance(li, str):
@@ -21,6 +23,7 @@ def listprint(li, level, output):
         output.append(li)
 
 def findallchildren(data, parentname, config):
+    global showfunctions
     childlist = []
     found = 0
     for item in data["globaliddata"]:
@@ -31,9 +34,10 @@ def findallchildren(data, parentname, config):
                 subchildlist = findallchildren(data,data["globaliddata"][item]["Name"],config)
                 if subchildlist != []:
                     childlist.append(subchildlist)
-                subfunctionlist = findallfunctions(data, data["globaliddata"][item]["Name"], config)
-                if subfunctionlist != []:
-                    childlist.append(subfunctionlist)
+                if showfunctions:
+                    subfunctionlist = findallfunctions(data, data["globaliddata"][item]["Name"], config)
+                    if subfunctionlist != []:
+                        childlist.append(subfunctionlist)
     return childlist
 
 def findallfunctions(data, name, config):

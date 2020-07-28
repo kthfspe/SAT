@@ -24,6 +24,14 @@ appdata:
   apppage: /producttree
   apptitle: producttree
 appdebug: true
+connectorlistfilename: db/connectortypes.yaml
+connector_matchfields:
+- Family
+- Pins
+- Gender
+- Model
+- Series
+- AlignmentKey
 configyamlfilename: config.yaml
 dbyamlfilename: db/db.yaml
 debug: false
@@ -102,6 +110,7 @@ physical_blocks:
 - BAT
 - FCON
 - MCON
+- LEMO
 - ACT
 - HMI
 - PCU
