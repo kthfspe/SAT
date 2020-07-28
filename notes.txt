@@ -1,22 +1,25 @@
-datamanager.py
-  line 60:
-    is it necessary to have this check so many times?
-  line 335:
-    what is happening here???
-  line 383:
-    this shouldn't be necessary, 'w' truncates the file if it exists
+ToDo:
+  Update blocks to match connector property names with connector list
+  - and Vise versa
 
+  Update library accordingly
 
-config.yaml
-  line 56:
-    what is mergefields_concat really?
+  DataManager
+  - verify Connectors
+  - make a list of all connectors
+  - verify signals (have source and target)
+  - generate cables/harness
 
+  Product Tree
+  - Add cables in respective enclosures
 
-Ideas:
-  - Have a "Build" or "Rebuild" button in menu instead of automatically build
-    at login
+  Web App
+  - Add option for toggling items in product Tree
+    * Show functions
+    * Show cables
+    * Show systems/PCBs/blocks
+    * Max depth level
+    * Isolate enclosure (maybe as standard, only show level 0 and expand by clicking on the enclosure name)
 
-
-
-Reworks:
-  mergefunctionaldata, line 402 in datamanager
+  Extra
+  - Compile a graphic overview of harness
