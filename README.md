@@ -8,29 +8,33 @@ System Architecture Toolbox
 - Make sure you have installed python3
 - Make a virtual enviroment:
 
-in windows CMD...
+in windows CMD:
+
 cd <SAT-path>
 py -m virtualenv venv
 
-in Linux bash...
+in Linux bash:
+
 cd <SAT-path>
 virtualenv venv
 
 
 - activate the enviroment
 
-linux bash...
+in linux bash:
+
 source venv/bin/activate
 
-windows CMD...
+in windows CMD:
+
 venv\Scripts\activate
 
 - cd src
 - run the web-app
-in linux bash...
+in linux bash:
 python3 sat.py
 
-in windows CMD...
+in windows CMD:
 py SAT.py
 
 
