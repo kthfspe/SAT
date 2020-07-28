@@ -32,9 +32,11 @@ venv\Scripts\activate
 - cd src
 - run the web-app
 in linux bash:
+
 python3 sat.py
 
 in windows CMD:
+
 py SAT.py
 
 
