@@ -9,6 +9,7 @@ class DataManager:
     physical_nameset = set()
     enclosure_list = set()
     connector_list = []
+    cable_list = []
     # connector_types = set()
     function_list = set()
     power_set = set()
@@ -34,6 +35,11 @@ class DataManager:
         self.raw_physical = rp
         self.raw_functional = rf
         self.createrawlookup()                                                  # Create a dict lookup with raw data to save to db later
+
+        # Read in lookup table for connectors
+        with open(self.config['connectorlookuptablefilename'], 'r') as conn_file:
+            self.connector_lookup_table = yaml.load(conn_file)
+            conn_file.close()
 
         # Remove ignored blocks from the global block list
         self.error.append("Building Model...")
@@ -112,6 +118,9 @@ class DataManager:
 
         # Check connector validity
         self.checkconnectorvalidity()
+
+        # Generate cables
+        # self.generatecables()
 
         # Create a Lookup where the id is the key
         self.createidlookup()
@@ -255,47 +264,64 @@ class DataManager:
                     " in file " + item["FileName"] )
                 self.actual_error_count+=1
 
+
     def checkconnectorvalidity(self):
-        with open(self.config['connectorlistfilename'], 'r') as conn_file:
-            connector_types = yaml.load(conn_file)
-            conn_file.close()
 
-
-
+        # print(self.connector_lookup_table)
+        set_of_names = set()
         for item in self.connector_list:
-            Connector_is_valid = True
-            invalid_fields = ''
-            for field in self.config['connector_matchfields']:
-                field_is_valid = False
-                if field in item:
-                    if item['BlockType'] in 'FCON, MCON':
-                        ConnTypes = connector_types['BoardConnectors']
-                    else:
-                        ConnTypes = connector_types['LEMOConnectors']
-                        for conn in ConnTypes:
-                            if item[field] in conn[field]:
-                                field_is_valid = True
-                                break
-                else:
-                    continue
-                if not field_is_valid:
-                    Connector_is_valid = False
-                    invalid_fields += field + ' = ' + item[field] + ', '
-            print('Invalid fields: {} in connector {}'.format(invalid_fields, item['Name']))
-                                # print('Invalid field {}={} in {}'.format(field, item[field], item['Name']))
-            # if item['BlockType'] in 'FCON, MCON':
-            #     for connector_type in connector_types['BoardConnectors']:
-            #         if item['Family'] in connector_type['Family'] and str(item['Pins']) in connector_type['Pins']:
-            #             if item['BlockType'][0] == connector_type['Gender']:
-            #                 Connector_is_valid = True
-            #                 break
-            # elif item['BlockType'] == 'LEMO':
-            #     for connector_type in connector_types['LEMOConnectors']:
-            #         if item['Model']+item['Series']+item['Gender']+item['Pins']+item['AlignmentKey'] == connector_type['Model']+connector_type['Series']+connector_type['Gender']+connector_type['Pins']+connector_type['AlignmentKey']:
-            #             Connector_is_valid = True
-            #             break
-            # if not Connector_is_valid:
-            #     print('Unknown Connector type or number of pins: {} for {}'.format(item['Pins'], item['Name']))
+            # Check if connector exist in multiple instances
+            if item['Name'] in set_of_names:
+                print('Connector {} exists in multiple instances, await merge conflict. Check parent name'.format(item['Name']))
+                continue
+            set_of_names.add(item['Name'])
+            # Validate connector
+            self.validateconnector(item)
+
+    def validateconnector(self, conn):
+
+        # Check if connector type exist in list of connectors
+        key = ''
+        if conn['BlockType'] == 'LEMO':
+            for field in self.config['LEMOConnectors_matchfields']:
+                key += conn[field]
+            if key in self.connector_lookup_table:
+                if conn['Pins'] not in self.connector_lookup_table[key]['Pins']:
+                    print('Invalid pin count: {} for connector {}'.format(conn['Pins'], conn['Name']))
+                    conn.update(self.connector_lookup_table[key])
+            else:
+                print('Invalid connector type {} for {}'.format(key, conn['Name']))
+        else:
+            for field in self.config['BoardConnectors_matchfields']:
+                key += conn[field]
+            if key in self.connector_lookup_table:
+                Pins = conn['Pins']
+                if Pins not in self.connector_lookup_table[key]['Pins']:
+                    print('Invalid pin count: {} for connector {}'.format(conn['Pins'], conn['Name']))
+                    Pins = '?'
+                    conn.update(self.connector_lookup_table[key])
+                    conn['Pins'] = Pins
+            else:
+                print('Invalid connector type {} for {}'.format(key, conn['Name']))
+
+    def generatecables(self):
+        parsed_connectors = set()
+        new_cable = {'Connectors': [], 'PhysicalSignals': []}
+        generated_connectors = []
+        Cable_num = 0
+        gender_opposite = {'M':'F', 'F':'M'}
+        for connector in self.connector_list:
+            if connector['Name'] in parsed_connectors:
+                continue
+            Cable_num += 1
+            Cable_ID = 'CAB' + str(Cable_num)
+            new_connector.update(connector)
+            new_connector['Name'] = connector['Parent'] +'/T'+ connector['LocalName'][1:]
+            new_connector['Gender'] = gender_opposite[connector['Gender']]
+            self.validateconnector(new_connector)
+            generated_connectors.append(new_connector)
+
+
 
     def createnclosurelist(self):
         raw_enclosurelist = []
@@ -344,12 +370,14 @@ class DataManager:
     def updateconnectornames(self):
         for item in self.corrected_physical:
             if item['BlockType'] in "FCON, MCON, LEMO":
+                item['LocalName'] = item['Name']
                 item["Name"] = item["Parent"] + "/" + item["Name"]
                 # self.connector_types.add(item['Type'])
                 self.connector_list.append(item)
-
+            if item['BlockType'] in 'FCON, MCON':
+                item['Gender'] = item['BlockType'][0]
         # print(self.connector_types, '\n\n\n')
-        print(len(self.connector_list))
+        # print(len(self.connector_list))
 
     def checkfloatingsignals(self):
         for item in self.corrected_functional:
@@ -496,6 +524,7 @@ class DataManager:
             if key in set_of_names:
                 for field in item:
                     if field not in self.config['mergefields_ignore_physical']:
+                        # print(key, field, item['Name'])
                         if item[field] != '' and set_of_names[key][field] == '':
                             set_of_names[key][field] = item[field]
 

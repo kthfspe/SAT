@@ -5,8 +5,7 @@ ToDo:
   Update library accordingly
 
   DataManager
-  - verify Connectors
-  - make a list of all connectors
+  - Replace print statements with error log
   - verify signals (have source and target)
   - generate cables/harness
 

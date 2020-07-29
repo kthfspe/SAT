@@ -25,13 +25,19 @@ appdata:
   apptitle: producttree
 appdebug: true
 connectorlistfilename: db/connectortypes.yaml
-connector_matchfields:
+connectorlookuptablefilename: db/connector_lookup_table.yaml
+BoardConnectors_matchfields:
 - Family
-- Pins
 - Gender
+- Rows
+LEMOConnectors_matchfields:
 - Model
-- Series
 - AlignmentKey
+- Series
+- Gender
+Connectors_checkfields:
+- Pins
+connector_maxpincount: 50
 configyamlfilename: config.yaml
 dbyamlfilename: db/db.yaml
 debug: false
@@ -86,6 +92,7 @@ mergefields_ignore_functional:
 - target_x
 - target_y
 mergefields_ignore_physical:
+- Assembling
 - Filename
 - PageName
 - PageId
