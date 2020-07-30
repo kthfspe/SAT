@@ -33,8 +33,7 @@ class DataManager:
         self.corrected_functional = []                                          # To store only the valid blocks
         self.corrected_physical = []
         self.raw_physical = rp
-        self.raw_functional = rf
-        self.createrawlookup()                                                  # Create a dict lookup with raw data to save to db later
+        self.raw_functional = rf                                                # Create a dict lookup with raw data to save to db later
 
         # Read in lookup table for connectors
         with open(self.config['connectorlookuptablefilename'], 'r') as conn_file:
@@ -45,6 +44,9 @@ class DataManager:
         self.error.append("Building Model...")
         self.error.append("Removing blocks from ignorelist...")
         self.removeignoredblocks()
+        self.createrawlookup()
+
+
 
         # Status checker function
         if self.actual_error_count>0:
@@ -119,9 +121,6 @@ class DataManager:
         # Check connector validity
         self.checkconnectorvalidity()
 
-        # Generate cables
-        # self.generatecables()
-
         # Create a Lookup where the id is the key
         self.createidlookup()
 
@@ -135,6 +134,12 @@ class DataManager:
 
         # Add parent and child data
         self.addparentchild()
+
+        # Create a Lookup where the id is the key
+        self.createnamelookup()
+
+        # Generate cables
+        self.generatecables()
 
         # Adds a global id to all elements and creates a lookup with globalid as key
         self.createglobalidlookup()
@@ -156,11 +161,19 @@ class DataManager:
         tempp = []
         for item in self.raw_functional:
             if item['BlockType'] not in self.config["ignore_blocktype"]:
-                tempf.append(item)
+                if 'SATexception' in item:
+                    if item['SATexception'] != 'ignore':
+                        tempf.append(item)
+                else:
+                    tempf.append(item)
         self.raw_functional = tempf
         for item in self.raw_physical:
             if item['BlockType'] not in self.config["ignore_blocktype"]:
-                tempp.append(item)
+                if 'SATexception' in item:
+                    if item['SATexception'] != 'ignore':
+                        tempp.append(item)
+                else:
+                    tempp.append(item)
         self.raw_physical = tempp
 
     def checkblockvalidity(self):
@@ -264,7 +277,6 @@ class DataManager:
                     " in file " + item["FileName"] )
                 self.actual_error_count+=1
 
-
     def checkconnectorvalidity(self):
 
         # print(self.connector_lookup_table)
@@ -282,7 +294,10 @@ class DataManager:
 
         # Check if connector type exist in list of connectors
         key = ''
+
+
         if conn['BlockType'] == 'LEMO':
+            # conn.pop('LocalName')
             for field in self.config['LEMOConnectors_matchfields']:
                 key += conn[field]
             if key in self.connector_lookup_table:
@@ -305,23 +320,101 @@ class DataManager:
                 print('Invalid connector type {} for {}'.format(key, conn['Name']))
 
     def generatecables(self):
-        parsed_connectors = set()
-        new_cable = {'Connectors': [], 'PhysicalSignals': []}
+
+
+        '''
+        1. Ignore connectors with SATexception = neglect_in_harness
+        2. Find matching connector pairs, don't need cable so ignore
+        3. Find matching connector twins (2 and 3 by using signal tuples as key in lookup dict)
+        4. Generate partner connectors and validate them
+
+
+        '''
+
         generated_connectors = []
         Cable_num = 0
         gender_opposite = {'M':'F', 'F':'M'}
+        connector_lookup_by_physical_signals = dict()
         for connector in self.connector_list:
-            if connector['Name'] in parsed_connectors:
-                continue
-            Cable_num += 1
-            Cable_ID = 'CAB' + str(Cable_num)
-            new_connector.update(connector)
-            new_connector['Name'] = connector['Parent'] +'/T'+ connector['LocalName'][1:]
-            new_connector['Gender'] = gender_opposite[connector['Gender']]
-            self.validateconnector(new_connector)
-            generated_connectors.append(new_connector)
+            if 'SATexception' in connector:
+                if 'neglect_in_harness' in connector['SATexception']:
+                    continue
+
+            physical_signals = []
+            for pin_number in range(1, int(connector['Pins'])+1):
+                if pin_number < 10:
+                    pin_name = 'Pin0' + str(pin_number)
+                else:
+                    pin_name = 'Pin' + str(pin_number)
+
+                if pin_name in connector:
+                    physical_signals.append(connector[pin_name])
+
+            key_tuple = tuple(physical_signals)
+
+            if key_tuple in connector_lookup_by_physical_signals:
+                if connector_lookup_by_physical_signals[key_tuple]['Connectors'][0]['Gender'] == gender_opposite[connector['Gender']]:
+                    connector_lookup_by_physical_signals.pop(key_tuple)
+                else:
+                    connector_lookup_by_physical_signals[key_tuple]['Connectors'].append(connector)
+            else:
+                connector_lookup_by_physical_signals[key_tuple] = {
+                'Connectors': [connector],
+                'PhysicalSignals': physical_signals}
 
 
+        for key in connector_lookup_by_physical_signals:
+            new_conns = []
+            for connector in connector_lookup_by_physical_signals[key]['Connectors']:
+                new_connector = dict()
+                new_connector.update(connector)
+                new_connector['Name'] = connector['Parent'] +'/T'+ connector['LocalName'][1:]
+                new_connector['Gender'] = gender_opposite[connector['Gender']]
+                new_connector['LocalName'] = 'T'+ connector['LocalName'][1:]
+                new_connector['Parent'] = connector['ParentBlock']['Parent']
+
+                if new_connector['BlockType'] in 'FCON, MCON':
+                     new_connector['BlockType'] = new_connector['Gender'] + 'CON'
+                self.validateconnector(new_connector)
+                generated_connectors.append(new_connector)
+                new_conns.append(new_connector)
+            connector_lookup_by_physical_signals[key]['Connectors'] = new_conns
+
+        self.connector_list += generated_connectors
+
+        keys_for_nested_cables = []
+
+        for key in connector_lookup_by_physical_signals:
+            if len(connector_lookup_by_physical_signals[key]['Connectors']) == 2:
+                Cable_num += 1
+                Cable_ID = 'CAB' + str(Cable_num)
+                Parent_set = set()
+                for conn in connector_lookup_by_physical_signals[key]['Connectors']:
+                    # print(conn['Name'])
+                    Parent_set.add(conn['Parent'])
+
+                if len(Parent_set) > 1:
+                    Parent = 'CHASSIS'
+                else:
+                    Parent = Parent_set.pop()
+
+
+
+                new_cable = {
+                'Connectors' : connector_lookup_by_physical_signals[key]['Connectors'],
+                'PhysicalSignals': connector_lookup_by_physical_signals[key]['PhysicalSignals'],
+                'Name': Cable_ID,
+                'Parent': Parent,
+                'BlockType': 'CAB'
+                }
+                self.cable_list.append(new_cable)
+                try:
+                    self.namedata[new_cable['Parent']]['ChildBlocks'].append(new_cable)
+                except KeyError:
+                    pass
+                self.corrected_physical.append(new_cable) # Add cables to physical data
+            else:
+                keys_for_nested_cables.append(key)
 
     def createnclosurelist(self):
         raw_enclosurelist = []
@@ -414,6 +507,12 @@ class DataManager:
         idphysical.update(idfunctional)
         self.rawiddata = idphysical
 
+    def createnamelookup(self):
+        namephysical = {k['Name']:k for k in self.raw_physical }
+        namefunctional = {k['Name']:k for k in self.raw_functional}
+        namephysical.update(namefunctional)
+        self.namedata = namephysical
+
     def createpowerset(self):
         powerlist = []
         gndlist = []
@@ -450,6 +549,8 @@ class DataManager:
         data["enclosure"] = self.enclosure_list
         data["power"] = self.power_set
         data['rawiddata'] = self.rawiddata
+        data['connector'] = self.connector_list
+        data['cable'] = self.cable_list
 
         with open(self.config["dbyamlfilename"], 'w') as file:
             documents = yaml.dump(data, file)
@@ -481,7 +582,7 @@ class DataManager:
             else:
                 set_of_names[key] = item
 
-        self.corrected_functional = set_of_names.values()
+        self.corrected_functional = list(set_of_names.values())
     # def mergefunctionaldata(self):
     #     length = len(self.corrected_functional)
     #     i = 0
@@ -535,7 +636,7 @@ class DataManager:
             else:
                 set_of_names[key] = item
 
-        self.corrected_physical = set_of_names.values()
+        self.corrected_physical = list(set_of_names.values())
 
     # def mergephysicaldata(self):
     #     length = len(self.corrected_physical)

@@ -28,6 +28,7 @@ def findallchildren(data, parentname, config):
     found = 0
     for item in data["globaliddata"]:
         if data["globaliddata"][item]["BlockType"] in config["physical_blocks"]:
+
             if data["globaliddata"][item]["Parent"] == parentname:
                 found +=1
                 childlist.append(data["globaliddata"][item]["Name"])

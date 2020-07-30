@@ -31,7 +31,6 @@ BoardConnectors_matchfields:
 - Gender
 - Rows
 LEMOConnectors_matchfields:
-- Model
 - AlignmentKey
 - Series
 - Gender
@@ -122,6 +121,7 @@ physical_blocks:
 - HMI
 - PCU
 - ENC
+- CAB
 physical_signals:
 - DIG
 - ANA
