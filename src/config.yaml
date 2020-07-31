@@ -1,3 +1,13 @@
+BoardConnectors_matchfields:
+- Family
+- Gender
+- Rows
+Connectors_checkfields:
+- Pins
+LEMOConnectors_matchfields:
+- AlignmentKey
+- Series
+- Gender
 appdata:
 - appbutton: Go
   appdisplayname: Search By Name
@@ -23,21 +33,19 @@ appdata:
   apppackagename: producttree
   apppage: /producttree
   apptitle: producttree
+- appbutton: Open
+  appdisplayname: Harness
+  appdisplaysubtext: Open the generated harness in a tree model
+  appfunctionname: producttreeapp
+  apphelptext: Checks for all fields
+  apppackagename: harness
+  apppage: /harness
+  apptitle: harness
 appdebug: true
+configyamlfilename: config.yaml
+connector_maxpincount: 50
 connectorlistfilename: db/connectortypes.yaml
 connectorlookuptablefilename: db/connector_lookup_table.yaml
-BoardConnectors_matchfields:
-- Family
-- Gender
-- Rows
-LEMOConnectors_matchfields:
-- AlignmentKey
-- Series
-- Gender
-Connectors_checkfields:
-- Pins
-connector_maxpincount: 50
-configyamlfilename: config.yaml
 dbyamlfilename: db/db.yaml
 debug: false
 defaultDVfun: DV_architecture/DV_functional_architecture.drawio

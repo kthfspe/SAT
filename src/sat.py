@@ -7,7 +7,7 @@ from datamanager import DataManager                                             
 from dbmanager import DBManager                                                 # managing of database
 from configmanager import ConfigManager                                         # managing all the block configurations, defaults and things that makes it compatible with the used draw.io library
 import yaml                                                                     # to enable the use of yaml files (data structures)
-import searchname, findfield, producttree                                       # developed tools
+import searchname, findfield, producttree, harness                              # developed tools
 
 # Create Flask App object
 app = Flask(__name__)
@@ -45,20 +45,20 @@ def menu():
     raw_physical = []
     if request.method == 'GET' and buildstatus == False:
         # Read each file from github
-        if configman.configdata["debug"]== False:
-            raw_functional = gitman.readfile(configman.configdata["defaultLVfun"]) +\
-                                gitman.readfile(configman.configdata["defaultHVfun"])+\
-                                gitman.readfile(configman.configdata["defaultDVfun"])
-            raw_physical = gitman.readfile(configman.configdata["defaultLVphy"]) +\
-                            gitman.readfile(configman.configdata["defaultHVphy"]) +\
-                            gitman.readfile(configman.configdata["defaultDVphy"])
+        if configman.configdata["debug"] == True:
+            prefix = 'example'
         else:
-            raw_functional = gitman.readfile(configman.configdata["exampleLVfun"])+\
-                                gitman.readfile(configman.configdata["exampleHVfun"])+\
-                                gitman.readfile(configman.configdata["exampleDVfun"])
-            raw_physical = gitman.readfile(configman.configdata["exampleLVphy"])+\
-                            gitman.readfile(configman.configdata["exampleHVphy"])+\
-                            gitman.readfile(configman.configdata["exampleDVphy"])
+            prefix = 'default'
+
+        raw_functional =\
+            gitman.readfile(configman.configdata[prefix + "LVfun"])+\
+            gitman.readfile(configman.configdata[prefix + "HVfun"])+\
+            gitman.readfile(configman.configdata[prefix + "DVfun"])
+
+        raw_physical =\
+            gitman.readfile(configman.configdata[prefix + "LVphy"])+\
+            gitman.readfile(configman.configdata[prefix + "HVphy"])+\
+            gitman.readfile(configman.configdata[prefix + "DVphy"])
 
         # Build data model using the raw data
         buildmodelerror, buildmodelstatus= dataman.buildmodel(raw_functional, raw_physical, configman.configdata)
@@ -123,6 +123,13 @@ def ptree():
     global loginstatus
     output = producttree.producttreeapp(configman.configdata)
     return render_template('outputlist.html', loginstatus = loginstatus, app=configman.getappbytitle("producttree"), output=output)
+
+
+@app.route('/harness', methods=['GET', 'POST'])
+def hrns():
+    global loginstatus
+    output = harness.harnessapp(configman.configdata)
+    return render_template('outputlist.html', loginstatus = loginstatus, app=configman.getappbytitle("harness"), output=output)
 
 """
 
