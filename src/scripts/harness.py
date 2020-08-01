@@ -10,13 +10,13 @@ def harnessapp(config):
     for cable in cables:
         output.append(cable['Parent'] + '/' + cable['Name'])
 
-        output.append('\tConnectors:')
+        # output.append('\tConnectors:')
         for conn in cable['Connectors']:
             output.append('-'*4 + conn['Name'] + ':' + conn['BlockType'])
             try:
                 output.append('-'*8 + 'Family: ' + conn['Family'])
             except KeyError:
-                output.append('-'*8 +'Pin gender: ' + conn['Gender'])
+                output.append('-'*8 +'Part number: ' + conn['PartNumber'])
             for pin in range(1, int(conn['Pins'])+1):
                 if pin < 10:
                     pin_key = 'Pin0' + str(pin)

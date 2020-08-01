@@ -18,7 +18,7 @@ dataman = DataManager()
 configman = ConfigManager()
 loginstatus = False
 buildstatus = False
-error = []
+buildmodelerror = None
 
 @app.route('/', methods=['GET', 'POST'])                                        # Creates the index page for the web app
 @app.route('/login', methods=['GET', 'POST'])                                   # Creates the login page for the web app
@@ -40,10 +40,10 @@ def login():
 @app.route('/menu', methods=['GET', 'POST'])
 
 def menu():
-    global loginstatus, error, buildstatus
+    global loginstatus, buildmodelerror, buildstatus
     raw_functional = []
     raw_physical = []
-    if request.method == 'GET' and buildstatus == False:
+    if request.method == 'GET' and buildstatus == False and loginstatus == True:
         # Read each file from github
         if configman.configdata["debug"] == True:
             prefix = 'example'
@@ -67,6 +67,8 @@ def menu():
         else:
             buildstatus = True
             return render_template('menu.html', loginstatus = loginstatus, appdata=configman.getappdata())
+    elif loginstatus == False:
+        return redirect(url_for('login'))
     elif buildstatus == True:
         return render_template('menu.html', loginstatus = loginstatus, appdata = configman.getappdata())
     elif request.method == 'POST':
@@ -76,8 +78,8 @@ def menu():
 
 @app.route('/error', methods=['GET', 'POST'])
 def error():
-    global loginstatus
-    return render_template('error.html', loginstatus = loginstatus, error = error)
+    global loginstatus, buildmodelerror
+    return render_template('error.html', loginstatus = loginstatus, error = buildmodelerror)
 
 
 @app.route('/settings', methods=['GET', 'POST'])

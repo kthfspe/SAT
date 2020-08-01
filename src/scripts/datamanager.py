@@ -119,6 +119,7 @@ class DataManager:
         self.updateconnectornames()
 
         # Check connector validity
+        self.error.append('Checking connectors...')
         self.checkconnectorvalidity()
 
         # Create a Lookup where the id is the key
@@ -139,6 +140,7 @@ class DataManager:
         self.createnamelookup()
 
         # Generate cables
+        self.error.append('Generating harness...')
         self.generatecables()
 
         # Adds a global id to all elements and creates a lookup with globalid as key
@@ -284,7 +286,9 @@ class DataManager:
         for item in self.connector_list:
             # Check if connector exist in multiple instances
             if item['Name'] in set_of_names:
-                print('Connector {} exists in multiple instances, await merge conflict. Check parent name'.format(item['Name']))
+                print('Connector {} exists in multiple instances. Check parent name'.format(item['Name']))
+                self.error.append('Connector {} exists in multiple instances. Check parent name'.format(item['Name']))
+                self.actual_error_count += 1
                 continue
             set_of_names.add(item['Name'])
             # Validate connector
@@ -303,9 +307,10 @@ class DataManager:
             if key in self.connector_lookup_table:
                 if conn['Pins'] not in self.connector_lookup_table[key]['Pins']:
                     print('Invalid pin count: {} for connector {}'.format(conn['Pins'], conn['Name']))
-                    conn.update(self.connector_lookup_table[key])
+                conn.update(self.connector_lookup_table[key])
             else:
                 print('Invalid connector type {} for {}'.format(key, conn['Name']))
+                self.error.append('Invalid connector type {} for {}'.format(key, conn['Name']))
         else:
             for field in self.config['BoardConnectors_matchfields']:
                 key += conn[field]
@@ -313,20 +318,26 @@ class DataManager:
                 Pins = conn['Pins']
                 if Pins not in self.connector_lookup_table[key]['Pins']:
                     print('Invalid pin count: {} for connector {}'.format(conn['Pins'], conn['Name']))
+                    self.error.append('Invalid pin count: {} for connector {}'.format(conn['Pins'], conn['Name']))
                     Pins = '?'
-                    conn.update(self.connector_lookup_table[key])
-                    conn['Pins'] = Pins
+                conn.update(self.connector_lookup_table[key])
+                conn['Pins'] = Pins
             else:
                 print('Invalid connector type {} for {}'.format(key, conn['Name']))
+                self.error.append('Invalid connector type {} for {}'.format(key, conn['Name']))
 
     def generatecables(self):
 
 
         '''
         1. Ignore connectors with SATexception = neglect_in_harness
-        2. Find matching connector pairs, don't need cable so ignore
-        3. Find matching connector twins (2 and 3 by using signal tuples as key in lookup dict)
-        4. Generate partner connectors and validate them
+        2. Create lookup dict (using signal tuples as key)
+        3. Find matching connector pairs, don't need cable so discard
+        4. Find matching connector twins
+        5. Generate partner connectors and validate them
+        6. Genetare end-to-end cables
+        7. Generate nested cables
+        8. Split nested cables by parent (if they are board connectors)
 
 
         '''
@@ -335,11 +346,14 @@ class DataManager:
         Cable_num = 0
         gender_opposite = {'M':'F', 'F':'M'}
         connector_lookup_by_physical_signals = dict()
+        connector_lookup_by_individual_signal = dict()
         for connector in self.connector_list:
+            # 1
             if 'SATexception' in connector:
                 if 'neglect_in_harness' in connector['SATexception']:
                     continue
 
+            # 2a
             physical_signals = []
             for pin_number in range(1, int(connector['Pins'])+1):
                 if pin_number < 10:
@@ -353,16 +367,19 @@ class DataManager:
             key_tuple = tuple(physical_signals)
 
             if key_tuple in connector_lookup_by_physical_signals:
+                # 3
                 if connector_lookup_by_physical_signals[key_tuple]['Connectors'][0]['Gender'] == gender_opposite[connector['Gender']]:
                     connector_lookup_by_physical_signals.pop(key_tuple)
+                # 4
                 else:
                     connector_lookup_by_physical_signals[key_tuple]['Connectors'].append(connector)
+            # 2b
             else:
                 connector_lookup_by_physical_signals[key_tuple] = {
                 'Connectors': [connector],
                 'PhysicalSignals': physical_signals}
 
-
+        # 5
         for key in connector_lookup_by_physical_signals:
             new_conns = []
             for connector in connector_lookup_by_physical_signals[key]['Connectors']:
@@ -383,7 +400,7 @@ class DataManager:
         self.connector_list += generated_connectors
 
         keys_for_nested_cables = []
-
+        # 6
         for key in connector_lookup_by_physical_signals:
             if len(connector_lookup_by_physical_signals[key]['Connectors']) == 2:
                 Cable_num += 1
@@ -397,8 +414,6 @@ class DataManager:
                     Parent = 'CHASSIS'
                 else:
                     Parent = Parent_set.pop()
-
-
 
                 new_cable = {
                 'Connectors' : connector_lookup_by_physical_signals[key]['Connectors'],
@@ -415,6 +430,73 @@ class DataManager:
                 self.corrected_physical.append(new_cable) # Add cables to physical data
             else:
                 keys_for_nested_cables.append(key)
+
+
+        for key in keys_for_nested_cables:
+            temp_list = []
+            for signal in key:
+                if signal in connector_lookup_by_individual_signal:
+                    connector_lookup_by_individual_signal[signal].add(key)
+                else:
+                    connector_lookup_by_individual_signal[signal] = {key}
+
+
+
+        # 7
+        checked_keys = []
+        def find_nested_signals(input_signals):
+            # global checked_keys
+            found_signals = []
+            for signal in input_signals:
+                conn_with_signal_keys = connector_lookup_by_individual_signal[signal]
+                for key in conn_with_signal_keys:
+                    if key in keys_for_nested_cables and key not in checked_keys:
+                        checked_keys.append(key)
+                        found_signals += list(key)
+            if len(found_signals) > 0:
+                return input_signals + find_nested_signals(found_signals)
+            else:
+                return input_signals
+
+
+        for key in connector_lookup_by_physical_signals:
+
+            if key in keys_for_nested_cables:
+
+                Cable_num += 1
+                Cable_ID = 'CAB' + str(Cable_num)
+                Parent_set = set()
+                connectors_in_this_cable = []
+                physical_signals_in_this_cable = set(find_nested_signals(list(key)))
+
+                for ps in physical_signals_in_this_cable:
+                    for key in connector_lookup_by_individual_signal[ps]:
+                        if key in keys_for_nested_cables:
+                            connectors_in_this_cable += connector_lookup_by_physical_signals[key]['Connectors']
+                            keys_for_nested_cables.remove(key)
+                for conn in connectors_in_this_cable:
+                    Parent_set.add(conn['Parent'])
+
+
+                new_cable = {
+                'Connectors' : connectors_in_this_cable,
+                'PhysicalSignals': physical_signals_in_this_cable,
+                'Name': Cable_ID,
+                'Parent': Parent,
+                'BlockType': 'CAB'
+                }
+
+                try:
+                    self.namedata[new_cable['Parent']]['ChildBlocks'].append(new_cable) # If parent is 'CHASSIS', then it has no field "ChildBlocks", thus causes KeyError
+                except KeyError:
+                    pass
+
+
+
+
+
+                self.corrected_physical.append(new_cable) # Add cables to physical data
+                self.cable_list.append(new_cable)
 
     def createnclosurelist(self):
         raw_enclosurelist = []
@@ -469,8 +551,6 @@ class DataManager:
                 self.connector_list.append(item)
             if item['BlockType'] in 'FCON, MCON':
                 item['Gender'] = item['BlockType'][0]
-        # print(self.connector_types, '\n\n\n')
-        # print(len(self.connector_list))
 
     def checkfloatingsignals(self):
         for item in self.corrected_functional:
