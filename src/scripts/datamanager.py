@@ -319,7 +319,7 @@ class DataManager:
                 if Pins not in self.connector_lookup_table[key]['Pins']:
                     print('Invalid pin count: {} for connector {}'.format(conn['Pins'], conn['Name']))
                     self.error.append('Invalid pin count: {} for connector {}'.format(conn['Pins'], conn['Name']))
-                    Pins = '?'
+                    # Pins = '?'
                 conn.update(self.connector_lookup_table[key])
                 conn['Pins'] = Pins
             else:
