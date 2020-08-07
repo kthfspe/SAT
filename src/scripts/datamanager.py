@@ -336,9 +336,7 @@ class DataManager:
         4. Find matching connector twins
         5. Generate partner connectors and validate them
         6. Genetare end-to-end cables
-        7. Generate nested cables
-        8. Split nested cables by parent (if they are board connectors)
-
+        7. Generate nested cables, split by parent (if they are board connectors)
 
         '''
 
@@ -443,12 +441,17 @@ class DataManager:
 
 
         # 7
-        checked_keys = []
+
         def find_nested_signals(input_signals):
             # global checked_keys
             found_signals = []
             for signal in input_signals:
-                conn_with_signal_keys = connector_lookup_by_individual_signal[signal]
+                if signal not in '24V, GND, LV+, LV-':
+                    conn_with_signal_keys = connector_lookup_by_individual_signal[signal]
+                else:
+                    continue
+
+
                 for key in conn_with_signal_keys:
                     if key in keys_for_nested_cables and key not in checked_keys:
                         checked_keys.append(key)
@@ -458,45 +461,61 @@ class DataManager:
             else:
                 return input_signals
 
+        checked_connectors = []
 
         for key in connector_lookup_by_physical_signals:
 
             if key in keys_for_nested_cables:
+                try:
+                    Parent = connector_lookup_by_physical_signals[key]['Connectors'][0]['Parent']
+                    if connector_lookup_by_physical_signals[key]['Connectors'][0]['BlockType'] == 'LEMO':
+                        rule = {'field': 'BlockType', 'value': 'LEMO'}
+                    else:
+                        rule = {'field': 'Parent', 'value': Parent}
+                except IndexError:
+                    continue
 
-                Cable_num += 1
-                Cable_ID = 'CAB' + str(Cable_num)
+
                 Parent_set = set()
                 connectors_in_this_cable = []
-                physical_signals_in_this_cable = set(find_nested_signals(list(key)))
+                checked_keys = []
+
+                physical_signals = []
+                for signal in list(key):
+                    if signal not in '+24V, GND, LV+, LV-':
+                        physical_signals.append(signal)
+                physical_signals_in_this_cable = set(find_nested_signals(physical_signals))
 
                 for ps in physical_signals_in_this_cable:
                     for key in connector_lookup_by_individual_signal[ps]:
                         if key in keys_for_nested_cables:
-                            connectors_in_this_cable += connector_lookup_by_physical_signals[key]['Connectors']
-                            keys_for_nested_cables.remove(key)
-                for conn in connectors_in_this_cable:
-                    Parent_set.add(conn['Parent'])
+                            for conn in  connector_lookup_by_physical_signals[key]['Connectors']:
+                                if conn[rule['field']] == rule['value'] and conn['Name'] not in checked_connectors:
+                                    connectors_in_this_cable.append(conn)
+                                    checked_connectors.append(conn['Name'])
+
+                if len(connectors_in_this_cable) > 0:
+                    Cable_num += 1
+                    Cable_ID = 'CAB' + str(Cable_num)
+                    new_cable = {
+                    'Connectors' : connectors_in_this_cable,
+                    'PhysicalSignals': physical_signals_in_this_cable,
+                    'Name': Cable_ID,
+                    'Parent': Parent,
+                    'BlockType': 'CAB'
+                    }
+
+                    try:
+                        self.namedata[new_cable['Parent']]['ChildBlocks'].append(new_cable) # If parent is 'CHASSIS', then it has no field "ChildBlocks", thus causes KeyError
+                    except KeyError:
+                        pass
 
 
-                new_cable = {
-                'Connectors' : connectors_in_this_cable,
-                'PhysicalSignals': physical_signals_in_this_cable,
-                'Name': Cable_ID,
-                'Parent': Parent,
-                'BlockType': 'CAB'
-                }
-
-                try:
-                    self.namedata[new_cable['Parent']]['ChildBlocks'].append(new_cable) # If parent is 'CHASSIS', then it has no field "ChildBlocks", thus causes KeyError
-                except KeyError:
-                    pass
 
 
 
-
-
-                self.corrected_physical.append(new_cable) # Add cables to physical data
-                self.cable_list.append(new_cable)
+                    self.corrected_physical.append(new_cable) # Add cables to physical data
+                    self.cable_list.append(new_cable)
 
     def createnclosurelist(self):
         raw_enclosurelist = []
