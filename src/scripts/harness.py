@@ -27,4 +27,5 @@ def harnessapp(config):
                         output.append('-'*8 + pin_key + ': ' + conn[pin_key])
                 except KeyError:
                     pass
+        output.append('.')
     return output
