@@ -134,6 +134,7 @@ physical_signals:
 - DIG
 - ANA
 - CAN
+- GHOST
 settingspagefields:
 - debug
 - defaultLVphy
