@@ -1,0 +1,50 @@
+config_for: diagramupdate
+
+# General
+create_backup: True
+create_output_file: True
+log_changes: True
+
+# Github config
+parsefromgithub: True
+commit_to_github: False
+push_to_github: False
+gitaccount: kthfspe
+gitrepo: SA
+
+# Outputs
+logfilename: diagramupdate_log.yaml
+outputsuffix: _output
+backupsuffix: _backup
+backup_directory: backups/
+output_directory: outputs/
+
+### Library update (work in progress) ###
+# Inputs
+diagram_directory: Harness/
+diagram_filename: DeV17_harness.drawio
+# diagram_directory: examples/LV_architecture/
+# diagram_filename: LV_physical_architecture
+library_filename: Libraries/Harness.xml
+
+# General changes
+keep_properties: True
+keep_attributes: True
+keep_styles: True
+keep_link: True
+add_new_attributes: True
+
+# Specific changes
+delete_attributes_for:
+  PWR:
+  - Unit
+  - ValueMax
+  - ValueMin
+
+replace_attributes_for:
+replace_attribute_name:
+add_attributes_for:
+  CAB:
+  - 'Weight'
+  - 'Length'
+  - 'ShieldingPoint'

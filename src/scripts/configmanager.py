@@ -16,7 +16,7 @@ class ConfigManager:
         if os.path.exists(self.configfilepath):
             os.remove(self.configfilepath)
         with open(self.configfilepath, 'w') as file:
-            yaml.dump(self.configdata, file)  
+            yaml.dump(self.configdata, file)
 
     def getappdata(self):
         return self.configdata["appdata"]
@@ -25,10 +25,6 @@ class ConfigManager:
         for item in self.configdata["appdata"]:
             if item["apptitle"] == apptitle:
                 return item
-    
+
     def getappfield(self, apptitle, field):
         return [i[field] for i in self.configdata['appdata'] if i["apptitle"] == apptitle][0]
-
-
-
-    

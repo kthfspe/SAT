@@ -7,7 +7,7 @@ class GitManager:
     gitobject = None
     repo = None
     gitpat = None
-    XMLContent = [None]                                                         # Unused
+    XMLContent = [None]
     config = dict()
     def __init__(self):
         pass
