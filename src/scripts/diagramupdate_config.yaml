@@ -21,18 +21,22 @@ output_directory: outputs/
 
 ### Library update (work in progress) ###
 # Inputs
-diagram_directory: Harness/
-diagram_filename: DeV17_harness.drawio
+# diagram_directory: Harness/
+# diagram_filename: DeV17_harness.drawio
+diagram_directory: LV_architecture/
+diagram_filename: LV_physical_architecture.drawio
 # diagram_directory: examples/LV_architecture/
 # diagram_filename: LV_physical_architecture
 library_filename: Libraries/Harness.xml
 
 # General changes
 keep_properties: True
-keep_attributes: True
+keep_attributes: False
 keep_styles: True
 keep_link: True
 add_new_attributes: True
+replace_attributes: True
+replace_properties: True
 
 # Specific changes
 delete_attributes_for:
@@ -41,10 +45,32 @@ delete_attributes_for:
   - ValueMax
   - ValueMin
 
-replace_attributes_for:
+replace_property_value:
+- OldValue:         # Add '-' for each new element
+    SC_TSMS_precharge # Old value
+  BlockTypes:       # Restrict to these specific blocktypes
+    - LEMO
+    - FCON
+    - MCON
+    - PWR
+    - DIG
+    - CAB
+  NewValue:
+    SC_TSMS_relays  # New value
+
 replace_attribute_name:
+- OldName:          # Add '-' for each new element
+    NoOfPins        # Old value
+  BlockTypes:       # Restrict to these specific blocktypes
+    - ALL           # Do this for all blocktypes
+  NewName:
+    Pins            # New value
 add_attributes_for:
   CAB:
-  - 'Weight'
-  - 'Length'
-  - 'ShieldingPoint'
+    Weight:  '[kg]'
+    Length:  '[mm]'
+    ShieldingPoint:  '<name of the shielding net (leave epmty if not applicable)>'
+  MCON:
+    HVPins:  ''
+  FCON:
+    HVPins:  ''
