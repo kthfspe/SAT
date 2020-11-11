@@ -41,3 +41,4 @@ src/spy.yaml
 src/db/
 src/outputs/
 src/backups/
+src/diagramupdate_log.yaml
