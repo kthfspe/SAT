@@ -18,8 +18,6 @@ class DiagramManager:
     def __init__(self, config):
         self.config = config
 
-
-
     def gitlogin(self, pat):
         self.gitpat = pat
         self.gitobject = Github(pat)
@@ -31,12 +29,55 @@ class DiagramManager:
             self.Logged_in = False
         return self.Logged_in
 
-    def parse(self):
+    def readfile(self, path):
+        blockpositiondata = dict()
+        filename = os.path.basename(str(path))
+        self.XMLContent = [] #Empties the XMLContent container for reading a new file
+        # self.repo = self.gitobject.get_repo(self.config["gitaccount"]+"/"+self.config["gitrepo"])
+        # self.contents = self.repo.get_contents(str(path))
+        # self.stringcontent = base64.b64decode(self.contents.content)
+        # self.root = ET.fromstring(self.stringcontent)
+        self.parse(filename)
+
+        for child in self.diagrams:
+            pagedata = child.attrib
+            if 'name' in pagedata:
+                pagedata['PageName'] = pagedata.pop('name')
+                pagedata['PageId'] = pagedata.pop('id')
+                pagedata['FileName'] = filename
+        for item in self.blocks:
+            blockdata = item.attrib
+            blockmetadata = item[0].attrib
+            blockpositiondata.clear()
+            for item2 in item.iterfind('mxCell/mxGeometry'):
+                blockpositiondata = item2.attrib
+            signalpositiondata = dict()
+            for item3 in item.iterfind('mxCell/mxGeometry/mxPoint'):
+                if item3.attrib['as'] != 'offset':
+                    if item3.attrib['as'] == 'sourcePoint':
+                        signalpositiondata['source_x'] = item3.attrib['x']
+                        signalpositiondata['source_y'] = item3.attrib['y']
+                    if item3.attrib['as'] == 'targetPoint':
+                        signalpositiondata['target_x'] = item3.attrib['x']
+                        signalpositiondata['target_y'] = item3.attrib['y']
+            if "parent" in blockmetadata:
+                blockmetadata['MetaParent'] = blockmetadata.pop('parent')
+                del blockmetadata['style'] # Removes the style attribute as it is very cluttered when printing out and\
+                                           # information is not very readable either
+                blockdata.update(blockmetadata)
+                blockdata.update(pagedata)
+                blockdata.update(blockpositiondata)
+                blockdata.update(signalpositiondata)
+                self.XMLContent.append(blockdata)
+
+        return self.XMLContent
+
+    def parse(self, path):
         if self.config['parsefromgithub']:
             if not self.Logged_in:
                 print('ERROR! Not logged in to Github')
                 return
-            path = self.config['diagram_directory'] + self.config['diagram_filename']
+            # path = self.config['diagram_directory'] + self.config['diagram_filename']
             self.updatelog.append('Parsing file from github directory: ' + self.config["gitaccount"]+"/"+self.config["gitrepo"] + '/' + path)
             self.repo = self.gitobject.get_repo(self.config["gitaccount"]+"/"+self.config["gitrepo"])
             self.contents = self.repo.get_contents(str(path))
@@ -44,7 +85,6 @@ class DiagramManager:
             self.root = ET.fromstring(self.stringcontent)
             self.tree = ET.ElementTree(self.root)
         else:
-            path = self.config['diagram_directory'] + self.config['diagram_filename']
             self.updatelog.append('Parsing file from local directory: ' + path)
             try:
                 self.tree = ET.parse(path)
@@ -55,6 +95,8 @@ class DiagramManager:
 
         self.diagrams = self.root.findall('diagram')
         self.blocks = self.root.findall('diagram/mxGraphModel/root/object')
+
+        # Create block lookup table
         for item in self.blocks:
             block = item.attrib
             if 'BlockType' in block and 'Parent' in block:
@@ -137,7 +179,7 @@ class DiagramManager:
             print("ERROR! Wrong config file")
             return
 
-        self.parse()
+        self.parse(self.config['diagram_directory'] + self.config['diagram_filename'])
 
         # Create backup
         if self.config['create_backup']:
