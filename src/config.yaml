@@ -135,6 +135,7 @@ physical_signals:
 - ANA
 - CAN
 - GHOST
+- PWR
 settingspagefields:
 - debug
 - defaultLVphy
