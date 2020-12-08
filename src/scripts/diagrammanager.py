@@ -244,7 +244,7 @@ class DiagramManager:
                 diagram_block[attribute] = block_object[attribute]
                 insert_made = True
             if insert_made:
-                self.updatelog.append('Inserted ' attribute + ': ' + block_object[attribute] + ' into' + parent + '/' + name)
+                self.updatelog.append('Inserted ' + attribute + ': ' + block_object[attribute] + ' into' + parent + '/' + name)
 
         attributes_to_remove = []
         for attribute in diagram_block:

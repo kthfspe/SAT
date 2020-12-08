@@ -27,7 +27,7 @@ diagram_directory: LV_architecture/
 diagram_filename: LV_physical_architecture.drawio
 # diagram_directory: examples/LV_architecture/
 # diagram_filename: LV_physical_architecture
-library_filename: Libraries/Harness.xml
+# library_filename: Libraries/Harness.xml
 
 # General changes
 keep_properties: True

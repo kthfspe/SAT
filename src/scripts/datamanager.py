@@ -147,6 +147,9 @@ class DataManager:
         self.error.append('Generating harness...')
         self.generateharness()
 
+        if self.actual_error_count>0:
+            return self.error, self.actual_error_count
+
         # Adds a global id to all elements and creates a lookup with globalid as key
         self.createglobalidlookup()
 
@@ -307,7 +310,7 @@ class DataManager:
             # Check if connector exist in multiple instances
             if item['Name'] in set_of_names:
                 print('Connector {} exists in multiple instances. Check parent name'.format(item['Name']))
-                self.error.append('Connector {} exists in multiple instances. Check parent name'.format(item['Name']))
+                self.error.append('Connector {} exists in multiple instances. Check parent name'.format(item['Name'])  + ' in page ' + item['PageName'] + ' in file ' + item['FileName'])
                 self.actual_error_count += 1
                 continue
             set_of_names.add(item['Name'])
@@ -318,7 +321,10 @@ class DataManager:
 
         # Check if connector type exist in list of connectors
         key = ''
-
+        for field in self.config['Connectors_checkfields']:
+            if field not in conn:
+                self.error.append('Missing field: ' + field + ' in connector ' + conn['Parent'] + '/' + conn['Name'])
+                return
 
         if conn['BlockType'] == 'LEMO':
             # conn.pop('LocalName')
@@ -330,7 +336,7 @@ class DataManager:
                 conn.update(self.connector_lookup_table[key])
             else:
                 print('Invalid connector type {} for {}'.format(key, conn['Name']))
-                self.error.append('Invalid connector type {} for {}'.format(key, conn['Name']))
+                self.error.append('Invalid connector type {} for {}'.format(key, conn['Name'])  + " in page " + conn["PageName"] + " in file " + conn["FileName"])
         else:
             for field in self.config['BoardConnectors_matchfields']:
                 key += conn[field]
@@ -338,13 +344,13 @@ class DataManager:
                 Pins = conn['Pins']
                 if Pins not in self.connector_lookup_table[key]['Pins']:
                     print('Invalid pin count: {} for connector {}'.format(conn['Pins'], conn['Name']))
-                    self.error.append('Invalid pin count: {} for connector {}'.format(conn['Pins'], conn['Name']))
+                    self.error.append('Invalid pin count: {} for connector {}'.format(conn['Pins'], conn['Name'])  + " in page " + conn["PageName"] + " in file " + conn["FileName"])
                     # Pins = '?'
                 conn.update(self.connector_lookup_table[key])
                 conn['Pins'] = Pins
             else:
                 print('Invalid connector type {} for {}'.format(key, conn['Name']))
-                self.error.append('Invalid connector type {} for {}'.format(key, conn['Name']))
+                self.error.append('Invalid connector type {} for {}'.format(key, conn['Name'])  + " in page " + conn["PageName"] + " in file " + conn["FileName"])
 
     def addcable(self, parent, signals, connectors):
         self.cable_count += 1
@@ -387,14 +393,23 @@ class DataManager:
             # 2a
             physical_signals = []
             functional_signals = []
-            for pin_number in range(1, int(connector['Pins'])+1):
-                if pin_number < 10:
-                    pin_name = 'Pin0' + str(pin_number)
-                else:
-                    pin_name = 'Pin' + str(pin_number)
 
-                if pin_name in connector:
-                    physical_signals.append(connector[pin_name])
+            try:
+                for pin_number in range(1, int(connector['Pins'])+1):
+                    if pin_number < 10:
+                        pin_name = 'Pin0' + str(pin_number)
+                    else:
+                        pin_name = 'Pin' + str(pin_number)
+
+                    if pin_name in connector:
+                        physical_signals.append(connector[pin_name])
+            except ValueError:
+                self.error.append('Data in attribute: Pins contains non-numeric values in block ' + connector['Name'] + ' in page ' + connector['PageName'] + ' in file ' + connector['FileName'])
+                self.actual_error_count += 1
+            except KeyError:
+                self.error.append('Missing field: Pins in block ' + connector['Name']  + ' in page ' + connector['PageName'] + ' in file ' + connector['FileName'])
+                self.actual_error_count += 1
+
 
             try:
                 for fun_sig in connector['Input']:
@@ -425,16 +440,22 @@ class DataManager:
                 'FunctionalSignals': functional_signals,
                 'PhysicalSignals': physical_signals}
 
+        if self.actual_error_count > 0:
+            return
         # 5
         for key in connector_lookup_by_signals:
             new_conns = []
             for connector in connector_lookup_by_signals[key]['Connectors']:
                 new_connector = dict()
                 new_connector.update(connector)
-                new_connector['Name'] = connector['Parent'] +'/T'+ connector['LocalName'][1:]
-                new_connector['Gender'] = gender_opposite[connector['Gender']]
-                new_connector['LocalName'] = 'T'+ connector['LocalName'][1:]
-                new_connector['Parent'] = connector['ParentBlock']['Parent']
+                try:
+                    new_connector['Name'] = connector['Parent'] +'/T'+ connector['LocalName'][1:]
+                    new_connector['Gender'] = gender_opposite[connector['Gender']]
+                    new_connector['LocalName'] = 'T'+ connector['LocalName'][1:]
+                    new_connector['Parent'] = connector['ParentBlock']['Parent']
+                except KeyError:
+                    self.error.append('Missing field(s) in block ' + connector['Name']  + ' in page ' + connector['PageName'] + ' in file ' + connector['FileName'])
+                    self.actual_error_count += 1
 
                 if new_connector['BlockType'] in 'FCON, MCON':
                      new_connector['BlockType'] = new_connector['Gender'] + 'CON'
@@ -744,13 +765,15 @@ class DataManager:
                 key += item['Parent']
             if key in set_of_names:
                 for field in item:
-                    if field not in self.config['mergefields_ignore_physical']:
+                    if field not in self.config['mergefields_ignore_physical'] and field in set_of_names[key]:
                         # print(key, field, item['Name'])
                         if item[field] != '' and set_of_names[key][field] == '':
                             set_of_names[key][field] = item[field]
 
                         if field in self.config["mergefields_concat"] and set_of_names[key][field] != item[field]:
                             set_of_names[key][field] += ', ' + item[field]
+                    elif field not in set_of_names[key]:
+                        set_of_names[key][field] = item[field]
 
 
             else:
