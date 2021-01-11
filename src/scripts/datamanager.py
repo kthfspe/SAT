@@ -326,30 +326,55 @@ class DataManager:
                 self.error.append('Missing field: ' + field + ' in connector ' + conn['Parent'] + '/' + conn['Name'])
                 return
 
+        connector_valid = False
         if conn['BlockType'] == 'LEMO':
-            # conn.pop('LocalName')
+            # Check that fields have been filled in
+            for required_field in self.config['LEMOConnectors_matchfields']:
+                if required_field not in conn:
+                    self.error.append('Connector {} missing attribute: {}'.format(conn['Name'], required_field)  + " in page " + conn["PageName"] + " in file " + conn["FileName"])
+                elif conn[required_field] == '':
+                    self.error.append('Connector {} missing field: {}'.format(conn['Name'], required_field)  + " in page " + conn["PageName"] + " in file " + conn["FileName"])
+                else:
+                    connector_valid = True
+            if not connector_valid:
+                return
+
+            # Continue checking that the connector exists in the lookup
             for field in self.config['LEMOConnectors_matchfields']:
                 key += conn[field]
             if key in self.connector_lookup_table:
-                if conn['Pins'] not in self.connector_lookup_table[key]['Pins']:
-                    print('Invalid pin count: {} for connector {}'.format(conn['Pins'], conn['Name']))
+                # if conn['Pins'] not in self.connector_lookup_table[key]['Pins']:
+                    #print('Invalid pin count: {} for connector {}'.format(conn['Pins'], conn['Name']))
                 conn.update(self.connector_lookup_table[key])
             else:
-                print('Invalid connector type {} for {}'.format(key, conn['Name']))
+                #print('Invalid connector type {} for {}'.format(key, conn['Name']))
                 self.error.append('Invalid connector type {} for {}'.format(key, conn['Name'])  + " in page " + conn["PageName"] + " in file " + conn["FileName"])
         else:
+            # Check that fields have been filled in
+            for required_field in self.config['BoardConnectors_matchfields']:
+                if required_field not in conn:
+                    self.error.append('Connector {} missing attribute: {}'.format(conn['Name'], required_field)  + " in page " + conn["PageName"] + " in file " + conn["FileName"])
+                    connector_valid = False
+                elif conn[required_field] == "":
+                    self.error.append('Connector {} missing field: {}'.format(conn['Name'], required_field)  + " in page " + conn["PageName"] + " in file " + conn["FileName"])
+                    connector_valid = False
+                else:
+                    connector_valid = True
+            if not connector_valid:
+                return
+
+            # Continue checking that the connector exists in the lookup
             for field in self.config['BoardConnectors_matchfields']:
                 key += conn[field]
             if key in self.connector_lookup_table:
                 Pins = conn['Pins']
                 if Pins not in self.connector_lookup_table[key]['Pins']:
-                    print('Invalid pin count: {} for connector {}'.format(conn['Pins'], conn['Name']))
+                    #print('Invalid pin count: {} for connector {}'.format(conn['Pins'], conn['Name']))
                     self.error.append('Invalid pin count: {} for connector {}'.format(conn['Pins'], conn['Name'])  + " in page " + conn["PageName"] + " in file " + conn["FileName"])
-                    # Pins = '?'
                 conn.update(self.connector_lookup_table[key])
                 conn['Pins'] = Pins
             else:
-                print('Invalid connector type {} for {}'.format(key, conn['Name']))
+                #print('Invalid connector type {} for {}'.format(key, conn['Name']))
                 self.error.append('Invalid connector type {} for {}'.format(key, conn['Name'])  + " in page " + conn["PageName"] + " in file " + conn["FileName"])
 
     def addcable(self, parent, signals, connectors):

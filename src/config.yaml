@@ -8,6 +8,7 @@ LEMOConnectors_matchfields:
 - AlignmentKey
 - Series
 - Gender
+- Pins
 appdata:
 - appbutton: Go
   appdisplayname: Search By Name
