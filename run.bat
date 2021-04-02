@@ -1,3 +1,3 @@
 start venv\Scripts\activate.bat
-cd ./src
+cd %cd%\src
 py sat.py
