@@ -749,6 +749,95 @@ class DataManager:
                 set_of_names[key] = item
 
         self.corrected_functional = list(set_of_names.values())
+
+    def mergephysicaldata(self):
+        set_of_names = dict()
+
+        for item in self.corrected_physical:
+            key = item['Name'] + item['BlockType']
+            if item['BlockType'] in self.config["physical_blocks"]:
+                key += item['Parent']
+            if key in set_of_names:
+                for field in item:
+                    if field not in self.config['mergefields_ignore_physical'] and field in set_of_names[key]:
+                        # print(key, field, item['Name'])
+                        if item[field] != '' and set_of_names[key][field] == '':
+                            set_of_names[key][field] = item[field]
+
+                        if field in self.config["mergefields_concat"] and set_of_names[key][field] != item[field]:
+                            set_of_names[key][field] += ', ' + item[field]
+                    elif field not in set_of_names[key]:
+                        set_of_names[key][field] = item[field]
+
+
+            else:
+                set_of_names[key] = item
+
+        self.corrected_physical = list(set_of_names.values())
+
+    def addparentchild(self):
+        for item in self.corrected_physical:
+            if item["BlockType"] in self.config["physical_blocks"]:
+                for parentitem in self.corrected_physical:
+                    if parentitem["Name"].lower() == item["Parent"].lower():
+                        item["ParentBlock"] = parentitem
+                        break
+
+        for item in self.corrected_physical:
+            if item["BlockType"] in self.config["physical_blocks"]:
+                item["ChildBlocks"] = []
+                for childitem in self.corrected_physical:
+                    if "Parent" in childitem:
+                        if childitem["Parent"].lower() == item["Name"].lower():
+                            item["ChildBlocks"].append(childitem)
+                if item["ChildBlocks"] == []:
+                    del item["ChildBlocks"]
+
+# def mergephysicaldata(self):
+#     length = len(self.corrected_physical)
+#     i = 0
+#     while i < length:
+#         j = i + 1
+#         while j < length:
+#             if self.corrected_physical[i]['Name'] == self.corrected_physical[j]['Name']:
+#                 if self.corrected_physical[i]['BlockType'] == self.corrected_physical[j]['BlockType']:
+#                     if self.corrected_physical[i]['BlockType'] in self.config["physical_blocks"]:
+#                         if self.corrected_physical[i]['Parent'] == self.corrected_physical[j]['Parent']:
+#                             for field in self.corrected_physical[i]:
+#                                 if self.corrected_physical[i][field] == '' and self.corrected_physical[j][field] != '':
+#                                     self.corrected_physical[i][field] = self.corrected_physical[j][field]
+#                                 if field in self.config["mergefields_concat"]:
+#                                     self.corrected_physical[i][field] = self.corrected_physical[i][field] + ", " +\
+#                                         self.corrected_physical[j][field]
+#                                 if self.corrected_physical[i][field] != '' and self.corrected_physical[j][field] != '':
+#                                     if self.corrected_physical[i][field] != self.corrected_physical[j][field]:
+#                                         if field not in self.config["mergefields_ignore_physical"]:
+#                                             self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_physical[i]["Name"]\
+#                                                         + ", Page: " + self.corrected_physical[i]['PageName'] + ", File: " + self.corrected_physical[i]['FileName'] + \
+#                                                             ") and (" + self.corrected_physical[j]["Name"]\
+#                                                         + ", Page: " + self.corrected_physical[j]['PageName'] + ", File: " + self.corrected_physical[j]['FileName'] + ")")
+#                                             self.actual_error_count+=1
+#                     else:
+#                         for field in self.corrected_physical[i]:
+#                             if self.corrected_physical[i][field] == '' and self.corrected_physical[j][field] != '':
+#                                 self.corrected_physical[i][field] = self.corrected_physical[j][field]
+#                             if field in self.config["mergefields_concat"]:
+#                                 self.corrected_physical[i][field] = self.corrected_physical[i][field] + ", " +\
+#                                     self.corrected_physical[j][field]
+#                             if self.corrected_physical[i][field] != '' and self.corrected_physical[j][field] != '':
+#                                 if self.corrected_physical[i][field] != self.corrected_physical[j][field]:
+#                                     if field not in self.config["mergefields_ignore_physical"]:
+#                                         self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_physical[i]["Name"]\
+#                                                     + ", Page: " + self.corrected_physical[i]['PageName'] + ", File: " + self.corrected_physical[i]['FileName'] + \
+#                                                         ") and (" + self.corrected_physical[j]["Name"]\
+#                                                     + ", Page: " + self.corrected_physical[j]['PageName'] + ", File: " + self.corrected_physical[j]['FileName'] + ")")
+#                                         self.actual_error_count+=1
+#                     del self.corrected_physical[j]
+#                     length -= 1
+#             else:
+#                 j += 1
+#         i += 1
+
     # def mergefunctionaldata(self):
     #     length = len(self.corrected_functional)
     #     i = 0
@@ -779,92 +868,3 @@ class DataManager:
     #             else:
     #                 j += 1
     #         i += 1
-
-
-    def mergephysicaldata(self):
-        set_of_names = dict()
-
-        for item in self.corrected_physical:
-            key = item['Name'] + item['BlockType']
-            if item['BlockType'] in self.config["physical_blocks"]:
-                key += item['Parent']
-            if key in set_of_names:
-                for field in item:
-                    if field not in self.config['mergefields_ignore_physical'] and field in set_of_names[key]:
-                        # print(key, field, item['Name'])
-                        if item[field] != '' and set_of_names[key][field] == '':
-                            set_of_names[key][field] = item[field]
-
-                        if field in self.config["mergefields_concat"] and set_of_names[key][field] != item[field]:
-                            set_of_names[key][field] += ', ' + item[field]
-                    elif field not in set_of_names[key]:
-                        set_of_names[key][field] = item[field]
-
-
-            else:
-                set_of_names[key] = item
-
-        self.corrected_physical = list(set_of_names.values())
-
-    # def mergephysicaldata(self):
-    #     length = len(self.corrected_physical)
-    #     i = 0
-    #     while i < length:
-    #         j = i + 1
-    #         while j < length:
-    #             if self.corrected_physical[i]['Name'] == self.corrected_physical[j]['Name']:
-    #                 if self.corrected_physical[i]['BlockType'] == self.corrected_physical[j]['BlockType']:
-    #                     if self.corrected_physical[i]['BlockType'] in self.config["physical_blocks"]:
-    #                         if self.corrected_physical[i]['Parent'] == self.corrected_physical[j]['Parent']:
-    #                             for field in self.corrected_physical[i]:
-    #                                 if self.corrected_physical[i][field] == '' and self.corrected_physical[j][field] != '':
-    #                                     self.corrected_physical[i][field] = self.corrected_physical[j][field]
-    #                                 if field in self.config["mergefields_concat"]:
-    #                                     self.corrected_physical[i][field] = self.corrected_physical[i][field] + ", " +\
-    #                                         self.corrected_physical[j][field]
-    #                                 if self.corrected_physical[i][field] != '' and self.corrected_physical[j][field] != '':
-    #                                     if self.corrected_physical[i][field] != self.corrected_physical[j][field]:
-    #                                         if field not in self.config["mergefields_ignore_physical"]:
-    #                                             self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_physical[i]["Name"]\
-    #                                                         + ", Page: " + self.corrected_physical[i]['PageName'] + ", File: " + self.corrected_physical[i]['FileName'] + \
-    #                                                             ") and (" + self.corrected_physical[j]["Name"]\
-    #                                                         + ", Page: " + self.corrected_physical[j]['PageName'] + ", File: " + self.corrected_physical[j]['FileName'] + ")")
-    #                                             self.actual_error_count+=1
-    #                     else:
-    #                         for field in self.corrected_physical[i]:
-    #                             if self.corrected_physical[i][field] == '' and self.corrected_physical[j][field] != '':
-    #                                 self.corrected_physical[i][field] = self.corrected_physical[j][field]
-    #                             if field in self.config["mergefields_concat"]:
-    #                                 self.corrected_physical[i][field] = self.corrected_physical[i][field] + ", " +\
-    #                                     self.corrected_physical[j][field]
-    #                             if self.corrected_physical[i][field] != '' and self.corrected_physical[j][field] != '':
-    #                                 if self.corrected_physical[i][field] != self.corrected_physical[j][field]:
-    #                                     if field not in self.config["mergefields_ignore_physical"]:
-    #                                         self.error.append("ERROR: Merge conflict detected in field: " + field + " between (" + self.corrected_physical[i]["Name"]\
-    #                                                     + ", Page: " + self.corrected_physical[i]['PageName'] + ", File: " + self.corrected_physical[i]['FileName'] + \
-    #                                                         ") and (" + self.corrected_physical[j]["Name"]\
-    #                                                     + ", Page: " + self.corrected_physical[j]['PageName'] + ", File: " + self.corrected_physical[j]['FileName'] + ")")
-    #                                         self.actual_error_count+=1
-    #                     del self.corrected_physical[j]
-    #                     length -= 1
-    #             else:
-    #                 j += 1
-    #         i += 1
-
-    def addparentchild(self):
-        for item in self.corrected_physical:
-            if item["BlockType"] in self.config["physical_blocks"]:
-                for parentitem in self.corrected_physical:
-                    if parentitem["Name"].lower() == item["Parent"].lower():
-                        item["ParentBlock"] = parentitem
-                        break
-
-        for item in self.corrected_physical:
-            if item["BlockType"] in self.config["physical_blocks"]:
-                item["ChildBlocks"] = []
-                for childitem in self.corrected_physical:
-                    if "Parent" in childitem:
-                        if childitem["Parent"].lower() == item["Name"].lower():
-                            item["ChildBlocks"].append(childitem)
-                if item["ChildBlocks"] == []:
-                    del item["ChildBlocks"]
